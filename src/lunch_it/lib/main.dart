@@ -55,6 +55,7 @@ class FoodMenusBar extends StatelessWidget {
         heightFactor: _menuFractionalRelativeSize,
         child: ListView.separated(
           separatorBuilder: (context, index) => VerticalDivider(
+            width: 0,
             color: Colors.black,
           ),
           itemCount: _amountOfEntries,
@@ -77,7 +78,10 @@ Widget FoodMenusBarEntryBuilder(BuildContext context, int index) //TODO implemen
       child: FittedBox(
         fit: BoxFit.fill,
         child: Center(
-            child: Text(title)
+            child: Padding(
+              padding: const EdgeInsets.only(left: 5, right: 5),
+              child: Text(title),
+            )
         ),
       ),
     ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'FoodMenusBar.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -39,52 +41,4 @@ class VerticalLayout extends StatelessWidget {
         )
     );
   }
-}
-
-class FoodMenusBar extends StatelessWidget {
-  final _amountOfEntries;
-  final _menuFractionalRelativeSize = 1/15;
-
-  FoodMenusBar(this._amountOfEntries);
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.blue[300],
-      child: FractionallySizedBox(
-        heightFactor: _menuFractionalRelativeSize,
-        child: ListView.separated(
-          separatorBuilder: (context, index) => VerticalDivider(
-            width: 0,
-            color: Colors.black,
-          ),
-          itemCount: _amountOfEntries,
-
-          scrollDirection: Axis.horizontal,
-          itemBuilder: FoodMenusBarEntryBuilder,
-        ),
-      ),
-    );
-  }
-}
-
-Widget FoodMenusBarEntryBuilder(BuildContext context, int index) //TODO implement
-{
-  String title = "Menu $index";
-  return InkWell(
-    onTap: () {;},
-    child: FractionallySizedBox(
-      heightFactor: 1/2,
-      child: FittedBox(
-        fit: BoxFit.fill,
-        child: Center(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 5, right: 5),
-              child: Text(title),
-            )
-        ),
-      ),
-    ),
-  );
-
 }

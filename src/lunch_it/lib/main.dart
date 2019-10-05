@@ -37,7 +37,7 @@ class VerticalLayout extends StatelessWidget {
               title: Text("#MAIL TITLE#"), //TODO
               leading: BackButton(),
             ),
-            body: FoodMenusBar(10) //TODO unmock
+            body: FoodMenusBar(2) //TODO unmock
         )
     );
   }

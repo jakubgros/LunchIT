@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class FoodMenusBar extends StatelessWidget {
+class FoodMenusBar extends StatelessWidget { //TODO make elements extended if listview is not scrollable
   final _amountOfEntries;
   final _menuFractionalRelativeSize = 1/15;
 
@@ -13,6 +13,7 @@ class FoodMenusBar extends StatelessWidget {
       child: FractionallySizedBox(
         heightFactor: _menuFractionalRelativeSize,
         child: ListView.separated(
+          shrinkWrap: true,
           separatorBuilder: (context, index) => VerticalDivider(
             width: 0,
             color: Colors.black,

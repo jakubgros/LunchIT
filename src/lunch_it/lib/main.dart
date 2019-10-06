@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'BottomMenuBar.dart';
 import 'FoodMenusBar.dart';
 
 void main() => runApp(MyApp());
@@ -30,7 +31,7 @@ class VerticalLayout extends StatelessWidget {
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
-              title: Text("#MAIL TITLE#"), //TODO
+              title: Text("#MAIL TITLE#"), //TODO dehardcode
               leading: BackButton(),
             ),
             body: Column(
@@ -40,7 +41,7 @@ class VerticalLayout extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      FoodMenusBar(2),
+                      FoodMenusBar(2), //TODO dehardcode
                     ],
                   ),
                 ),
@@ -53,78 +54,12 @@ class VerticalLayout extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      BottomMenu(),
+                      BottomMenuBar(),
                     ],
                   ),
                 ),
               ],
-            ) //TODO unmock
+            )
             ));
   }
-}
-
-class BottomMenu extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: RaisedButton(
-                    child: Text("Food"),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: RaisedButton(
-                    child: Text("Food"),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: RaisedButton(
-                    child: Text("Food"),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Flexible(
-            flex: 1,
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                            "Suma: 100zl",
-                        textAlign: TextAlign.start,),
-                      ),
-                    )),
-                Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Text("Pozostalo: 20zl",
-                          textAlign: TextAlign.end,),
-                      ),
-                    )),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
 }

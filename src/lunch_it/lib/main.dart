@@ -46,11 +46,11 @@ class VerticalLayout extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  flex: 8,
+                  flex: 18,
                   child: Placeholder() //TODO menu content
                 ),
                 Expanded(
-                  flex:1,
+                  flex:2,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[

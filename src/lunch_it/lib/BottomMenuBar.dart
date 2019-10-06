@@ -12,7 +12,7 @@ class BottomMenuBar extends StatelessWidget {
           ),
           Flexible(
               flex: 1,
-              child: CashInfoBar()
+              child: CashInfoBar(12.34, 56.78) //TODO dehardcode
           )
         ],
       ),
@@ -21,12 +21,17 @@ class BottomMenuBar extends StatelessWidget {
 }
 
 class CashInfoBar extends StatelessWidget {
+  final double _moneySpent;
+  final double _moneyLeft;
+
+  CashInfoBar(this._moneySpent, this._moneyLeft);
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(),
-        color: Colors.blue[300]
+          border: Border.all(),
+          color: Colors.blue[700]
       ),
       child: Row(
         children: <Widget>[
@@ -37,8 +42,11 @@ class CashInfoBar extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Suma: 100zl", //TODO dehardcode
-                    textAlign: TextAlign.start,),
+                    "Suma: ${_moneySpent.toStringAsFixed(2)} zl",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),),
                 ),
               )),
           Expanded(
@@ -47,8 +55,10 @@ class CashInfoBar extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 10.0),
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: Text("Pozostalo: 20zl", //TODO dehardcode
-                    textAlign: TextAlign.end,),
+                  child: Text("Pozostalo: ${_moneyLeft.toStringAsFixed(2)} zl",
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        color: Colors.white,)),
                 ),
               )),
         ],

@@ -26,13 +26,23 @@ class HorizontalLayout extends StatelessWidget {
 }
 
 class VerticalLayout extends StatelessWidget {
+  final VoidCallback _shoppingCartOnPressedCallback = () {}; //TODO implement
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
+              actions: <Widget>[
+                InkWell(
+                  child: IconButton(
+                    icon: Icon(Icons.shopping_cart),
+                    onPressed: _shoppingCartOnPressedCallback,
+                  ),
+                )
+              ],
               title: Text("#MAIL TITLE#"), //TODO dehardcode
               leading: BackButton(),
+
             ),
             body: Column(
               children: <Widget>[

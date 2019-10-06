@@ -8,19 +8,22 @@ class FoodMenusBar extends StatelessWidget { //TODO make elements extended if li
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue[300],
-      child: FractionallySizedBox(
-        heightFactor: _menuFractionalRelativeSize,
-        child: ListView.separated(
-          shrinkWrap: true,
-          separatorBuilder: (context, index) => VerticalDivider(
-            width: 0,
-            color: Colors.black,
+    return ConstrainedBox(
+      constraints: BoxConstraints(minHeight: 20),
+      child: Container(
+        color: Colors.blue[300],
+        child: FractionallySizedBox(
+          heightFactor: _menuFractionalRelativeSize,
+          child: ListView.separated(
+            shrinkWrap: true,
+            separatorBuilder: (context, index) => VerticalDivider(
+              width: 0,
+              color: Colors.black,
+            ),
+            itemCount: _amountOfEntries,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: FoodMenusBarEntryBuilder,
           ),
-          itemCount: _amountOfEntries,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: FoodMenusBarEntryBuilder,
         ),
       ),
     );

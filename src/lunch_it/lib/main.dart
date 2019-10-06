@@ -7,28 +7,24 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return OrientationBuilder(
-        builder: (context, orientation) {
-          return orientation == Orientation.portrait
-              ? VerticalLayout()
-              : HorizontalLayout();
-        });
-    }
+    return OrientationBuilder(builder: (context, orientation) {
+      return orientation == Orientation.portrait
+          ? VerticalLayout()
+          : HorizontalLayout();
+    });
   }
+}
 
 class HorizontalLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
-            body: Text("Not implemented")//TODO implement
-        )
-    );
+        home: Scaffold(body: Text("Not implemented") //TODO implement
+            ));
   }
 }
 
 class VerticalLayout extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,8 +33,24 @@ class VerticalLayout extends StatelessWidget {
               title: Text("#MAIL TITLE#"), //TODO
               leading: BackButton(),
             ),
-            body: FoodMenusBar(2) //TODO unmock
-        )
-    );
+            body: Column(
+              children: <Widget>[
+                Expanded(
+                  child: Column(
+                    children: <Widget>[
+                      Expanded(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            FoodMenusBar(2),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ) //TODO unmock
+            ));
   }
 }

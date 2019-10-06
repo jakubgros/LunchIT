@@ -91,21 +91,18 @@ class BottomMenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       flex: 1,
-      child: FittedBox(
-        fit: BoxFit.fill,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(width: 0.3),
-          ),
-          child: Material(
-            child:  InkWell(
-              child: RaisedButton.icon(
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                color: _color,
-                icon: Icon(_icon),
-                label: Text(_text),
-                onPressed: _onPressedCallBack,
-              ),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(width: 0.3),
+        ),
+        child: Material(
+          child:  InkWell(
+            child: RaisedButton.icon(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              color: _color,
+              icon: Icon(_icon),
+              label: Text(_text),
+              onPressed: _onPressedCallBack,
             ),
           ),
         ),

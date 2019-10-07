@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'mark_mode_bloc.dart';
+
 class BottomMenuBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -67,16 +69,29 @@ class CashInfoBar extends StatelessWidget {
   }
 }
 
-class OrderingTools extends StatelessWidget {
+class OrderingTools extends StatefulWidget {
+  @override
+  _OrderingToolsState createState() => _OrderingToolsState();
+}
+
+class _OrderingToolsState extends State<OrderingTools> {
+  MarkModeBloc _bloc;
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        BottomMenuButton("Food", Icons.fastfood, Colors.grey[300], (){}), //TODO implement callback
-        BottomMenuButton("Price", Icons.attach_money,Colors.grey[300], (){}) ,//TODO implement callback
-        BottomMenuButton("Add", Icons.add_shopping_cart,Colors.green[300], (){}) ,//TODO implement callback
+        BottomMenuButton("Food", Icons.fastfood, Colors.grey[300], (){_bloc.event.add(MarkFoodEvent());}),
+        BottomMenuButton("Price", Icons.attach_money,Colors.grey[300], (){_bloc.event.add(MarkPriceEvent());}),
+        BottomMenuButton("Add", Icons.add_shopping_cart,Colors.green[300], (){/*TODO*/}),
       ],
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = BlocProvider.of<MarkModeBloc>(context);
   }
 }
 
@@ -85,7 +100,10 @@ class BottomMenuButton extends StatelessWidget {
   final VoidCallback _onPressedCallBack;
   final IconData _icon;
   final Color _color;
-  BottomMenuButton(this._text, this._icon, this._color, this._onPressedCallBack);
+
+  BottomMenuButton(this._text, this._icon, this._color,
+      this._onPressedCallBack);
+
 
   @override
   Widget build(BuildContext context) {
@@ -109,4 +127,6 @@ class BottomMenuButton extends StatelessWidget {
       ),
     );
   }
+
 }
+

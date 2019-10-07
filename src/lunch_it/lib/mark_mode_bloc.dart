@@ -1,12 +1,14 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+
 abstract class MarkEvent {}
 class MarkFoodEvent extends MarkEvent {}
 class MarkPriceEvent extends MarkEvent {}
 class NavigateEvent extends MarkEvent {}
 
 class MarkModeState {
-  int _mode;
+  int _mode=-1;
   MarkModeState._();
 
   bool isNavigateMode() => _mode == 0;
@@ -18,7 +20,12 @@ class MarkModeState {
   factory MarkModeState.priceMode() => MarkModeState._().._mode = 2;
 }
 
-class MarkModeBloc {
+abstract class BlocBase {
+  void dispose();
+}
+
+
+class MarkModeBloc extends BlocBase{
   final _stateController = StreamController<MarkModeState>();
   Stream<MarkModeState> get state => _stateController.stream;
 
@@ -41,5 +48,42 @@ class MarkModeBloc {
   void dispose() {
     _stateController.close();
     _eventController.close();
+  }
+}
+
+
+class BlocProvider<T extends BlocBase> extends StatefulWidget {
+  BlocProvider({
+    Key key,
+    @required this.child,
+    @required this.bloc,
+  }): super(key: key);
+
+  final T bloc;
+  final Widget child;
+
+  @override
+  _BlocProviderState<T> createState() => _BlocProviderState<T>();
+
+  static T of<T extends BlocBase>(BuildContext context){
+    final type = _typeOf<BlocProvider<T>>();
+    BlocProvider<T> provider = context.ancestorWidgetOfExactType(type);
+    return provider.bloc;
+  }
+
+  static Type _typeOf<T>() => T;
+}
+
+class _BlocProviderState<T> extends State<BlocProvider<BlocBase>>{
+
+  @override
+  void dispose(){
+    widget.bloc.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return widget.child;
   }
 }

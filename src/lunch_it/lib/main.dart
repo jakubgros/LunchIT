@@ -1,9 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'BottomMenuBar.dart';
 import 'FoodMenusBar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -84,11 +85,17 @@ class WebMenuContentViewer extends StatelessWidget {
   final String _webUrl;
 
   WebMenuContentViewer(this._webUrl);
+  Completer<WebViewController> _controller = Completer<WebViewController>();
 
-  WebViewController _controller;
-  VoidCallback _goBackCallback = (){}; //TODO
-  VoidCallback _goForwardCallback = (){}; //TODO
+  void _goBackCallback()
+  {
+    _controller.future.then((controller){controller.goBack();});
+  }
 
+  void _goForwardCallback()
+  {
+    _controller.future.then((controller){controller.goForward();});
+  }
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -114,7 +121,7 @@ class WebMenuContentViewer extends StatelessWidget {
               child: WebView(
                 initialUrl: _webUrl,
                 onWebViewCreated: (WebViewController webViewController) {
-                  _controller = webViewController;
+                  _controller.complete(webViewController);
                 },),
             ),
           )
@@ -125,3 +132,4 @@ class WebMenuContentViewer extends StatelessWidget {
   }
 
 }
+

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'BottomMenuBar.dart';
 import 'FoodMenusBar.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 void main() => runApp(MyApp());
 
@@ -57,7 +58,11 @@ class VerticalLayout extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 18,
-                  child: Placeholder() //TODO menu content
+                  child: Row(
+                    children: <Widget>[
+                      WebMenuContentViewer('https://uszwagra24.pl/menu/'),
+                    ],
+                  )
                 ),
                 Expanded(
                   flex:2,
@@ -72,4 +77,51 @@ class VerticalLayout extends StatelessWidget {
             )
             ));
   }
+}
+
+class WebMenuContentViewer extends StatelessWidget {
+
+  final String _webUrl;
+
+  WebMenuContentViewer(this._webUrl);
+
+  WebViewController _controller;
+  VoidCallback _goBackCallback = (){}; //TODO
+  VoidCallback _goForwardCallback = (){}; //TODO
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: _goBackCallback,
+              ),
+              Spacer(),
+              IconButton(
+                icon: Icon(Icons.arrow_forward),
+                onPressed: _goForwardCallback,
+              ),
+            ],
+          ),
+          Expanded(
+            child: SizedBox(
+              height: 1000,
+              width: 1000,
+              child: WebView(
+                initialUrl: _webUrl,
+                onWebViewCreated: (WebViewController webViewController) {
+                  _controller = webViewController;
+                },),
+            ),
+          )
+
+        ],
+      ),
+    );
+  }
+
 }

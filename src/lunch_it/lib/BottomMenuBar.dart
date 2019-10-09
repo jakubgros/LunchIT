@@ -76,13 +76,43 @@ class OrderingTools extends StatefulWidget {
 
 class _OrderingToolsState extends State<OrderingTools> {
   MarkModeBloc _bloc;
+  bool _isFoodPressed;
+  bool _isPricePressed;
+
+  void _onToggleFoodCallback(){
+    setState((){
+      _isPricePressed = false;
+
+      if(_isFoodPressed) {
+        _isFoodPressed = false;
+        _bloc.event.add(NavigateEvent());
+      } else {
+        _isFoodPressed = true;
+        _bloc.event.add(MarkFoodEvent());
+      }
+    });
+  }
+
+  void _onTogglePriceCallback(){
+    setState((){
+      _isFoodPressed = false;
+
+      if(_isPricePressed) {
+        _isPricePressed = false;
+        _bloc.event.add(NavigateEvent());
+      } else {
+        _isPricePressed = true;
+        _bloc.event.add(MarkPriceEvent());
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        BottomMenuButton("Food", Icons.fastfood, Colors.grey[300], Colors.grey[400], true, (){_bloc.event.add(MarkFoodEvent());}),
-        BottomMenuButton("Price", Icons.attach_money,Colors.grey[300], Colors.grey[400], true, (){_bloc.event.add(MarkPriceEvent());}),
+        BottomMenuButton("Food", Icons.fastfood, Colors.grey[300], Colors.grey[400], _isFoodPressed, _onToggleFoodCallback),
+        BottomMenuButton("Price", Icons.attach_money,Colors.grey[300], Colors.grey[400], _isPricePressed, _onTogglePriceCallback),
         BottomMenuButton("Add", Icons.add_shopping_cart,Colors.green[300], Colors.grey[400], false, (){/*TODO*/}),
       ],
     );
@@ -92,34 +122,21 @@ class _OrderingToolsState extends State<OrderingTools> {
   void initState() {
     super.initState();
     _bloc = BlocProvider.of<MarkModeBloc>(context);
+    _isFoodPressed = false;
+    _isPricePressed = false;
   }
 }
 
-class BottomMenuButton extends StatefulWidget {
+class BottomMenuButton extends StatelessWidget {
   final String _text;
   final VoidCallback _onPressedCallBack;
   final IconData _icon;
-  final Color _released;
-  final Color _pressed;
-  final bool _isTogglable;
+  final Color _releasedColor;
+  final Color _pressedColor;
+  final bool _isPressed;
 
-
-  BottomMenuButton(this._text, this._icon, this._released, this._pressed,
-      this._isTogglable, this._onPressedCallBack);
-
-  @override
-  _BottomMenuButtonState createState() => _BottomMenuButtonState();
-}
-
-class _BottomMenuButtonState extends State<BottomMenuButton> {
-
-
-
-  bool isPressed = false;
-
-  void toggle(){
-    isPressed = !isPressed;
-  }
+  BottomMenuButton(this._text, this._icon, this._releasedColor, this._pressedColor,
+      this._isPressed, this._onPressedCallBack);
 
   @override
   Widget build(BuildContext context) {
@@ -133,13 +150,10 @@ class _BottomMenuButtonState extends State<BottomMenuButton> {
           child:  InkWell(
             child: RaisedButton.icon(
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              color: isPressed?widget._pressed:widget._released,
-              icon: Icon(widget._icon),
-              label: Text(widget._text),
-              onPressed: (){
-                if(widget._isTogglable)
-                  setState((){toggle();});
-                widget._onPressedCallBack();},
+              color: _isPressed?_pressedColor:_releasedColor,
+              icon: Icon(_icon),
+              label: Text(_text),
+              onPressed: _onPressedCallBack,
             ),
           ),
         ),
@@ -147,4 +161,3 @@ class _BottomMenuButtonState extends State<BottomMenuButton> {
     );
   }
 }
-

@@ -81,9 +81,9 @@ class _OrderingToolsState extends State<OrderingTools> {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        BottomMenuButton("Food", Icons.fastfood, Colors.grey[300], Colors.grey[400], (){_bloc.event.add(MarkFoodEvent());}),
-        BottomMenuButton("Price", Icons.attach_money,Colors.grey[300], Colors.grey[400], (){_bloc.event.add(MarkPriceEvent());}),
-        BottomMenuButton("Add", Icons.add_shopping_cart,Colors.green[300], Colors.grey[400], (){/*TODO*/}), //TODO this shouldn't switch
+        BottomMenuButton("Food", Icons.fastfood, Colors.grey[300], Colors.grey[400], true, (){_bloc.event.add(MarkFoodEvent());}),
+        BottomMenuButton("Price", Icons.attach_money,Colors.grey[300], Colors.grey[400], true, (){_bloc.event.add(MarkPriceEvent());}),
+        BottomMenuButton("Add", Icons.add_shopping_cart,Colors.green[300], Colors.grey[400], false, (){/*TODO*/}),
       ],
     );
   }
@@ -101,17 +101,17 @@ class BottomMenuButton extends StatefulWidget {
   final IconData _icon;
   final Color _released;
   final Color _pressed;
+  final bool _isTogglable;
 
 
   BottomMenuButton(this._text, this._icon, this._released, this._pressed,
-      this._onPressedCallBack);
+      this._isTogglable, this._onPressedCallBack);
 
   @override
   _BottomMenuButtonState createState() => _BottomMenuButtonState();
 }
 
 class _BottomMenuButtonState extends State<BottomMenuButton> {
-
 
 
 
@@ -137,7 +137,8 @@ class _BottomMenuButtonState extends State<BottomMenuButton> {
               icon: Icon(widget._icon),
               label: Text(widget._text),
               onPressed: (){
-                setState((){toggle();});
+                if(widget._isTogglable)
+                  setState((){toggle();});
                 widget._onPressedCallBack();},
             ),
           ),

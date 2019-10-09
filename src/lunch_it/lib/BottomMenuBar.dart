@@ -81,9 +81,9 @@ class _OrderingToolsState extends State<OrderingTools> {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        BottomMenuButton("Food", Icons.fastfood, Colors.grey[300], (){_bloc.event.add(MarkFoodEvent());}),
-        BottomMenuButton("Price", Icons.attach_money,Colors.grey[300], (){_bloc.event.add(MarkPriceEvent());}),
-        BottomMenuButton("Add", Icons.add_shopping_cart,Colors.green[300], (){/*TODO*/}),
+        BottomMenuButton("Food", Icons.fastfood, Colors.grey[300], Colors.grey[400], (){_bloc.event.add(MarkFoodEvent());}),
+        BottomMenuButton("Price", Icons.attach_money,Colors.grey[300], Colors.grey[400], (){_bloc.event.add(MarkPriceEvent());}),
+        BottomMenuButton("Add", Icons.add_shopping_cart,Colors.green[300], Colors.grey[400], (){/*TODO*/}), //TODO this shouldn't switch
       ],
     );
   }
@@ -95,15 +95,31 @@ class _OrderingToolsState extends State<OrderingTools> {
   }
 }
 
-class BottomMenuButton extends StatelessWidget {
+class BottomMenuButton extends StatefulWidget {
   final String _text;
   final VoidCallback _onPressedCallBack;
   final IconData _icon;
-  final Color _color;
+  final Color _released;
+  final Color _pressed;
 
-  BottomMenuButton(this._text, this._icon, this._color,
+
+  BottomMenuButton(this._text, this._icon, this._released, this._pressed,
       this._onPressedCallBack);
 
+  @override
+  _BottomMenuButtonState createState() => _BottomMenuButtonState();
+}
+
+class _BottomMenuButtonState extends State<BottomMenuButton> {
+
+
+
+
+  bool isPressed = false;
+
+  void toggle(){
+    isPressed = !isPressed;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,16 +133,17 @@ class BottomMenuButton extends StatelessWidget {
           child:  InkWell(
             child: RaisedButton.icon(
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              color: _color,
-              icon: Icon(_icon),
-              label: Text(_text),
-              onPressed: _onPressedCallBack,
+              color: isPressed?widget._pressed:widget._released,
+              icon: Icon(widget._icon),
+              label: Text(widget._text),
+              onPressed: (){
+                setState((){toggle();});
+                widget._onPressedCallBack();},
             ),
           ),
         ),
       ),
     );
   }
-
 }
 

@@ -18,8 +18,9 @@ class WebMenuContentViewer extends StatefulWidget {
 
 class _WebMenuContentViewerState extends State<WebMenuContentViewer> {
   MarkModeBloc _bloc;
+  String _lastUrl;
 
-  Completer<WebViewController> _controller = Completer<WebViewController>();
+  Completer<WebViewController> _controller;
 
   void _goBackCallback()
   {
@@ -57,15 +58,39 @@ class _WebMenuContentViewerState extends State<WebMenuContentViewer> {
                   stream: _bloc.state,
                   initialData: MarkModeState.navigateMode(),
                   builder: (BuildContext context, AsyncSnapshot<MarkModeState>snapshot) {
-                    print(snapshot.data.isFoodMode());
-                    print(snapshot.data.isNavigateMode());
-                    print(snapshot.data.isPriceMode());
-                    print("@@@");
-                    return WebView(
-                      initialUrl: widget._webUrl,
-                      onWebViewCreated: (WebViewController webViewController) {
-                        _controller.complete(webViewController);
-                      },);
+
+                    return Stack(
+                      children: <Widget>[
+                        Visibility(
+                          maintainState: true,
+                          visible: snapshot.data.isNavigateMode(),
+                          child: WebView(
+                            initialUrl: _lastUrl,
+                            onPageFinished: (String url){_lastUrl = url;},
+                            onWebViewCreated: (WebViewController webViewController) {
+                              if(_controller.isCompleted == false)
+                                _controller.complete(webViewController);
+                            },),
+                        ),
+                        Visibility( // to prevent clicks on the widget underneath
+                          visible: snapshot.data.isNavigateMode() == false,
+                          child: SizedBox(
+                            child: Container(
+                              child: Column(
+                                children: <Widget>[
+                                  Spacer()
+                                ],
+                              ),
+                              color: Colors.red[500],
+                            ),
+                            height: 1000,
+                            width: 1000,
+                          ),
+                        ),
+
+
+                      ],
+                    );
                   }
               ),
             ),
@@ -79,6 +104,8 @@ class _WebMenuContentViewerState extends State<WebMenuContentViewer> {
   @override
   void initState() {
     super.initState();
+    _controller = Completer<WebViewController>();
+    _lastUrl = widget._webUrl;
     _bloc = BlocProvider.of<MarkModeBloc>(context);
   }
 }

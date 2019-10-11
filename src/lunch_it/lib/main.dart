@@ -67,7 +67,7 @@ class VerticalLayout extends StatelessWidget {
                     flex: 18,
                     child: Row(
                       children: <Widget>[
-                        WebMenuContentViewer('https://uszwagra24.pl/menu/'),
+                        WebMenuContentViewer('https://www.uszwagra24.pl/menu/'),
                       ],
                     )
                   ),

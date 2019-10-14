@@ -1,10 +1,13 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:lunch_it/Bloc/BlocProvider.dart';
 import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeBloc.dart';
 import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeState.dart';
+import 'package:lunch_it/MenuMarker/MenuMarker.dart';
+import 'package:screenshot/screenshot.dart';
 
-import 'Coverer.dart';
 
 class MenuViewer extends StatefulWidget {
 
@@ -20,17 +23,22 @@ class MenuViewer extends StatefulWidget {
 
 class _MenuViewerState extends State<MenuViewer> {
   MarkModeBloc _bloc;
-  GlobalKey _screenAreaKey = new GlobalKey();
+  ScreenshotController _screenshotController = ScreenshotController();
+  File _menuScreenshot;
+
   @override
   Widget build(BuildContext context) {
-
-
     return Expanded(
       child: StreamBuilder(
           stream: _bloc.state,
           initialData: MarkModeState.navigateMode(),
           builder:
               (BuildContext context, AsyncSnapshot<MarkModeState> snapshot) {
+
+            if(snapshot.data.isNavigateMode() != true) {
+              takeScreenshot();
+            }
+
             return Column(
               children: <Widget>[
                 Flexible(
@@ -42,16 +50,15 @@ class _MenuViewerState extends State<MenuViewer> {
                   child: Stack(
                     children: <Widget>[
                       Visibility(
-                        child: RepaintBoundary(
-                            child: widget._menuContentViewer,
-                            key: _screenAreaKey
+                        child: Screenshot(
+                          controller: _screenshotController,
+                          child: widget._menuContentViewer,
                         ),
                         visible: true,
                         maintainState: true,),
-                      Coverer(snapshot.data.isNavigateMode() == false),
                       Visibility(
                         visible: snapshot.data.isNavigateMode() == false,
-                        child: Placeholder(),
+                        child: MenuMarker(_menuScreenshot),
                       )
                     ],
                   ),
@@ -66,5 +73,15 @@ class _MenuViewerState extends State<MenuViewer> {
   void initState() {
     super.initState();
     _bloc = BlocProvider.of<MarkModeBloc>(context);
+    takeScreenshot();
+  }
+
+  void takeScreenshot() {
+    _screenshotController.capture().then(
+            (File image) async {
+          _menuScreenshot = image;
+        }
+    );
   }
 }
+

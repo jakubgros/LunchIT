@@ -45,7 +45,7 @@ class _OrderingToolsState extends State<OrderingTools> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { //TODO lock buttons until the page is loaded
     return Row(
       children: <Widget>[
         BottomMenuButton("Food", Icons.fastfood, Colors.grey[300], Colors.grey[400], _isFoodPressed, _onToggleFoodCallback),

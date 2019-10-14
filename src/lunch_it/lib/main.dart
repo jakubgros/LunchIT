@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_it/Bloc/BlocProvider.dart';
-import 'package:lunch_it/WebMenu/WebMenuContentViewer.dart';
 
 import 'Bloc/NavbarBloc/NavbarBloc.dart';
-import 'BottomMenu/BottomMenuBar.dart';
+import 'BottomBar/BottomBar.dart';
 import 'FoodMenusBar/FoodMenusBar.dart';
 
 import 'Bloc/MarkModeBloc/MarkModeBloc.dart';
-import 'WebMenu/WebMenuContentViewerBar.dart';
+import 'MenuViewer/MenuViewer.dart';
+import 'MenuViewer/WebMenu/WebMenuContentViewer.dart';
+import 'MenuViewer/WebMenu/WebMenuContentViewerBar.dart';
 
 void main() => runApp(MyApp());
 

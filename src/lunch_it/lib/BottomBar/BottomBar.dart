@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_it/BottomMenu/CashInfoBar.dart';
-import 'package:lunch_it/BottomMenu/OrderingTools.dart';
+
+import 'CashInfoBar.dart';
+import 'OrderingTools.dart';
 
 class BottomMenuBar extends StatelessWidget {
   @override

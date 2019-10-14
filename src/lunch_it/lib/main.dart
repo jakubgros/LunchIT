@@ -5,7 +5,7 @@ import 'package:lunch_it/WebMenu/WebMenuContentViewer.dart';
 import 'BottomMenu/BottomMenuBar.dart';
 import 'FoodMenusBar/FoodMenusBar.dart';
 
-import 'Bloc/MarkModeBloc.dart';
+import 'Bloc/MarkModeBloc/MarkModeBloc.dart';
 
 void main() => runApp(MyApp());
 

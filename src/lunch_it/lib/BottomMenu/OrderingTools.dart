@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_it/Bloc/BlocProvider.dart';
-import 'package:lunch_it/Bloc/MarkModeBloc.dart';
+import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeBloc.dart';
 import 'package:lunch_it/Bloc/MarkModeBloc/MarkEvent.dart';
 import 'package:lunch_it/BottomMenu/BottomMenuButton.dart';
 

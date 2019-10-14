@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lunch_it/Bloc/BlocProvider.dart';
-import 'package:lunch_it/Bloc/MarkModeBloc.dart';
+import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeBloc.dart';
 import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeState.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -21,7 +21,6 @@ class WebMenuContentViewer extends StatefulWidget {
 
 class _WebMenuContentViewerState extends State<WebMenuContentViewer> {
   MarkModeBloc _bloc;
-  String _lastUrl;
 
   Completer<WebViewController> _controller;
 
@@ -82,7 +81,6 @@ class _WebMenuContentViewerState extends State<WebMenuContentViewer> {
   void initState() {
     super.initState();
     _controller = Completer<WebViewController>();
-    _lastUrl = widget._webUrl;
     _bloc = BlocProvider.of<MarkModeBloc>(context);
   }
 }

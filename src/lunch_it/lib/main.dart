@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lunch_it/Bloc/BlocProvider.dart';
 import 'package:lunch_it/WebMenu/WebMenuContentViewer.dart';
 
+import 'Bloc/NavbarBloc/NavbarBloc.dart';
 import 'BottomMenu/BottomMenuBar.dart';
 import 'FoodMenusBar/FoodMenusBar.dart';
 
@@ -50,7 +51,7 @@ class VerticalLayout extends StatelessWidget {
               leading: BackButton(),
 
             ),
-            body: BlocProvider<MarkModeBloc>(
+            body: BlocProvider<MarkModeBloc>( //TODO exclude BottomMenuBar from this bloc
               bloc: MarkModeBloc(),
               child: Column(
                 children: <Widget>[
@@ -67,7 +68,9 @@ class VerticalLayout extends StatelessWidget {
                     flex: 18,
                     child: Row(
                       children: <Widget>[
-                        WebMenuContentViewer('https://www.uszwagra24.pl/menu/'),
+                        BlocProvider<NavbarBloc>(
+                            bloc: NavbarBloc(),
+                            child: WebMenuContentViewer('https://www.uszwagra24.pl/menu/')),
                       ],
                     )
                   ),

@@ -17,9 +17,9 @@ class NavbarBloc extends BlocBase{
 
   void _mapEventToState(NavbarBlocEvent event) {
     if(event is NavbarGoBackEvent)
-      _stateController.sink.add(NavbarBlocState.goForward());
-    else if(event is NavbarGoForwardEvent)
       _stateController.sink.add(NavbarBlocState.goBack());
+    else if(event is NavbarGoForwardEvent)
+      _stateController.sink.add(NavbarBlocState.goForward());
   }
 
   void dispose() {

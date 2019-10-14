@@ -7,6 +7,8 @@ import 'package:lunch_it/Bloc/MarkModeBloc.dart';
 import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeState.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import 'WebMenuContentViewerBar.dart';
+
 class WebMenuContentViewer extends StatefulWidget {
   final String _webUrl;
 
@@ -37,19 +39,7 @@ class _WebMenuContentViewerState extends State<WebMenuContentViewer> {
     return Expanded(
       child: Column(
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: _goBackCallback,
-              ),
-              Spacer(),
-              IconButton(
-                icon: Icon(Icons.arrow_forward),
-                onPressed: _goForwardCallback,
-              ),
-            ],
-          ),
+          WebMenuContentViewerBar(_goBackCallback, _goForwardCallback),
           Expanded(
             child: SizedBox(
               height: 1000,

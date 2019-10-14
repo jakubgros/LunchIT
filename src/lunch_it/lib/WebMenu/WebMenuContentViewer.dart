@@ -7,6 +7,7 @@ import 'package:lunch_it/Bloc/MarkModeBloc.dart';
 import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeState.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import 'Coverer.dart';
 import 'WebMenuContentViewerBar.dart';
 
 class WebMenuContentViewer extends StatefulWidget {
@@ -62,21 +63,12 @@ class _WebMenuContentViewerState extends State<WebMenuContentViewer> {
                                 _controller.complete(webViewController);
                             },),
                         ),
-                        Visibility( // to prevent clicks on the widget underneath
+                        Coverer(snapshot.data.isNavigateMode() == false),
+                        Visibility(
                           visible: snapshot.data.isNavigateMode() == false,
-                          child: SizedBox(
-                            child: Container(
-                              child: Column(
-                                children: <Widget>[
-                                  Spacer()
-                                ],
-                              ),
-                              color: Colors.red[500],
-                            ),
-                            height: 1000,
-                            width: 1000,
-                          ),
-                        ),
+                          child: Placeholder(),
+                        )
+
 
 
                       ],
@@ -99,3 +91,4 @@ class _WebMenuContentViewerState extends State<WebMenuContentViewer> {
     _bloc = BlocProvider.of<MarkModeBloc>(context);
   }
 }
+

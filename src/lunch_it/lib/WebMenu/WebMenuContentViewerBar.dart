@@ -4,7 +4,7 @@ import 'package:lunch_it/Bloc/BlocProvider.dart';
 import 'package:lunch_it/Bloc/NavbarBloc/NavbarBloc.dart';
 import 'package:lunch_it/Bloc/NavbarBloc/NavbarBlocEvent.dart';
 
-class WebMenuContentViewerBar extends StatelessWidget {
+class WebMenuViewersBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {

@@ -13,16 +13,19 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'Coverer.dart';
 import 'WebMenuContentViewerBar.dart';
 
-class WebMenuContentViewer extends StatefulWidget {
-  final String _webUrl;
+class MenuViewer extends StatefulWidget {
 
-  WebMenuContentViewer(this._webUrl);
+  Widget _menuContentViewer;
+  Widget _menuContentViewerBar;
+
+  MenuViewer(this._menuContentViewer,
+      this._menuContentViewerBar);
 
   @override
-  _WebMenuContentViewerState createState() => _WebMenuContentViewerState();
+  _MenuViewerState createState() => _MenuViewerState();
 }
 
-class _WebMenuContentViewerState extends State<WebMenuContentViewer> { //TODO rename
+class _MenuViewerState extends State<MenuViewer> {
   MarkModeBloc _bloc;
 
   @override
@@ -38,7 +41,7 @@ class _WebMenuContentViewerState extends State<WebMenuContentViewer> { //TODO re
             return Column(
               children: <Widget>[
                 Flexible(
-                  child: WebMenuContentViewerBar(),
+                  child: widget._menuContentViewerBar,
                   flex: 1,
                 ),
                 Flexible(
@@ -46,7 +49,7 @@ class _WebMenuContentViewerState extends State<WebMenuContentViewer> { //TODO re
                   child: Stack(
                     children: <Widget>[
                       Visibility(
-                        child: WebMenuContentViewerASD(widget._webUrl),
+                        child: widget._menuContentViewer,
                         visible: true,
                         maintainState: true,),
                       Coverer(snapshot.data.isNavigateMode() == false),
@@ -71,16 +74,16 @@ class _WebMenuContentViewerState extends State<WebMenuContentViewer> { //TODO re
 }
 
 
-class WebMenuContentViewerASD extends StatefulWidget {   //TODO rename
+class WebMenuContentViewer extends StatefulWidget {
   String _webUrl;
 
-  WebMenuContentViewerASD(this._webUrl);
+  WebMenuContentViewer(this._webUrl);
 
   @override
-  _WebMenuContentViewerASDState createState() => _WebMenuContentViewerASDState();
+  _WebMenuContentViewerState createState() => _WebMenuContentViewerState();
 }
 
-class _WebMenuContentViewerASDState extends State<WebMenuContentViewerASD> {
+class _WebMenuContentViewerState extends State<WebMenuContentViewer> {
   Completer<WebViewController> _controller = Completer<WebViewController>();
 
   @override
@@ -90,7 +93,6 @@ class _WebMenuContentViewerASDState extends State<WebMenuContentViewerASD> {
       builder: (context, snapshot) {
 
         if(snapshot.hasData){
-          print("DATAXD");
           if(snapshot.data.isGoBack())
             _controller.future.then((controller) => controller.goBack());
           if(snapshot.data.isGoForward())

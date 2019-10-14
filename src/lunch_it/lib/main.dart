@@ -7,6 +7,7 @@ import 'BottomMenu/BottomMenuBar.dart';
 import 'FoodMenusBar/FoodMenusBar.dart';
 
 import 'Bloc/MarkModeBloc/MarkModeBloc.dart';
+import 'WebMenu/WebMenuContentViewerBar.dart';
 
 void main() => runApp(MyApp());
 
@@ -70,7 +71,10 @@ class VerticalLayout extends StatelessWidget {
                       children: <Widget>[
                         BlocProvider<NavbarBloc>(
                             bloc: NavbarBloc(),
-                            child: WebMenuContentViewer('https://www.uszwagra24.pl/menu/')),
+                            child: MenuViewer(
+                                WebMenuContentViewer('https://www.uszwagra24.pl/menu/'),
+                                WebMenuViewersBar()
+                                )),
                       ],
                     )
                   ),

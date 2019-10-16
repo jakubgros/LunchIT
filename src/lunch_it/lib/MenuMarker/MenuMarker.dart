@@ -3,9 +3,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lunch_it/Utilities/utilities.dart';
 import 'dart:core';
 
 import 'package:screenshot/screenshot.dart';
+
 
 class MenuMarker extends StatefulWidget {
 
@@ -87,8 +89,8 @@ class _MenuMarkerState extends State<MenuMarker> {
               ),
             ),
           ),
-          if(_start != null && _end != null) Marker(_start, _end),
-        ],
+          _start != null && _end != null ? Marker(_start, _end) : null,
+        ].where(notNull).toList(),
       ),
     );
   }

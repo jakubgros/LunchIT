@@ -6,6 +6,7 @@ import 'package:lunch_it/Bloc/BlocProvider.dart';
 import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeBloc.dart';
 import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeState.dart';
 import 'package:lunch_it/MenuMarker/MenuMarker.dart';
+import 'package:lunch_it/Utilities/utilities.dart';
 import 'package:screenshot/screenshot.dart';
 
 
@@ -56,11 +57,8 @@ class _MenuViewerState extends State<MenuViewer> {
                         ),
                         visible: true,
                         maintainState: true,),
-                      Visibility(
-                        visible: snapshot.data.isNavigateMode() == false,
-                        child: MenuMarker(_menuScreenshot),
-                      )
-                    ],
+                      (snapshot.data.isNavigateMode() == false) ? MenuMarker(_menuScreenshot) : null,
+                    ].where(notNull).toList(),
                   ),
                 ),
               ],

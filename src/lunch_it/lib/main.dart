@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lunch_it/Bloc/BlocProvider.dart';
 
 import 'Bloc/NavbarBloc/NavbarBloc.dart';
-import 'BottomBar/BottomBar.dart';
+import 'BottomBar/BottomMenuBar.dart';
 import 'FoodMenusBar/FoodMenusBar.dart';
 
 import 'Bloc/MarkModeBloc/MarkModeBloc.dart';

@@ -45,12 +45,28 @@ class _OrderingToolsState extends State<OrderingTools> {
   }
 
   @override
-  Widget build(BuildContext context) { //TODO lock buttons until the page is loaded
+  Widget build(BuildContext context) {
+    //TODO lock buttons until the page is loaded
     return Row(
       children: <Widget>[
-        BottomMenuButton("Food", Icons.fastfood, Colors.grey[300], Colors.grey[400], _isFoodPressed, _onToggleFoodCallback),
-        BottomMenuButton("Price", Icons.attach_money,Colors.grey[300], Colors.grey[400], _isPricePressed, _onTogglePriceCallback),
-        BottomMenuButton("Add", Icons.add_shopping_cart,Colors.green[300], Colors.grey[400], false, (){/*TODO*/}),
+        Expanded(
+          flex: 3,
+            child: BottomMenuButton(
+            "Food", Icons.fastfood, Colors.grey[300], Colors.grey[400],
+            _isFoodPressed, _onToggleFoodCallback)),
+        Expanded(
+            flex: 3,
+            child: BottomMenuButton(
+            "Price", Icons.attach_money, Colors.grey[300], Colors.grey[400],
+            _isPricePressed, _onTogglePriceCallback)),
+        Expanded(
+            flex: 2,
+            child: BottomMenuButton(
+            "Add", Icons.add_shopping_cart, Colors.green[300], null,
+            false, () {
+          /*TODO put hero here which displays current*/
+        })),
+
       ],
     );
   }

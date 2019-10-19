@@ -57,6 +57,7 @@ class _MenuMarkerState extends State<MenuMarker> {
 
 
     return GestureDetector(
+      onTap: () {}, //without this,taps are interpreted as pans
       onPanStart: gesturePanStartCallback,
       onPanUpdate: gesturePanUpdateCallback,
       onPanEnd: gesturePanEndCallback,

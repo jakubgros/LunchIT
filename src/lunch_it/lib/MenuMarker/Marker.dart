@@ -12,8 +12,12 @@ class Marker extends StatefulWidget {
 
   WebMenuContentViewer _menuContentViewer; //TODO extract abstraction
   bool _isMarkingMode;
+  Future<Image> _screenshot;
 
-  Marker(this._menuContentViewer, this._isMarkingMode);
+  Marker(this._menuContentViewer, this._isMarkingMode) {
+    if(_isMarkingMode)
+      _screenshot = _menuContentViewer.getScreenshot();
+  }
 
   @override
   _MarkerState createState() => _MarkerState();
@@ -40,13 +44,12 @@ class _MarkerState extends State<Marker> {
   void gesturePanEndCallback(DragEndDetails details) {
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Stack(
         children: <Widget>[
         widget._menuContentViewer,
-        GestureDetector(
+          widget._isMarkingMode == false ? null : GestureDetector(
           onTap: () {}, //without this,taps are interpreted as pans
           onPanStart: gesturePanStartCallback,
           onPanUpdate: gesturePanUpdateCallback,
@@ -59,14 +62,22 @@ class _MarkerState extends State<Marker> {
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.red[900]),
                   ),
-                  child: widget._isMarkingMode ? Placeholder() : null, //screenshot TODO put image here
+                  child: FutureBuilder(
+                    future: widget._screenshot,
+                    builder: (context, snapshot) {
+                      if(snapshot.hasData)
+                        return snapshot.data;
+                      else
+                        return Placeholder(); //TODO put sth else here
+                    },
+                  )
                 ),
               ),
               _start != null && _end != null ? MarkedRect(_start, _end) : null,
             ].where(notNull).toList(),
           ),
         ),
-      ]
+      ].where(notNull).toList(),
     );
   }
 }

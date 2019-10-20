@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -14,10 +15,15 @@ class WebMenuContentViewer extends StatelessWidget {
 
   Completer<InAppWebViewController > _controller = Completer<InAppWebViewController >();
 
+  Future<Image> getScreenshot() async {
+    var controller = await _controller.future;
+    var bytes = await controller.takeScreenshot();
+    return Image.memory(bytes);
+  }
+
   @override
   Widget build(BuildContext context) {
     NavbarBloc _bloc = BlocProvider.of<NavbarBloc>(context);
-
     return StreamBuilder<NavbarBlocState>(
         stream: _bloc.state,
         builder: (context, snapshot) {

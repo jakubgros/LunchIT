@@ -6,7 +6,7 @@ import 'BottomBar/BottomMenuBar.dart';
 import 'FoodMenusBar/FoodMenusBar.dart';
 
 import 'Bloc/MarkModeBloc/MarkModeBloc.dart';
-import 'MenuViewer/MenuViewer.dart';
+import 'MenuViewer/Menu.dart';
 import 'MenuViewer/WebMenu/WebMenuContentViewer.dart';
 import 'MenuViewer/WebMenu/WebMenuContentViewerBar.dart';
 
@@ -33,8 +33,6 @@ class HorizontalLayout extends StatelessWidget {
 }
 
 class VerticalLayout extends StatelessWidget {
-  MarkModeBloc _markModeBloc;
-
   final VoidCallback _shoppingCartOnPressedCallback = () {}; //TODO implement
   @override
   Widget build(BuildContext context) {
@@ -72,10 +70,11 @@ class VerticalLayout extends StatelessWidget {
                       children: <Widget>[
                         BlocProvider<NavbarBloc>(
                             bloc: NavbarBloc(),
-                            child: MenuViewer(
+                            child: Menu(
                                 WebMenuContentViewer('https://www.uszwagra24.pl/menu/'),
-                                WebMenuViewersBar()
-                                )),
+                                WebMenuViewersBar(),
+                            ),
+                        ),
                       ],
                     )
                   ),

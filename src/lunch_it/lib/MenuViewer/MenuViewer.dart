@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeBloc.dart';
 import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeState.dart';
 import 'package:lunch_it/MenuMarker/MenuMarker.dart';
 import 'package:lunch_it/Utilities/utilities.dart';
-import 'package:screenshot/screenshot.dart';
 
 
 class MenuViewer extends StatefulWidget {
@@ -24,7 +22,6 @@ class MenuViewer extends StatefulWidget {
 
 class _MenuViewerState extends State<MenuViewer> {
   MarkModeBloc _bloc;
-  ScreenshotController _screenshotController = ScreenshotController();
   File _menuScreenshot;
 
   @override
@@ -33,13 +30,7 @@ class _MenuViewerState extends State<MenuViewer> {
       child: StreamBuilder(
           stream: _bloc.state,
           initialData: MarkModeState.navigateMode(),
-          builder:
-              (BuildContext context, AsyncSnapshot<MarkModeState> snapshot) {
-
-            if(snapshot.data.isNavigateMode() != true) {
-              takeScreenshot();
-            }
-
+          builder: (context, snapshot) {
             return Column(
               children: <Widget>[
                 Flexible(
@@ -51,10 +42,7 @@ class _MenuViewerState extends State<MenuViewer> {
                   child: Stack(
                     children: <Widget>[
                       Visibility(
-                        child: Screenshot(
-                          controller: _screenshotController,
-                          child: widget._menuContentViewer,
-                        ),
+                        child: widget._menuContentViewer,
                         visible: true,
                         maintainState: true,),
                       (snapshot.data.isNavigateMode() == false) ? MenuMarker(_menuScreenshot) : null,
@@ -71,15 +59,6 @@ class _MenuViewerState extends State<MenuViewer> {
   void initState() {
     super.initState();
     _bloc = BlocProvider.of<MarkModeBloc>(context);
-    takeScreenshot();
-  }
-
-  void takeScreenshot() {
-    _screenshotController.capture().then(
-            (File image) async {
-          _menuScreenshot = image;
-        }
-    );
   }
 }
 

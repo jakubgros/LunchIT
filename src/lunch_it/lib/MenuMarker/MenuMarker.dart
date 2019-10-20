@@ -6,9 +6,6 @@ import 'package:flutter/widgets.dart';
 import 'package:lunch_it/Utilities/utilities.dart';
 import 'dart:core';
 
-import 'package:screenshot/screenshot.dart';
-
-
 class MenuMarker extends StatefulWidget {
 
   AssetImage _screenshot;
@@ -26,7 +23,6 @@ class _MenuMarkerState extends State<MenuMarker> {
   Offset _end;
 
   File _foodScreenshot;
-  ScreenshotController _screenshotController;
 
   void gesturePanStartCallback(DragStartDetails details) {
     setState((){
@@ -41,15 +37,6 @@ class _MenuMarkerState extends State<MenuMarker> {
   }
 
   void gesturePanEndCallback(DragEndDetails details) {
-    //takeScreenshot();
-  }
-
-  void takeScreenshot() {
-    _screenshotController.capture().then(
-            (File image) async {
-          _foodScreenshot = image;
-        }
-    );
   }
 
   @override

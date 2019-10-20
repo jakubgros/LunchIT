@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_inappbrowser/flutter_inappbrowser.dart';
 import 'package:lunch_it/Bloc/BlocProvider.dart';
 import 'package:lunch_it/Bloc/NavbarBloc/NavbarBloc.dart';
 import 'package:lunch_it/Bloc/NavbarBloc/NavbarBlocState.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 
 
@@ -19,7 +19,7 @@ class WebMenuContentViewer extends StatefulWidget {
 }
 
 class _WebMenuContentViewerState extends State<WebMenuContentViewer> {
-  Completer<WebViewController> _controller = Completer<WebViewController>();
+  Completer<InAppWebViewController > _controller = Completer<InAppWebViewController >();
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +34,12 @@ class _WebMenuContentViewerState extends State<WebMenuContentViewer> {
             _controller.future.then((controller) => controller.goForward());
         }
 
-        return WebView(
+        return InAppWebView(
           initialUrl: widget._webUrl,
           onWebViewCreated:
-              (WebViewController webViewController) {
+              (InAppWebViewController controller) {
             if (_controller.isCompleted == false)
-              _controller.complete(webViewController);
+              _controller.complete(controller);
           },
         );
       }

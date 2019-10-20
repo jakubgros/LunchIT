@@ -21,9 +21,8 @@ class MenuViewer extends StatefulWidget {
 }
 
 class _MenuViewerState extends State<MenuViewer> {
-  MarkModeBloc _bloc;
   File _menuScreenshot;
-
+  MarkModeBloc _bloc;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -31,6 +30,10 @@ class _MenuViewerState extends State<MenuViewer> {
           stream: _bloc.state,
           initialData: MarkModeState.navigateMode(),
           builder: (context, snapshot) {
+            MenuMarker menuMarker = (snapshot.data.isNavigateMode() == false)
+                ? MenuMarker(_menuScreenshot)
+                : null;
+
             return Column(
               children: <Widget>[
                 Flexible(
@@ -41,11 +44,8 @@ class _MenuViewerState extends State<MenuViewer> {
                   flex: 14,
                   child: Stack(
                     children: <Widget>[
-                      Visibility(
-                        child: widget._menuContentViewer,
-                        visible: true,
-                        maintainState: true,),
-                      (snapshot.data.isNavigateMode() == false) ? MenuMarker(_menuScreenshot) : null,
+                      widget._menuContentViewer,
+                      menuMarker,
                     ].where(notNull).toList(),
                   ),
                 ),
@@ -55,10 +55,13 @@ class _MenuViewerState extends State<MenuViewer> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _bloc = BlocProvider.of<MarkModeBloc>(context);
-  }
+    @override
+    void initState() {
+      super.initState();
+      _bloc = BlocProvider.of<MarkModeBloc>(context);
+    }
+
+
 }
+
 

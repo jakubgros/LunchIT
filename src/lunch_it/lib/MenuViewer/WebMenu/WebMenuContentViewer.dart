@@ -15,10 +15,10 @@ class WebMenuContentViewer extends StatelessWidget {
 
   Completer<InAppWebViewController > _controller = Completer<InAppWebViewController >();
 
-  Future<Image> getScreenshot() async {
+  Future<Uint8List> getScreenshot() async {
     var controller = await _controller.future;
-    var bytes = await controller.takeScreenshot();
-    return Image.memory(bytes);
+    var imgAsDataBytes = await controller.takeScreenshot();
+    return imgAsDataBytes;
   }
 
   @override

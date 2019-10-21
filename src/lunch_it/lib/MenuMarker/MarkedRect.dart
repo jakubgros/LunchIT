@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 class MarkedRect extends StatelessWidget {
   Rect _rect;
 
+  Rect get rect => _rect;
+
   MarkedRect(Offset start, Offset end) {
     _rect = Rect.fromPoints(start, end);
   }

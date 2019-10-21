@@ -5,7 +5,7 @@ import 'package:lunch_it/Bloc/MarkModeBloc/MarkEvent.dart';
 import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeState.dart';
 
 class MarkModeBloc extends BlocBase{
-  final _stateController = StreamController<MarkModeState>();
+  final _stateController = StreamController<MarkModeState>.broadcast();
   Stream<MarkModeState> get state => _stateController.stream;
 
   final _eventController = StreamController<MarkEvent>();

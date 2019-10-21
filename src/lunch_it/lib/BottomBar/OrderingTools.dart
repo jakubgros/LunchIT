@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lunch_it/Bloc/AcceptMarkedBloc/AcceptMarkedBloc.dart';
+import 'package:lunch_it/Bloc/AcceptMarkedBloc/AcceptMarkedBlocEvent.dart';
 import 'package:lunch_it/Bloc/BlocProvider.dart';
 import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeBloc.dart';
 import 'package:lunch_it/Bloc/MarkModeBloc/MarkEvent.dart';
@@ -12,7 +14,9 @@ class OrderingTools extends StatefulWidget {
 }
 
 class _OrderingToolsState extends State<OrderingTools> {
-  MarkModeBloc _bloc;
+  MarkModeBloc _markModeBloc;
+  AcceptMarkedBloc _acceptMarkedBloc;
+
   bool _isFoodPressed;
   bool _isPricePressed;
 
@@ -22,10 +26,12 @@ class _OrderingToolsState extends State<OrderingTools> {
 
       if(_isFoodPressed) {
         _isFoodPressed = false;
-        _bloc.event.add(NavigateEvent());
+        _markModeBloc.event.add(NavigateEvent());
+        _acceptMarkedBloc.event.add(AcceptMarkedFoodEvent());
+
       } else {
         _isFoodPressed = true;
-        _bloc.event.add(MarkFoodEvent());
+        _markModeBloc.event.add(MarkFoodEvent());
       }
     });
   }
@@ -36,10 +42,11 @@ class _OrderingToolsState extends State<OrderingTools> {
 
       if(_isPricePressed) {
         _isPricePressed = false;
-        _bloc.event.add(NavigateEvent());
+        _markModeBloc.event.add(NavigateEvent());
+        _acceptMarkedBloc.event.add(AcceptMarkedPriceEvent());
       } else {
         _isPricePressed = true;
-        _bloc.event.add(MarkPriceEvent());
+        _markModeBloc.event.add(MarkPriceEvent());
       }
     });
   }
@@ -74,7 +81,9 @@ class _OrderingToolsState extends State<OrderingTools> {
   @override
   void initState() {
     super.initState();
-    _bloc = BlocProvider.of<MarkModeBloc>(context);
+    _markModeBloc = BlocProvider.of<MarkModeBloc>(context);
+    _acceptMarkedBloc = BlocProvider.of<AcceptMarkedBloc>(context);
+
     _isFoodPressed = false;
     _isPricePressed = false;
   }

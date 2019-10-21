@@ -4,6 +4,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lunch_it/Bloc/AcceptMarkedBloc/AcceptMarkedBloc.dart';
+import 'package:lunch_it/Bloc/AcceptMarkedBloc/AcceptMarkedBlocState.dart';
 import 'package:lunch_it/Bloc/BlocProvider.dart';
 import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeBloc.dart';
 import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeState.dart';
@@ -100,7 +102,7 @@ class _MarkerState extends State<Marker> {
     return markMode.isNavigateMode();
   }
 
-  void saveMarkedImage(Uint8List imgAsDataBytes) async {
+  void saveMarkedImage(Uint8List imgAsDataBytes, AcceptMarkedBlocState mode) async {
     bool isMarkingMode = widget._markingMode.isFoodMode() || widget._markingMode.isPriceMode();
 
     if (isMarkingMode) {
@@ -119,10 +121,13 @@ class _MarkerState extends State<Marker> {
 
       var cacheDir = await getTemporaryDirectory();
       String fileName = DateTime.now().toIso8601String();
-      var scrDir = Directory("${cacheDir.path}/scr_$fileName.png");
+
+      String modePrefix = mode.isAcceptMarkedFood() ? "food" : "price";
+
+      var scrDir = Directory("${cacheDir.path}/scr_{$modePrefix}_{$fileName}.png");
 
       new File(scrDir.path).writeAsBytesSync(ImgLib.encodePng(imgCropped));
-      print("[IMG} ${scrDir.path} saved");
+      print("[IMG] ${scrDir.path} saved");
     }
   }
 
@@ -130,12 +135,10 @@ class _MarkerState extends State<Marker> {
   void initState() {
     super.initState();
 
-    MarkModeBloc bloc = BlocProvider.of<MarkModeBloc>(context);
+    AcceptMarkedBloc bloc = BlocProvider.of<AcceptMarkedBloc>(context);
 
-    bloc.state
-        .where(shouldTakeScreenshot)
-        .listen((MarkModeState) {
-      widget._screenshotDataBytes.then(saveMarkedImage);
+    bloc.state.listen((AcceptMarkedBlocState mode) {
+      widget._screenshotDataBytes.then((Uint8List bytes){saveMarkedImage(bytes, mode);});
     });
   }
 

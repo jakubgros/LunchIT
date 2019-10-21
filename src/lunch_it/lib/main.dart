@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_it/Bloc/BlocProvider.dart';
 
+import 'Bloc/AcceptMarkedBloc/AcceptMarkedBloc.dart';
 import 'Bloc/NavbarBloc/NavbarBloc.dart';
 import 'BottomBar/BottomMenuBar.dart';
 import 'FoodMenusBar/FoodMenusBar.dart';
@@ -51,43 +52,46 @@ class VerticalLayout extends StatelessWidget {
               leading: BackButton(),
 
             ),
-            body: BlocProvider<MarkModeBloc>( //TODO exclude BottomMenuBar from this bloc
-              bloc: MarkModeBloc(),
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        FoodMenusBar(2), //TODO dehardcode
-                      ],
+            body: BlocProvider<AcceptMarkedBloc>(
+              bloc: AcceptMarkedBloc(),
+              child: BlocProvider<MarkModeBloc>( //TODO exclude BottomMenuBar from this bloc
+                bloc: MarkModeBloc(),
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 1,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          FoodMenusBar(2), //TODO dehardcode
+                        ],
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 18,
-                    child: Row(
-                      children: <Widget>[
-                        BlocProvider<NavbarBloc>(
-                            bloc: NavbarBloc(),
-                            child: Menu(
-                                WebMenuContentViewer('https://www.uszwagra24.pl/menu/'),
-                                WebMenuViewersBar(),
-                            ),
-                        ),
-                      ],
-                    )
-                  ),
-                  Expanded(
-                    flex:2,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        BottomMenuBar(),
-                      ],
+                    Expanded(
+                      flex: 18,
+                      child: Row(
+                        children: <Widget>[
+                          BlocProvider<NavbarBloc>(
+                              bloc: NavbarBloc(),
+                              child: Menu(
+                                  WebMenuContentViewer('https://www.uszwagra24.pl/menu/'),
+                                  WebMenuViewersBar(),
+                              ),
+                          ),
+                        ],
+                      )
                     ),
-                  ),
-                ],
+                    Expanded(
+                      flex:2,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          BottomMenuBar(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             )
             ));

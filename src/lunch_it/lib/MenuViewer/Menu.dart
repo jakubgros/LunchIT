@@ -22,7 +22,6 @@ class Menu extends StatefulWidget {
 
 class _MenuState extends State<Menu> {
 
-  bool _isMarkingMode = false;
   MarkModeBloc _bloc;
 
   @override
@@ -33,8 +32,6 @@ class _MenuState extends State<Menu> {
             initialData: MarkModeState.navigateMode(),
             builder: (context, snapshot) {
 
-               _isMarkingMode = snapshot.data.isNavigateMode() == false;
-
               return Column(
                 children: <Widget>[
                   Flexible(
@@ -43,7 +40,7 @@ class _MenuState extends State<Menu> {
                   ),
                   Flexible(
                     flex: 14,
-                    child: Marker(widget._menuContentViewer, _isMarkingMode),
+                    child: Marker(widget._menuContentViewer, snapshot.data),
                   )
                 ],
               );

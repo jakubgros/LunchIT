@@ -17,11 +17,11 @@ import 'package:path_provider/path_provider.dart';
 class Marker extends StatefulWidget {
 
   WebMenuContentViewer _menuContentViewer; //TODO extract abstraction
-  bool _isMarkingMode;
+  MarkModeState _markingMode;
   Future<Uint8List> _screenshotDataBytes;
 
-  Marker(this._menuContentViewer, this._isMarkingMode) {
-    if(_isMarkingMode)
+  Marker(this._menuContentViewer, this._markingMode) {
+    if(_markingMode.isFoodMode() || _markingMode.isPriceMode())
       _screenshotDataBytes = _menuContentViewer.getScreenshot();
   }
 
@@ -32,10 +32,7 @@ class Marker extends StatefulWidget {
 }
 
 class _MarkerState extends State<Marker> {
-
   MarkedRect _markedRect;
-  Image _savedMarked;
-
   Offset _start = Offset(0, 0);
   Offset _end = Offset(0, 0);
 
@@ -56,12 +53,17 @@ class _MarkerState extends State<Marker> {
 
   @override
   Widget build(BuildContext context) {
-    _markedRect = MarkedRect(_start, _end);
+
+    Color markingColor = widget._markingMode.isFoodMode() ? Colors.red[900] : Colors.green[900];
+
+    _markedRect = MarkedRect(_start, _end, markingColor);
+
+    bool isMarkingMode = widget._markingMode.isFoodMode() || widget._markingMode.isPriceMode();
 
     return Stack(
       children: <Widget>[
         widget._menuContentViewer,
-        widget._isMarkingMode == false ? null : GestureDetector(
+        !isMarkingMode ? null : GestureDetector(
           onPanStart: gesturePanStartCallback,
           onPanUpdate: gesturePanUpdateCallback,
           onPanEnd: gesturePanEndCallback,
@@ -71,7 +73,9 @@ class _MarkerState extends State<Marker> {
                 fit: BoxFit.cover,
                 child: Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.red[900]),
+                      border: Border.all(
+                          color: markingColor
+                      ),
                     ),
                     child: FutureBuilder(
                       future: widget._screenshotDataBytes,
@@ -97,7 +101,9 @@ class _MarkerState extends State<Marker> {
   }
 
   void saveMarkedImage(Uint8List imgAsDataBytes) async {
-    if (widget._isMarkingMode) {
+    bool isMarkingMode = widget._markingMode.isFoodMode() || widget._markingMode.isPriceMode();
+
+    if (isMarkingMode) {
       Rect rect = _markedRect.rect;
 
       double pixelRatio = WidgetsBinding.instance.window.devicePixelRatio;
@@ -131,5 +137,14 @@ class _MarkerState extends State<Marker> {
         .listen((MarkModeState) {
       widget._screenshotDataBytes.then(saveMarkedImage);
     });
+  }
+
+  @override
+  void didUpdateWidget(Marker oldWidget) {
+    if(oldWidget._markingMode != widget._markingMode)
+      setState(() {
+        _start = Offset(0, 0);
+        _end = Offset(0, 0);
+      });
   }
 }

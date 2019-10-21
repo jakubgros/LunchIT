@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 
 class MarkedRect extends StatelessWidget {
   Rect _rect;
-
+  Color _markColor;
   Rect get rect => _rect;
 
-  MarkedRect(Offset start, Offset end) {
+  MarkedRect(Offset start, Offset end, this._markColor) {
     _rect = Rect.fromPoints(start, end);
+  }
+
+  MarkedRect.empty() {
+    Rect _rect = Rect.fromLTRB(0, 0, 0, 0);
   }
 
   @override
@@ -17,7 +21,7 @@ class MarkedRect extends StatelessWidget {
       rect: _rect,
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.green[900]),
+          border: Border.all(color: _markColor),
         ),
         child: FittedBox(
           fit: BoxFit.cover,

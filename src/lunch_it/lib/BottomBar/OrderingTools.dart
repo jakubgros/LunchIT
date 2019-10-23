@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lunch_it/Bloc/AcceptMarkedBloc/AcceptMarkedBloc.dart';
 import 'package:lunch_it/Bloc/AcceptMarkedBloc/AcceptMarkedBlocEvent.dart';
 import 'package:lunch_it/Bloc/BlocProvider.dart';
-import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeBloc.dart';
 import 'package:lunch_it/Bloc/MarkModeBloc/MarkEvent.dart';
+import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeBloc.dart';
 
-import 'BottomBarButton.dart';
-
+import 'Button.dart';
 
 class OrderingTools extends StatefulWidget {
   @override
@@ -20,15 +19,14 @@ class _OrderingToolsState extends State<OrderingTools> {
   bool _isFoodPressed;
   bool _isPricePressed;
 
-  void _onToggleFoodCallback(){
-    setState((){
+  void _onToggleFoodCallback() {
+    setState(() {
       _isPricePressed = false;
 
-      if(_isFoodPressed) {
+      if (_isFoodPressed) {
         _isFoodPressed = false;
         _markModeBloc.event.add(NavigateEvent());
         _acceptMarkedBloc.event.add(AcceptMarkedFoodEvent());
-
       } else {
         _isFoodPressed = true;
         _markModeBloc.event.add(MarkFoodEvent());
@@ -36,11 +34,11 @@ class _OrderingToolsState extends State<OrderingTools> {
     });
   }
 
-  void _onTogglePriceCallback(){
-    setState((){
+  void _onTogglePriceCallback() {
+    setState(() {
       _isFoodPressed = false;
 
-      if(_isPricePressed) {
+      if (_isPricePressed) {
         _isPricePressed = false;
         _markModeBloc.event.add(NavigateEvent());
         _acceptMarkedBloc.event.add(AcceptMarkedPriceEvent());
@@ -57,23 +55,32 @@ class _OrderingToolsState extends State<OrderingTools> {
     return Row(
       children: <Widget>[
         Expanded(
-          flex: 3,
-            child: BottomMenuButton(
-            "Food", Icons.fastfood, Colors.grey[300], Colors.grey[400],
-            _isFoodPressed, _onToggleFoodCallback)),
+            flex: 3,
+            child: Button(
+                description: "Food",
+                icon: Icons.fastfood,
+                defaultColor: Colors.grey[300],
+                pressedColor: Colors.grey[400],
+                isPressed: _isFoodPressed,
+                onPressed: _onToggleFoodCallback)),
         Expanded(
             flex: 3,
-            child: BottomMenuButton(
-            "Price", Icons.attach_money, Colors.grey[300], Colors.grey[400],
-            _isPricePressed, _onTogglePriceCallback)),
+            child: Button(
+                description: "Price",
+                icon: Icons.attach_money,
+                defaultColor: Colors.grey[300],
+                pressedColor: Colors.grey[400],
+                isPressed: _isPricePressed,
+                onPressed: _onTogglePriceCallback)),
         Expanded(
             flex: 2,
-            child: BottomMenuButton(
-            "Add", Icons.add_shopping_cart, Colors.green[300], null,
-            false, () {
-          /*TODO put hero here which displays current*/
-        })),
-
+            child: Button(
+                description: "Add",
+                icon: Icons.add_shopping_cart,
+                defaultColor: Colors.green[300],
+                isPressed: false,
+                onPressed: () {/*TODO put hero here which displays current*/
+                })),
       ],
     );
   }

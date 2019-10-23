@@ -4,8 +4,7 @@ import 'package:lunch_it/Bloc/BlocProvider.dart';
 import 'package:lunch_it/Bloc/NavbarBloc/NavbarBloc.dart';
 import 'package:lunch_it/Bloc/NavbarBloc/NavbarBlocEvent.dart';
 
-class WebMenuViewersBar extends StatelessWidget {
-
+class NavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     NavbarBloc navbarBloc = BlocProvider.of<NavbarBloc>(context);
@@ -14,7 +13,7 @@ class WebMenuViewersBar extends StatelessWidget {
       children: <Widget>[
         IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => navbarBloc.event.add(NavbarGoBackEvent()),
+          onPressed: () => navbarBloc.event.add(NavbarGoBackEvent()), //TODO
         ),
         Spacer(),
         IconButton(
@@ -24,5 +23,4 @@ class WebMenuViewersBar extends StatelessWidget {
       ],
     );
   }
-
 }

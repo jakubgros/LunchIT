@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:lunch_it/Bloc/BlocProvider.dart';
 
 import 'Bloc/AcceptMarkedBloc/AcceptMarkedBloc.dart';
-import 'Bloc/NavbarBloc/NavbarBloc.dart';
-import 'BottomBar/BottomMenuBar.dart';
-import 'FoodMenusBar/FoodMenusBar.dart';
-
 import 'Bloc/MarkModeBloc/MarkModeBloc.dart';
+import 'Bloc/NavbarBloc/NavbarBloc.dart';
+import 'BottomBar/BottomMenu.dart';
+import 'FoodMenusBar/FoodMenusBar.dart';
 import 'MenuViewer/Menu.dart';
+import 'MenuViewer/WebMenu/NavigationBar.dart';
 import 'MenuViewer/WebMenu/WebMenuContentViewer.dart';
-import 'MenuViewer/WebMenu/WebMenuContentViewerBar.dart';
 
 void main() => runApp(MyApp());
 
@@ -50,11 +49,11 @@ class VerticalLayout extends StatelessWidget {
               ],
               title: Text("#MAIL TITLE#"), //TODO dehardcode
               leading: BackButton(),
-
             ),
-            body: BlocProvider<AcceptMarkedBloc>(
+            body: BlocProvider<AcceptMarkedBloc>( //TODO
               bloc: AcceptMarkedBloc(),
-              child: BlocProvider<MarkModeBloc>( //TODO exclude BottomMenuBar from this bloc
+              child: BlocProvider<MarkModeBloc>(
+                //TODO exclude BottomMenuBar from this bloc
                 bloc: MarkModeBloc(),
                 child: Column(
                   children: <Widget>[
@@ -63,37 +62,39 @@ class VerticalLayout extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          FoodMenusBar(2), //TODO dehardcode
+                          FoodMenusBar(
+                              amountOfEntries: 2,
+                              listColor: Colors.blue[300],
+                              separatorColor: Colors.black),
                         ],
                       ),
                     ),
                     Expanded(
-                      flex: 18,
-                      child: Row(
-                        children: <Widget>[
-                          BlocProvider<NavbarBloc>(
+                        flex: 18,
+                        child: Row(
+                          children: <Widget>[
+                            BlocProvider<NavbarBloc>(
                               bloc: NavbarBloc(),
                               child: Menu(
-                                  WebMenuContentViewer('https://www.uszwagra24.pl/menu/'),
-                                  WebMenuViewersBar(),
+                                contentViewer: WebMenuContentViewer(
+                                    url: 'https://www.uszwagra24.pl/menu/'),
+                                navbar: NavigationBar(),
                               ),
-                          ),
-                        ],
-                      )
-                    ),
+                            ),
+                          ],
+                        )),
                     Expanded(
-                      flex:2,
+                      flex: 2,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
-                          BottomMenuBar(),
+                          BottomMenu(),
                         ],
                       ),
                     ),
                   ],
                 ),
               ),
-            )
-            ));
+            )));
   }
 }

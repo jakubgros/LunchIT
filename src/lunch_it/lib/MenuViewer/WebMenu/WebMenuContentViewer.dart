@@ -10,16 +10,9 @@ import 'package:lunch_it/Bloc/NavbarBloc/NavbarBlocState.dart';
 
 class WebMenuContentViewer extends StatelessWidget {
   String _webUrl;
+  var _controller = Completer<InAppWebViewController>();
 
-  WebMenuContentViewer(this._webUrl);
-
-  Completer<InAppWebViewController > _controller = Completer<InAppWebViewController >();
-
-  Future<Uint8List> getScreenshot() async {
-    var controller = await _controller.future;
-    var imgAsDataBytes = await controller.takeScreenshot();
-    return imgAsDataBytes;
-  }
+  WebMenuContentViewer({@required String url}) : _webUrl = url;
 
   @override
   Widget build(BuildContext context) {
@@ -27,19 +20,25 @@ class WebMenuContentViewer extends StatelessWidget {
     return StreamBuilder<NavbarBlocState>(
         stream: _bloc.state,
         builder: (context, snapshot) {
-
-          if(snapshot.hasData){
-            if(snapshot.data.isGoBack())
+          if (snapshot.hasData) {
+            if (snapshot.data.isGoBack()) //TODO
               _controller.future.then((controller) => controller.goBack());
-            if(snapshot.data.isGoForward())
+            if (snapshot.data.isGoForward())
               _controller.future.then((controller) => controller.goForward());
           }
 
           return InAppWebView(
             initialUrl: _webUrl,
-            onWebViewCreated: (controller) {_controller.complete(controller);},
+            onWebViewCreated: (controller) {
+              _controller.complete(controller);
+            },
           );
-        }
-    );
+        });
+  }
+
+  Future<Uint8List> getScreenshot() async {
+    var controller = await _controller.future;
+    var imgAsDataBytes = await controller.takeScreenshot();
+    return imgAsDataBytes;
   }
 }

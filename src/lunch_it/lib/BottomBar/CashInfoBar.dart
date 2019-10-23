@@ -10,10 +10,7 @@ class CashInfoBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          border: Border.all(),
-          color: Colors.blue[700]
-      ),
+      decoration: BoxDecoration(border: Border.all(), color: Colors.blue[700]),
       child: Row(
         children: <Widget>[
           Expanded(
@@ -27,7 +24,8 @@ class CashInfoBar extends StatelessWidget {
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       color: Colors.white,
-                    ),),
+                    ),
+                  ),
                 ),
               )),
           Expanded(
@@ -39,7 +37,8 @@ class CashInfoBar extends StatelessWidget {
                   child: Text("Pozostalo: ${_moneyLeft.toStringAsFixed(2)} zl",
                       textAlign: TextAlign.end,
                       style: TextStyle(
-                        color: Colors.white,)),
+                        color: Colors.white,
+                      )),
                 ),
               )),
         ],

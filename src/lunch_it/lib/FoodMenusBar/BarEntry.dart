@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class FoodMenusBarEntry extends StatelessWidget
-{
+class BarEntry extends StatelessWidget {
   final VoidCallback _onTapCallback;
   final String _title;
 
-  FoodMenusBarEntry(this._title, this._onTapCallback);
+  BarEntry({
+    @required title,
+    @required onTap,
+  })  : _title = title,
+        _onTapCallback = onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +23,9 @@ class FoodMenusBarEntry extends StatelessWidget
             fit: BoxFit.fill,
             child: Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 5, right: 5),
-                  child: Text(_title),
-                )
-            ),
+              padding: const EdgeInsets.only(left: 5, right: 5),
+              child: Text(_title),
+            )),
           ),
         ),
       ),

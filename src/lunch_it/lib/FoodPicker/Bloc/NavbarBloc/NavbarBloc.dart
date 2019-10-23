@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:lunch_it/Bloc/BlocBase.dart';
+import 'package:lunch_it/FoodPicker/Bloc/BlocBase.dart';
 
 import 'NavbarBlocEvent.dart';
 import 'NavbarBlocState.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_it/FoodMenusBar/BarEntryBuilder.dart';
+import 'package:lunch_it/FoodPicker/FoodMenusBar/BarEntryBuilder.dart';
 
 class FoodMenusBar extends StatelessWidget {
   //TODO make elements extended if listview is not scrollable

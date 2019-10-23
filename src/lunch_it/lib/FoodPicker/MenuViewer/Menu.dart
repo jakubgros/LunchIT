@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_it/Bloc/BlocProvider.dart';
-import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeBloc.dart';
-import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeState.dart';
-import 'package:lunch_it/ContentMarker/ContentMarker.dart';
-import 'package:lunch_it/MenuViewer/WebMenu/WebMenuContentViewer.dart';
+import 'package:lunch_it/FoodPicker/Bloc/BlocProvider.dart';
+import 'package:lunch_it/FoodPicker/Bloc/MarkModeBloc/MarkModeBloc.dart';
+import 'package:lunch_it/FoodPicker/Bloc/MarkModeBloc/MarkModeState.dart';
+import 'package:lunch_it/FoodPicker/ContentMarker/ContentMarker.dart';
+import 'package:lunch_it/FoodPicker/MenuViewer/WebMenu/WebMenuContentViewer.dart';
 import 'package:lunch_it/Utilities/utilities.dart';
 
 class Menu extends StatefulWidget {

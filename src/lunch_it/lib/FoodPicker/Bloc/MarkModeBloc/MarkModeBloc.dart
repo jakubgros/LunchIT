@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:lunch_it/Bloc/BlocBase.dart';
-import 'package:lunch_it/Bloc/MarkModeBloc/MarkEvent.dart';
-import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeState.dart';
+import 'package:lunch_it/FoodPicker/Bloc/BlocBase.dart';
+import 'package:lunch_it/FoodPicker/Bloc/MarkModeBloc/MarkEvent.dart';
+import 'package:lunch_it/FoodPicker/Bloc/MarkModeBloc/MarkModeState.dart';
 
 class MarkModeBloc extends BlocBase{
   final _stateController = StreamController<MarkModeState>.broadcast();

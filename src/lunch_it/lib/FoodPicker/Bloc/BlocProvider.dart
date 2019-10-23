@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/Bloc/BlocBase.dart';
+import 'package:lunch_it/FoodPicker/Bloc/BlocBase.dart';
 
 class BlocProvider<T extends BlocBase> extends StatefulWidget {
   BlocProvider({

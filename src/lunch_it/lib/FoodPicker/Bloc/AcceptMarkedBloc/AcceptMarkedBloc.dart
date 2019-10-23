@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:lunch_it/Bloc/AcceptMarkedBloc/AcceptMarkedBlocEvent.dart';
-import 'package:lunch_it/Bloc/AcceptMarkedBloc/AcceptMarkedBlocState.dart';
-import 'package:lunch_it/Bloc/BlocBase.dart';
 
+import 'package:lunch_it/FoodPicker/Bloc/AcceptMarkedBloc/AcceptMarkedBlocEvent.dart';
+import 'package:lunch_it/FoodPicker/Bloc/AcceptMarkedBloc/AcceptMarkedBlocState.dart';
+import 'package:lunch_it/FoodPicker/Bloc/BlocBase.dart';
 
 class AcceptMarkedBloc extends BlocBase{ //TODO extract blocs to template or something
   final _stateController = StreamController<AcceptMarkedBlocState>();

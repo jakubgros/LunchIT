@@ -4,9 +4,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappbrowser/flutter_inappbrowser.dart';
-import 'package:lunch_it/Bloc/BlocProvider.dart';
-import 'package:lunch_it/Bloc/NavbarBloc/NavbarBloc.dart';
-import 'package:lunch_it/Bloc/NavbarBloc/NavbarBlocState.dart';
+import 'package:lunch_it/FoodPicker/Bloc/BlocProvider.dart';
+import 'package:lunch_it/FoodPicker/Bloc/NavbarBloc/NavbarBloc.dart';
+import 'package:lunch_it/FoodPicker/Bloc/NavbarBloc/NavbarBlocState.dart';
 
 class WebMenuContentViewer extends StatelessWidget {
   String _webUrl;

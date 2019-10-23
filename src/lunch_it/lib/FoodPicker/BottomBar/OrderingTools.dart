@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_it/Bloc/AcceptMarkedBloc/AcceptMarkedBloc.dart';
-import 'package:lunch_it/Bloc/AcceptMarkedBloc/AcceptMarkedBlocEvent.dart';
-import 'package:lunch_it/Bloc/BlocProvider.dart';
-import 'package:lunch_it/Bloc/MarkModeBloc/MarkEvent.dart';
-import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeBloc.dart';
+import 'package:lunch_it/FoodPicker/Bloc/AcceptMarkedBloc/AcceptMarkedBloc.dart';
+import 'package:lunch_it/FoodPicker/Bloc/AcceptMarkedBloc/AcceptMarkedBlocEvent.dart';
+import 'package:lunch_it/FoodPicker/Bloc/BlocProvider.dart';
+import 'package:lunch_it/FoodPicker/Bloc/MarkModeBloc/MarkEvent.dart';
+import 'package:lunch_it/FoodPicker/Bloc/MarkModeBloc/MarkModeBloc.dart';
 
 import 'Button.dart';
 

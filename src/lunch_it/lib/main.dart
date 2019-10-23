@@ -1,14 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_it/Bloc/BlocProvider.dart';
-
-import 'Bloc/AcceptMarkedBloc/AcceptMarkedBloc.dart';
-import 'Bloc/MarkModeBloc/MarkModeBloc.dart';
-import 'Bloc/NavbarBloc/NavbarBloc.dart';
-import 'BottomBar/BottomMenu.dart';
-import 'FoodMenusBar/FoodMenusBar.dart';
-import 'MenuViewer/Menu.dart';
-import 'MenuViewer/WebMenu/NavigationBar.dart';
-import 'MenuViewer/WebMenu/WebMenuContentViewer.dart';
+import 'package:lunch_it/FoodPicker/FoodPicker.dart';
 
 void main() => runApp(MyApp());
 
@@ -17,7 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return OrientationBuilder(builder: (context, orientation) {
       return orientation == Orientation.portrait
-          ? VerticalLayout()
+          ? FoodPicker()
           : HorizontalLayout();
     });
   }
@@ -28,73 +19,6 @@ class HorizontalLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(body: Text("Not implemented") //TODO implement
-            ));
-  }
-}
-
-class VerticalLayout extends StatelessWidget {
-  final VoidCallback _shoppingCartOnPressedCallback = () {}; //TODO implement
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-            appBar: AppBar(
-              actions: <Widget>[
-                InkWell(
-                  child: IconButton(
-                    icon: Icon(Icons.shopping_cart),
-                    onPressed: _shoppingCartOnPressedCallback,
-                  ),
-                )
-              ],
-              title: Text("#MAIL TITLE#"), //TODO dehardcode
-              leading: BackButton(),
-            ),
-            body: BlocProvider<AcceptMarkedBloc>( //TODO
-              bloc: AcceptMarkedBloc(),
-              child: BlocProvider<MarkModeBloc>(
-                //TODO exclude BottomMenuBar from this bloc
-                bloc: MarkModeBloc(),
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          FoodMenusBar(
-                              amountOfEntries: 2,
-                              listColor: Colors.blue[300],
-                              separatorColor: Colors.black),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                        flex: 18,
-                        child: Row(
-                          children: <Widget>[
-                            BlocProvider<NavbarBloc>(
-                              bloc: NavbarBloc(),
-                              child: Menu(
-                                contentViewer: WebMenuContentViewer(
-                                    url: 'https://www.uszwagra24.pl/menu/'),
-                                navbar: NavigationBar(),
-                              ),
-                            ),
-                          ],
-                        )),
-                    Expanded(
-                      flex: 2,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          BottomMenu(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )));
+        ));
   }
 }

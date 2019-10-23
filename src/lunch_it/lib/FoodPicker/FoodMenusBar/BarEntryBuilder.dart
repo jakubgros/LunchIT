@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/FoodMenusBar/BarEntry.dart';
+import 'package:lunch_it/FoodPicker/FoodMenusBar/BarEntry.dart';
 
 Widget BarEntryBuilder(BuildContext context, int index) //TODO implement
 {

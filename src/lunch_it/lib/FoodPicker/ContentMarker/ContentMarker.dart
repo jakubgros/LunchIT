@@ -6,12 +6,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image/image.dart' as ImgLib;
-import 'package:lunch_it/Bloc/AcceptMarkedBloc/AcceptMarkedBloc.dart';
-import 'package:lunch_it/Bloc/AcceptMarkedBloc/AcceptMarkedBlocState.dart';
-import 'package:lunch_it/Bloc/BlocProvider.dart';
-import 'package:lunch_it/Bloc/MarkModeBloc/MarkModeState.dart';
-import 'package:lunch_it/ContentMarker/MarkedRect.dart';
-import 'package:lunch_it/MenuViewer/WebMenu/WebMenuContentViewer.dart';
+import 'package:lunch_it/FoodPicker/Bloc/AcceptMarkedBloc/AcceptMarkedBloc.dart';
+import 'package:lunch_it/FoodPicker/Bloc/AcceptMarkedBloc/AcceptMarkedBlocState.dart';
+import 'package:lunch_it/FoodPicker/Bloc/BlocProvider.dart';
+import 'package:lunch_it/FoodPicker/Bloc/MarkModeBloc/MarkModeState.dart';
+import 'package:lunch_it/FoodPicker/ContentMarker/MarkedRect.dart';
+import 'package:lunch_it/FoodPicker/MenuViewer/WebMenu/WebMenuContentViewer.dart';
 import 'package:lunch_it/Utilities/utilities.dart';
 import 'package:path_provider/path_provider.dart';
 

@@ -1,5 +1,3 @@
-
-
 class AcceptMarkedBlocState {
   int _mode=-1;
   AcceptMarkedBlocState._();

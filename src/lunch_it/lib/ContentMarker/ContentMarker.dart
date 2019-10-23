@@ -41,8 +41,6 @@ class _ContentMarkerState extends State<ContentMarker> {
     Color markingColor =
         widget._markingMode.isFoodMode() ? Colors.red[900] : Colors.green[900];
 
-    _markedRect =
-        MarkedRect(start: _start, end: _end, borderColor: markingColor);
 
     bool isMarkingMode = widget._markingMode.isFoodMode() ||
         widget._markingMode.isPriceMode(); //TODO
@@ -57,26 +55,33 @@ class _ContentMarkerState extends State<ContentMarker> {
                 onPanStart: gesturePanStartCallback,
                 onPanUpdate: gesturePanUpdateCallback,
                 onPanEnd: gesturePanEndCallback,
-                child: Stack(
-                  children: <Widget>[
-                    FittedBox(
-                      fit: BoxFit.cover,
-                      child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: markingColor),
-                          ),
-                          child: FutureBuilder(
-                            future: widget._screenshotDataBytes,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData)
-                                return Image.memory(snapshot.data);
-                              else
-                                return Placeholder(); //TODO put sth else here
-                            },
-                          )),
-                    ),
-                    _markedRect,
-                  ].where(notNull).toList(), //TODO extrat to nullable list
+                child: LayoutBuilder(
+                  builder:(context, constraints) =>
+                  Stack(
+                    children: <Widget>[
+                      FittedBox(
+                        fit: BoxFit.cover,
+                        child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: markingColor),
+                            ),
+                            child: FutureBuilder(
+                              future: widget._screenshotDataBytes,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData)
+                                  return Image.memory(snapshot.data);
+                                else
+                                  return Placeholder(); //TODO put sth else here
+                              },
+                            )),
+                      ),
+                      _markedRect = MarkedRect(
+                          start: _start,
+                          end: _end,
+                          constraints: constraints,
+                          borderColor: markingColor),
+                    ].where(notNull).toList(), //TODO extrat to nullable list
+                  )
                 ),
               ),
       ].where(notNull).toList(),
@@ -116,7 +121,6 @@ class _ContentMarkerState extends State<ContentMarker> {
 
   ImgLib.Image cropImage(ImgLib.Image img, Rect cropRect) {
     double pixelRatio = WidgetsBinding.instance.window.devicePixelRatio;
-
 
     int x = (cropRect.left * pixelRatio).toInt();
     int y = (cropRect.top * pixelRatio).toInt();

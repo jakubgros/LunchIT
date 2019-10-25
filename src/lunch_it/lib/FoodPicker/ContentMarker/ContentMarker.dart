@@ -109,7 +109,7 @@ class _ContentMarkerState extends State<ContentMarker> {
     return markMode.isNavigateMode();
   }
 
-  void saveMarked(Uint8List imgAsDataBytes, AcceptMarkedBlocEvent markingMode) async {
+  void saveMarked(Uint8List imgAsDataBytes, AcceptMarkedEvent markingMode) async {
       ImgLib.Image img = ImgLib.decodeImage(imgAsDataBytes);
       ImgLib.Image imgCropped = cropImage(img, _markedRect.rect);
       saveMarkedAsImg(imgCropped, markingMode);
@@ -128,7 +128,7 @@ class _ContentMarkerState extends State<ContentMarker> {
     return imgCropped;
   }
 
-  void saveMarkedAsImg(ImgLib.Image img, AcceptMarkedBlocEvent markingMode) async {
+  void saveMarkedAsImg(ImgLib.Image img, AcceptMarkedEvent markingMode) async {
     Directory cacheDir = await getTemporaryDirectory();
     String fileName = (markingMode.isAcceptMarkedFood() ? "food" : "price") + ".png";
 
@@ -156,7 +156,7 @@ class _ContentMarkerState extends State<ContentMarker> {
     super.didChangeDependencies();
 
     final _ = Provider.of<AcceptMarkedEventStream>(context).stream.listen(
-            (AcceptMarkedBlocEvent event) {
+            (AcceptMarkedEvent event) {
           widget._screenshotDataBytes.then((Uint8List bytes) {
             saveMarked(bytes, event);
           });

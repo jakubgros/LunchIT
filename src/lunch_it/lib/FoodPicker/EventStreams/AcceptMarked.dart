@@ -1,7 +1,7 @@
 import 'dart:async';
 
 class AcceptMarkedEventStream {
-  StreamController _controller = StreamController<AcceptMarkedBlocEvent>();
+  StreamController _controller = StreamController<AcceptMarkedEvent>();
   get stream => _controller.stream;
   get sink => _controller.sink;
 
@@ -9,13 +9,13 @@ class AcceptMarkedEventStream {
 
 }
 
-class AcceptMarkedBlocEvent { //TODO rename and move to diff location and file
+class AcceptMarkedEvent {
   int _type=-1;
-  AcceptMarkedBlocEvent._();
+  AcceptMarkedEvent._();
 
   bool isAcceptMarkedFood() => _type == 0;
   bool isAcceptMarkedPrice() => _type == 1;
 
-  factory AcceptMarkedBlocEvent.markedFood() => AcceptMarkedBlocEvent._().._type = 0;
-  factory AcceptMarkedBlocEvent.markedPrice() => AcceptMarkedBlocEvent._().._type = 1;
+  factory AcceptMarkedEvent.markedFood() => AcceptMarkedEvent._().._type = 0;
+  factory AcceptMarkedEvent.markedPrice() => AcceptMarkedEvent._().._type = 1;
 }

@@ -26,7 +26,7 @@ class _OrderingToolsState extends State<OrderingTools> {
       if (_isFoodPressed) {
         _isFoodPressed = false;
         _markModeBloc.event.add(NavigateEvent());
-        _acceptMarkedEventStream.sink.add(AcceptMarkedBlocEvent.markedFood());
+        _acceptMarkedEventStream.sink.add(AcceptMarkedEvent.markedFood());
       } else {
         _isFoodPressed = true;
         _markModeBloc.event.add(MarkFoodEvent());
@@ -41,7 +41,7 @@ class _OrderingToolsState extends State<OrderingTools> {
       if (_isPricePressed) {
         _isPricePressed = false;
         _markModeBloc.event.add(NavigateEvent());
-        _acceptMarkedEventStream.sink.add(AcceptMarkedBlocEvent.markedPrice());
+        _acceptMarkedEventStream.sink.add(AcceptMarkedEvent.markedPrice());
       } else {
         _isPricePressed = true;
         _markModeBloc.event.add(MarkPriceEvent());

@@ -27,7 +27,7 @@ class FoodMenusBar extends StatelessWidget {
         ),
         itemCount: _amountOfEntries,
         scrollDirection: Axis.horizontal,
-        itemBuilder: BarEntryBuilder,
+        itemBuilder: barEntryBuilder,
       ),
     );
   }

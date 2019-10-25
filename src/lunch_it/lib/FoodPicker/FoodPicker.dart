@@ -1,8 +1,7 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lunch_it/FoodPicker/Bloc/BlocProvider.dart';
+import 'package:lunch_it/FoodPicker/EventStreams/AcceptMarked.dart';
 import 'package:provider/provider.dart';
-import 'Bloc/AcceptMarkedBloc/AcceptMarkedBlocState.dart';
 import 'Bloc/MarkModeBloc/MarkModeBloc.dart';
 import 'Bloc/NavbarBloc/NavbarBloc.dart';
 import 'BottomBar/BottomMenu.dart';
@@ -12,11 +11,8 @@ import 'MenuViewer/WebMenu/NavigationBar.dart';
 import 'MenuViewer/WebMenu/WebMenuContentViewer.dart';
 
 
-class AcceptMarkedEventStream {
-  StreamController _controller = StreamController<AcceptMarkedBlocState>();
-  get stream => _controller.stream;
-  get sink => _controller.sink;
-}
+
+
 
 
 class FoodPicker extends StatelessWidget {

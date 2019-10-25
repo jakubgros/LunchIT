@@ -7,19 +7,18 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image/image.dart' as ImgLib;
-import 'package:lunch_it/FoodPicker/Bloc/AcceptMarkedBloc/AcceptMarkedBlocState.dart';
 import 'package:lunch_it/FoodPicker/Bloc/MarkModeBloc/MarkModeState.dart';
 import 'package:lunch_it/FoodPicker/ContentMarker/MarkedRect.dart';
-import 'package:lunch_it/FoodPicker/FoodPicker.dart';
+import 'package:lunch_it/FoodPicker/EventStreams/AcceptMarked.dart';
 import 'package:lunch_it/FoodPicker/MenuViewer/WebMenu/WebMenuContentViewer.dart';
 import 'package:lunch_it/Utilities/utilities.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class ContentMarker extends StatefulWidget {
-  WebMenuContentViewer _content; //TODO extract abstraction
-  MarkModeState _markingMode;
-  Future<Uint8List> _screenshotDataBytes;
+  final WebMenuContentViewer _content; //TODO extract abstraction
+  final MarkModeState _markingMode;
+  Future<Uint8List> _screenshotDataBytes; //TODO make final
 
   ContentMarker({@required content, @required markingMode})
       : _content = content,
@@ -110,7 +109,7 @@ class _ContentMarkerState extends State<ContentMarker> {
     return markMode.isNavigateMode();
   }
 
-  void saveMarked(Uint8List imgAsDataBytes, AcceptMarkedBlocState markingMode) async {
+  void saveMarked(Uint8List imgAsDataBytes, AcceptMarkedBlocEvent markingMode) async {
       ImgLib.Image img = ImgLib.decodeImage(imgAsDataBytes);
       ImgLib.Image imgCropped = cropImage(img, _markedRect.rect);
       saveMarkedAsImg(imgCropped, markingMode);
@@ -129,7 +128,7 @@ class _ContentMarkerState extends State<ContentMarker> {
     return imgCropped;
   }
 
-  void saveMarkedAsImg(ImgLib.Image img, AcceptMarkedBlocState markingMode) async {
+  void saveMarkedAsImg(ImgLib.Image img, AcceptMarkedBlocEvent markingMode) async {
     Directory cacheDir = await getTemporaryDirectory();
     String fileName = (markingMode.isAcceptMarkedFood() ? "food" : "price") + ".png";
 
@@ -157,7 +156,7 @@ class _ContentMarkerState extends State<ContentMarker> {
     super.didChangeDependencies();
 
     final _ = Provider.of<AcceptMarkedEventStream>(context).stream.listen(
-            (AcceptMarkedBlocState event) {
+            (AcceptMarkedBlocEvent event) {
           widget._screenshotDataBytes.then((Uint8List bytes) {
             saveMarked(bytes, event);
           });

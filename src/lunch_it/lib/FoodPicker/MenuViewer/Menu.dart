@@ -7,8 +7,8 @@ import 'package:lunch_it/FoodPicker/MenuViewer/WebMenu/WebMenuContentViewer.dart
 import 'package:lunch_it/Utilities/utilities.dart';
 
 class Menu extends StatefulWidget {
-  WebMenuContentViewer _menuContentViewer; //TODO extract to abstract
-  Widget _menuContentViewerNavBar; //TODO extract to abstract
+  final WebMenuContentViewer _menuContentViewer; //TODO extract to abstract
+  final Widget _menuContentViewerNavBar; //TODO extract to abstract
 
   Menu({@required WebMenuContentViewer contentViewer, Widget navbar})
       : _menuContentViewer = contentViewer,

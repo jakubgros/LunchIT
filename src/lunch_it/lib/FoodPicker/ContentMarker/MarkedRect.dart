@@ -3,9 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class MarkedRect extends StatelessWidget {
-  Rect _rect;
+  final Rect _rect;
   final Color _borderColor;
-  final BoxConstraints _constraints;
 
   Rect get rect => _rect;
 
@@ -15,16 +14,11 @@ class MarkedRect extends StatelessWidget {
       @required BoxConstraints constraints,
       @required borderColor})
       : _borderColor = borderColor,
-        _constraints = constraints {
-
-    var unconstrainedRect = Rect.fromPoints(start, end);
-    _rect = getConstrained(unconstrainedRect, constraints);
-  }
+        _rect = getConstrained(Rect.fromPoints(start, end), constraints);
 
   MarkedRect.notMarked()
       : _rect = Rect.fromLTRB(0, 0, 0, 0),
-        _borderColor = null,
-        _constraints = null;
+        _borderColor = null;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +36,7 @@ class MarkedRect extends StatelessWidget {
     );
   }
 
-  Rect getConstrained(Rect rect, BoxConstraints constraints)
+  static Rect getConstrained(Rect rect, BoxConstraints constraints)
   {
     double left = max(rect.left, 0);
     double top = max(rect.top, 0);

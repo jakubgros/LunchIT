@@ -9,8 +9,8 @@ import 'package:lunch_it/FoodPicker/Bloc/NavbarBloc/NavbarBloc.dart';
 import 'package:lunch_it/FoodPicker/Bloc/NavbarBloc/NavbarBlocState.dart';
 
 class WebMenuContentViewer extends StatelessWidget {
-  String _webUrl;
-  var _controller = Completer<InAppWebViewController>();
+  final String _webUrl;
+  final _controller = Completer<InAppWebViewController>();
 
   WebMenuContentViewer({@required String url}) : _webUrl = url;
 

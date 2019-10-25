@@ -1,4 +1,4 @@
-class AcceptMarkedBlocState {
+class AcceptMarkedBlocState { //TODO rename and move to diff location and file
   int _mode=-1;
   AcceptMarkedBlocState._();
 

@@ -1,7 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lunch_it/FoodPicker/Bloc/BlocProvider.dart';
-
-import 'Bloc/AcceptMarkedBloc/AcceptMarkedBloc.dart';
+import 'package:provider/provider.dart';
+import 'Bloc/AcceptMarkedBloc/AcceptMarkedBlocState.dart';
 import 'Bloc/MarkModeBloc/MarkModeBloc.dart';
 import 'Bloc/NavbarBloc/NavbarBloc.dart';
 import 'BottomBar/BottomMenu.dart';
@@ -10,7 +11,16 @@ import 'MenuViewer/Menu.dart';
 import 'MenuViewer/WebMenu/NavigationBar.dart';
 import 'MenuViewer/WebMenu/WebMenuContentViewer.dart';
 
+
+class AcceptMarkedEventStream {
+  StreamController _controller = StreamController<AcceptMarkedBlocState>();
+  get stream => _controller.stream;
+  get sink => _controller.sink;
+}
+
+
 class FoodPicker extends StatelessWidget {
+
   final VoidCallback _shoppingCartOnPressedCallback = () {}; //TODO implement
   @override
   Widget build(BuildContext context) {
@@ -28,11 +38,11 @@ class FoodPicker extends StatelessWidget {
               title: Text("#MAIL TITLE#"), //TODO dehardcode
               leading: BackButton(),
             ),
-            body: BlocProvider<AcceptMarkedBloc>( //TODO
-              bloc: AcceptMarkedBloc(),
-              child: BlocProvider<MarkModeBloc>(
-                //TODO exclude BottomMenuBar from this bloc
-                bloc: MarkModeBloc(),
+            body: BlocProvider<MarkModeBloc>(
+              //TODO exclude BottomMenuBar from this bloc
+              bloc: MarkModeBloc(),
+              child: Provider<AcceptMarkedEventStream>.value(
+                value: AcceptMarkedEventStream(),
                 child: Column(
                   children: <Widget>[
                     Expanded(
@@ -76,3 +86,4 @@ class FoodPicker extends StatelessWidget {
             )));
   }
 }
+

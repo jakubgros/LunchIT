@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_it/FoodPicker/Bloc/AcceptMarkedBloc/AcceptMarkedBloc.dart';
-import 'package:lunch_it/FoodPicker/Bloc/AcceptMarkedBloc/AcceptMarkedBlocEvent.dart';
+import 'package:lunch_it/FoodPicker/Bloc/AcceptMarkedBloc/AcceptMarkedBlocState.dart';
 import 'package:lunch_it/FoodPicker/Bloc/BlocProvider.dart';
 import 'package:lunch_it/FoodPicker/Bloc/MarkModeBloc/MarkEvent.dart';
 import 'package:lunch_it/FoodPicker/Bloc/MarkModeBloc/MarkModeBloc.dart';
+import 'package:lunch_it/FoodPicker/FoodPicker.dart';
+import 'package:provider/provider.dart';
 
 import 'Button.dart';
 
@@ -14,7 +15,7 @@ class OrderingTools extends StatefulWidget {
 
 class _OrderingToolsState extends State<OrderingTools> {
   MarkModeBloc _markModeBloc;
-  AcceptMarkedBloc _acceptMarkedBloc;
+  AcceptMarkedEventStream _acceptMarkedEventStream;
 
   bool _isFoodPressed;
   bool _isPricePressed;
@@ -26,7 +27,7 @@ class _OrderingToolsState extends State<OrderingTools> {
       if (_isFoodPressed) {
         _isFoodPressed = false;
         _markModeBloc.event.add(NavigateEvent());
-        _acceptMarkedBloc.event.add(AcceptMarkedFoodEvent());
+        _acceptMarkedEventStream.sink.add(AcceptMarkedBlocState.markedFood());
       } else {
         _isFoodPressed = true;
         _markModeBloc.event.add(MarkFoodEvent());
@@ -41,7 +42,7 @@ class _OrderingToolsState extends State<OrderingTools> {
       if (_isPricePressed) {
         _isPricePressed = false;
         _markModeBloc.event.add(NavigateEvent());
-        _acceptMarkedBloc.event.add(AcceptMarkedPriceEvent());
+        _acceptMarkedEventStream.sink.add(AcceptMarkedBlocState.markedPrice());
       } else {
         _isPricePressed = true;
         _markModeBloc.event.add(MarkPriceEvent());
@@ -89,9 +90,17 @@ class _OrderingToolsState extends State<OrderingTools> {
   void initState() {
     super.initState();
     _markModeBloc = BlocProvider.of<MarkModeBloc>(context);
-    _acceptMarkedBloc = BlocProvider.of<AcceptMarkedBloc>(context);
 
     _isFoodPressed = false;
     _isPricePressed = false;
   }
+
+  @override
+  void didChangeDependencies() {
+    /* listen set to false so as not to rebuild the widget since this widget
+     is only emitting values to the stream*/
+    _acceptMarkedEventStream = Provider.of<AcceptMarkedEventStream>(context, listen: false);
+  }
+
+
 }

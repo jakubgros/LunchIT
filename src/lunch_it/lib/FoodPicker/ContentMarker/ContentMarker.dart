@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:core';
 import 'dart:io';
 import 'dart:typed_data';
@@ -6,14 +7,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image/image.dart' as ImgLib;
-import 'package:lunch_it/FoodPicker/Bloc/AcceptMarkedBloc/AcceptMarkedBloc.dart';
 import 'package:lunch_it/FoodPicker/Bloc/AcceptMarkedBloc/AcceptMarkedBlocState.dart';
-import 'package:lunch_it/FoodPicker/Bloc/BlocProvider.dart';
 import 'package:lunch_it/FoodPicker/Bloc/MarkModeBloc/MarkModeState.dart';
 import 'package:lunch_it/FoodPicker/ContentMarker/MarkedRect.dart';
+import 'package:lunch_it/FoodPicker/FoodPicker.dart';
 import 'package:lunch_it/FoodPicker/MenuViewer/WebMenu/WebMenuContentViewer.dart';
 import 'package:lunch_it/Utilities/utilities.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 class ContentMarker extends StatefulWidget {
   WebMenuContentViewer _content; //TODO extract abstraction
@@ -35,6 +36,7 @@ class _ContentMarkerState extends State<ContentMarker> {
   MarkedRect _markedRect;
   Offset _start = Offset(0, 0);
   Offset _end = Offset(0, 0);
+
 
   @override
   Widget build(BuildContext context) {
@@ -108,15 +110,10 @@ class _ContentMarkerState extends State<ContentMarker> {
     return markMode.isNavigateMode();
   }
 
-  void saveMarked(Uint8List imgAsDataBytes, AcceptMarkedBlocState mode) async {
-    MarkModeState markingMode = widget._markingMode;
-    bool isMarkingMode = markingMode.isFoodMode() || markingMode.isPriceMode();
-
-    if (isMarkingMode) {
+  void saveMarked(Uint8List imgAsDataBytes, AcceptMarkedBlocState markingMode) async {
       ImgLib.Image img = ImgLib.decodeImage(imgAsDataBytes);
       ImgLib.Image imgCropped = cropImage(img, _markedRect.rect);
-      saveMarkedAsImg(imgCropped, mode);
-    }
+      saveMarkedAsImg(imgCropped, markingMode);
   }
 
   ImgLib.Image cropImage(ImgLib.Image img, Rect cropRect) {
@@ -132,25 +129,12 @@ class _ContentMarkerState extends State<ContentMarker> {
     return imgCropped;
   }
 
-  void saveMarkedAsImg(ImgLib.Image img, AcceptMarkedBlocState mode) async {
+  void saveMarkedAsImg(ImgLib.Image img, AcceptMarkedBlocState markingMode) async {
     Directory cacheDir = await getTemporaryDirectory();
-    String fileName = (mode.isAcceptMarkedFood() ? "food" : "price") + ".png";
+    String fileName = (markingMode.isAcceptMarkedFood() ? "food" : "price") + ".png";
 
     var saveDir = await Directory("${cacheDir.path}/selected").create();
     File("${saveDir.path}/$fileName").writeAsBytesSync(ImgLib.encodePng(img));
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    AcceptMarkedBloc bloc = BlocProvider.of<AcceptMarkedBloc>(context); //TODO
-
-    bloc.state.listen((AcceptMarkedBlocState mode) {      //TODO
-      widget._screenshotDataBytes.then((Uint8List bytes) {
-        saveMarked(bytes, mode);
-      });
-    });
   }
 
   void resetMarker() {
@@ -160,11 +144,27 @@ class _ContentMarkerState extends State<ContentMarker> {
 
   @override
   void didUpdateWidget(ContentMarker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
     if (oldWidget._markingMode != widget._markingMode)
       setState(() {
         resetMarker();
       });
   }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final _ = Provider.of<AcceptMarkedEventStream>(context).stream.listen(
+            (AcceptMarkedBlocState event) {
+          widget._screenshotDataBytes.then((Uint8List bytes) {
+            saveMarked(bytes, event);
+          });
+        });
+  }
+
+
 }
 
 //TODO fix bug with not working hot reload

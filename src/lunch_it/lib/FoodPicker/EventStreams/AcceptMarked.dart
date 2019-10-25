@@ -6,16 +6,20 @@ class AcceptMarkedEventStream {
   get sink => _controller.sink;
 
   void close() => _controller.close();
-
 }
 
 class AcceptMarkedEvent {
-  int _type=-1;
+  _EventType _type;
   AcceptMarkedEvent._();
 
-  bool isAcceptMarkedFood() => _type == 0;
-  bool isAcceptMarkedPrice() => _type == 1;
+  bool isAcceptMarkedFood() => _type == _EventType.food;
+  bool isAcceptMarkedPrice() => _type == _EventType.price;
 
-  factory AcceptMarkedEvent.markedFood() => AcceptMarkedEvent._().._type = 0;
-  factory AcceptMarkedEvent.markedPrice() => AcceptMarkedEvent._().._type = 1;
+  factory AcceptMarkedEvent.markedFood() => AcceptMarkedEvent._().._type = _EventType.food;
+  factory AcceptMarkedEvent.markedPrice() => AcceptMarkedEvent._().._type = _EventType.price;
+}
+
+enum _EventType {
+  food,
+  price
 }

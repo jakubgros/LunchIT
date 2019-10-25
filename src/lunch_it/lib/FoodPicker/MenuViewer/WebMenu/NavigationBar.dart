@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/FoodPicker/Bloc/BlocProvider.dart';
-import 'package:lunch_it/FoodPicker/Bloc/NavbarBloc/NavbarBloc.dart';
-import 'package:lunch_it/FoodPicker/Bloc/NavbarBloc/NavbarBlocEvent.dart';
+import 'package:lunch_it/FoodPicker/EventStreams/WebNavigation.dart';
+import 'package:provider/provider.dart';
 
 class NavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    NavbarBloc navbarBloc = BlocProvider.of<NavbarBloc>(context);
+    final webNavigationEventStream = Provider.of<WebNavigationEventStream>(context, listen: false);
 
     return Row(
       children: <Widget>[
         IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => navbarBloc.event.add(NavbarGoBackEvent()), //TODO
+          onPressed: () => webNavigationEventStream.sink.add(WebNavigationEvent.goBack()),
         ),
         Spacer(),
         IconButton(
           icon: Icon(Icons.arrow_forward),
-          onPressed: () => navbarBloc.event.add(NavbarGoForwardEvent()),
+          onPressed: () => webNavigationEventStream.sink.add(WebNavigationEvent.goForward()),
         ),
       ],
     );

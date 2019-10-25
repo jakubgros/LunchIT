@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_it/FoodPicker/Bloc/BlocProvider.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/AcceptMarked.dart';
+import 'package:lunch_it/FoodPicker/EventStreams/WebNavigation.dart';
 import 'package:provider/provider.dart';
 import 'Bloc/MarkModeBloc/MarkModeBloc.dart';
-import 'Bloc/NavbarBloc/NavbarBloc.dart';
 import 'BottomBar/BottomMenu.dart';
 import 'FoodMenusBar/FoodMenusBar.dart';
 import 'MenuViewer/Menu.dart';
 import 'MenuViewer/WebMenu/NavigationBar.dart';
 import 'MenuViewer/WebMenu/WebMenuContentViewer.dart';
-
-
-
-
 
 
 class FoodPicker extends StatelessWidget {
@@ -57,8 +53,8 @@ class FoodPicker extends StatelessWidget {
                         flex: 18,
                         child: Row(
                           children: <Widget>[
-                            BlocProvider<NavbarBloc>(
-                              bloc: NavbarBloc(),
+                            Provider<WebNavigationEventStream>.value(
+                              value: WebNavigationEventStream(),
                               child: Menu(
                                 contentViewer: WebMenuContentViewer(
                                     url: 'https://www.uszwagra24.pl/menu/'),

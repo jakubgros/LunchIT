@@ -22,9 +22,7 @@ class _MenuState extends State<Menu> {   //TODO probably can change to stateless
     return Expanded(
         child: Column(
           children: <Widget>[
-            widget._menuContentViewerNavBar == null //TODO probably can change to container()
-                ? null
-                : Flexible(
+            if(widget._menuContentViewerNavBar != null) Flexible(
               child: widget._menuContentViewerNavBar,
               flex: 1,
             ),
@@ -32,7 +30,7 @@ class _MenuState extends State<Menu> {   //TODO probably can change to stateless
               flex: 14,
               child: MarkingManager(widget._menuContentViewer),
             )
-          ].where(notNull).toList(), //TODO
+          ]
         )
     );
   }

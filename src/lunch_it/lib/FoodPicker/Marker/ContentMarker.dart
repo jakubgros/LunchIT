@@ -12,10 +12,10 @@ Future<ImgLib.Image> createImageOutOfMarkedRectAndBackground(Map args) async {
   assert(args.containsKey('markedRect'));
   assert(args.containsKey('pixelRatio'));
   Rect markedRect = args['markedRect'];
-  Uint8List backgroudImgAsBytes = args['background'];
+  Uint8List backgroundImgAsBytes = args['background'];
   double pixelRatio = args['pixelRatio'];
 
-  ImgLib.Image img = ImgLib.decodeImage(backgroudImgAsBytes);
+  ImgLib.Image img = ImgLib.decodeImage(backgroundImgAsBytes);
   ImgLib.Image imgCropped = cropImage(img, markedRect, pixelRatio);
   return imgCropped;
 }

@@ -52,7 +52,7 @@ class FoodPicker extends StatelessWidget {
                         child: Row(
                           children: <Widget>[
                             Provider<WebNavigationEventStream>.value(
-                              value: WebNavigationEventStream(),
+                              value: WebNavigationEventStream(), //TODO cancel streams subscriptions on dispose
                               child: Menu(
                                 contentViewer: WebMenuContentViewer(
                                     url: 'https://www.uszwagra24.pl/menu/'),

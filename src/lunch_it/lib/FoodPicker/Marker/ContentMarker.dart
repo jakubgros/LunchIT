@@ -1,14 +1,41 @@
+import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image/image.dart' as ImgLib;
 
 import 'MarkedRect.dart';
 
+Future<ImgLib.Image> createImageOutOfMarkedRectAndBackground(Map args) async {
+  assert(args.containsKey('background'));
+  assert(args.containsKey('markedRect'));
+  assert(args.containsKey('pixelRatio'));
+  Rect markedRect = args['markedRect'];
+  Uint8List backgroudImgAsBytes = args['background'];
+  double pixelRatio = args['pixelRatio'];
+
+  ImgLib.Image img = ImgLib.decodeImage(backgroudImgAsBytes);
+  ImgLib.Image imgCropped = cropImage(img, markedRect, pixelRatio);
+  return imgCropped;
+}
+
+ImgLib.Image cropImage(ImgLib.Image img, Rect cropRect, double pixelRatio) {
+  int x = (cropRect.left * pixelRatio).toInt();
+  int y = (cropRect.top * pixelRatio).toInt();
+  int w = (cropRect.width * pixelRatio).toInt();
+  int h = (cropRect.height * pixelRatio).toInt();
+
+  ImgLib.Image imgCropped = ImgLib.copyCrop(img, x, y, w, h);
+
+  return imgCropped;
+}
+
 class ContentMarker extends StatefulWidget {
   Color _markingColor;
   Future<Uint8List> Function() _getScreenshotCallback;
   MarkedRect _markedRect;
+  Uint8List _screenshotAsBytes;
 
   ContentMarker({
     @required Color markingColor,
@@ -20,25 +47,15 @@ class ContentMarker extends StatefulWidget {
   _ContentMarkerState createState() => _ContentMarkerState();
 
   Future<ImgLib.Image> getMarked() async {
-    Uint8List screenshot = await _getScreenshotCallback();
-    ImgLib.Image img = ImgLib.decodeImage(screenshot);
 
-    Rect markedRect = _markedRect.rect;
-    ImgLib.Image imgCropped = cropImage(img, markedRect);
-    return imgCropped;
-  }
+    var args = {
+      'background': _screenshotAsBytes,
+      'markedRect': _markedRect.rect,
+      'pixelRatio': WidgetsBinding.instance.window.devicePixelRatio
+    };
 
-  ImgLib.Image cropImage(ImgLib.Image img, Rect cropRect) {
-    double pixelRatio = WidgetsBinding.instance.window.devicePixelRatio;
-
-    int x = (cropRect.left * pixelRatio).toInt();
-    int y = (cropRect.top * pixelRatio).toInt();
-    int w = (cropRect.width * pixelRatio).toInt();
-    int h = (cropRect.height * pixelRatio).toInt();
-
-    ImgLib.Image imgCropped = ImgLib.copyCrop(img, x, y, w, h);
-
-    return imgCropped;
+    ImgLib.Image markedAsImg = await compute(createImageOutOfMarkedRectAndBackground, args);
+    return markedAsImg;
   }
 }
 
@@ -46,11 +63,12 @@ class _ContentMarkerState extends State<ContentMarker> {
   Offset _start = Offset(0, 0);
   Offset _end = Offset(0, 0);
 
-  var screenshot;
+  Future<Uint8List> _screenshot;
 
   @override
   void initState() {
-    screenshot = widget._getScreenshotCallback();
+    super.initState();
+    _screenshot = widget._getScreenshotCallback();
   }
 
   @override
@@ -68,10 +86,12 @@ class _ContentMarkerState extends State<ContentMarker> {
                         border: Border.all(color: widget._markingColor),
                       ),
                       child: FutureBuilder(
-                        future: screenshot,
+                        future: _screenshot,
                         builder: (context, snapshot) {
-                          if (snapshot.hasData)
+                          if (snapshot.hasData) {
+                            widget._screenshotAsBytes = snapshot.data;
                             return Image.memory(snapshot.data);
+                          }
                           else
                             return Placeholder(); //TODO put sth else here
                         },

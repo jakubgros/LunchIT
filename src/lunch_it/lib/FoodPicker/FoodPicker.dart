@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_it/FoodPicker/Bloc/BlocProvider.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/AcceptMarked.dart';
+import 'package:lunch_it/FoodPicker/EventStreams/MarkerMode.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/WebNavigation.dart';
 import 'package:provider/provider.dart';
-import 'Bloc/MarkModeBloc/MarkModeBloc.dart';
 import 'BottomBar/BottomMenu.dart';
 import 'FoodMenusBar/FoodMenusBar.dart';
 import 'MenuViewer/Menu.dart';
@@ -30,9 +29,8 @@ class FoodPicker extends StatelessWidget {
               title: Text("#MAIL TITLE#"), //TODO dehardcode
               leading: BackButton(),
             ),
-            body: BlocProvider<MarkModeBloc>(
-              //TODO exclude BottomMenuBar from this bloc
-              bloc: MarkModeBloc(),
+            body: Provider<MarkerModeEventStream>.value( //TODO use multiprovider
+              value: MarkerModeEventStream(),
               child: Provider<AcceptMarkedEventStream>.value(
                 value: AcceptMarkedEventStream(),
                 child: Column(

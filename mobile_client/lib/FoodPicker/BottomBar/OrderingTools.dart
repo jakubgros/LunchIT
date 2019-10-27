@@ -95,8 +95,8 @@ class _OrderingToolsState extends State<OrderingTools> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    _acceptMarkedEventStream = Provider.of<AcceptMarkedEventStream>(context, listen: false);
-    _markerModeEventStream = Provider.of<MarkerModeEventStream>(context, listen: false);
+    _acceptMarkedEventStream = Provider.of<AcceptMarkedEventStream>(context);
+    _markerModeEventStream = Provider.of<MarkerModeEventStream>(context);
   }
 
 

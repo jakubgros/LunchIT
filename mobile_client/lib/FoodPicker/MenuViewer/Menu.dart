@@ -27,7 +27,7 @@ class _MenuState extends State<Menu> {   //TODO probably can change to stateless
             ),
             Flexible(
               flex: 14,
-              child: MarkingManager(widget._menuContentViewer),
+              child: MarkingManager(widget._menuContentViewer, key: UniqueKey()),
             )
           ]
         )

@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 class MarkingManager extends StatefulWidget {
   final WebMenuContentViewer _content; //TODO extract abstraction
 
-  MarkingManager(this._content);
+  MarkingManager(this._content, {Key key}): super(key: key);
 
   @override
   _MarkingManagerState createState() => _MarkingManagerState();
@@ -76,20 +76,27 @@ class _MarkingManagerState extends State<MarkingManager> {
       File("${saveDir.path}/$fileName").writeAsBytesSync(ImgLib.encodePng(await markedAsImage));
   }
 
+  bool _isAcceptMarkedEventStreamListened = false;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    Provider
-        .of<AcceptMarkedEventStream>(context)
-        .stream
-        .listen(
-            (AcceptMarkedEvent event) {
-              assert(_contentMarker != null);
+    if(_isAcceptMarkedEventStreamListened == false) {
+      _isAcceptMarkedEventStreamListened = true;
 
+      Provider
+          .of<AcceptMarkedEventStream>(context)
+          .stream
+          .listen(
+              (AcceptMarkedEvent event) {
+            if(_contentMarker != null){
               Future<ImgLib.Image> markedImg = _contentMarker.getMarked();
               saveMarked(markedImg, event);
             }
-          );
-  }
+
+
+          }
+      );
+    }
+    }
 }

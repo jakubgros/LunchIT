@@ -8,11 +8,24 @@ import 'package:lunch_it/FoodPicker/EventStreams/WebNavigation.dart';
 import 'package:provider/provider.dart';
 
 
-class WebMenuContentViewer extends StatelessWidget {
+class WebMenuContentViewer extends StatefulWidget {
   final String _webUrl;
-  final _controller = Completer<InAppWebViewController>();
+  Completer<InAppWebViewController> _controller;
 
   WebMenuContentViewer({@required String url}) : _webUrl = url;
+
+  Future<Uint8List> getScreenshot() async {
+    var controller = await _controller.future;
+    var imgAsDataBytes = await controller.takeScreenshot();
+    return imgAsDataBytes;
+  }
+
+  @override
+  _WebMenuContentViewerState createState() => _WebMenuContentViewerState();
+}
+
+class _WebMenuContentViewerState extends State<WebMenuContentViewer> {
+  final _controller = Completer<InAppWebViewController>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +40,7 @@ class WebMenuContentViewer extends StatelessWidget {
           }
 
           return InAppWebView(
-            initialUrl: _webUrl,
+            initialUrl: widget._webUrl,
             onWebViewCreated: (controller) {
               _controller.complete(controller);
             },
@@ -35,9 +48,19 @@ class WebMenuContentViewer extends StatelessWidget {
         });
   }
 
-  Future<Uint8List> getScreenshot() async {
-    var controller = await _controller.future;
-    var imgAsDataBytes = await controller.takeScreenshot();
-    return imgAsDataBytes;
+
+
+  @override
+  void initState() {
+    super.initState();
+    widget._controller=_controller;
   }
+
+  @override
+  void didUpdateWidget(WebMenuContentViewer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    widget._controller=_controller;
+  }
+
+
 }

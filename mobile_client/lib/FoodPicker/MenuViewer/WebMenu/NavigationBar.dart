@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 class NavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final webNavigationEventStream = Provider.of<WebNavigationEventStream>(context, listen: false);
+    final webNavigationEventStream = Provider.of<WebNavigationEventStream>(context, listen: true);
 
     return Row(
       children: <Widget>[

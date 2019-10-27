@@ -3,6 +3,15 @@ import 'package:lunch_it/FoodPicker/Marker/MarkingManager.dart';
 import 'package:lunch_it/FoodPicker/MenuViewer/WebMenu/WebMenuContentViewer.dart';
 
 class Menu extends StatefulWidget {
+
+
+  //TODO
+  /// jutro navbara naprawic, wydaje mi sie ze completer jest inny gdzies tam gdzie inijalizuje niz tam gdzie trzyma state
+  ///
+  ///
+  ///
+  ///
+  ///
   final WebMenuContentViewer _menuContentViewer; //TODO extract to abstract
   final Widget _menuContentViewerNavBar; //TODO extract to abstract
 

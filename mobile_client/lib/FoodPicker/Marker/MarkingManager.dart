@@ -47,7 +47,7 @@ class _MarkingManagerState extends State<MarkingManager> {
             _contentMarker = null;
           else {
             _contentMarker = ContentMarker(
-              getScreenshotCallback: (){print("xDDDD"); return widget._content.getScreenshot();},
+              getScreenshotCallback: widget._content.getScreenshot,
               markingColor: markingColor,);
             _stackContent.add(_contentMarker);
           }

@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 class MarkingManager extends StatefulWidget {
   final WebMenuContentViewer _content; //TODO extract abstraction
 
-  MarkingManager(this._content, {Key key}): super(key: key);
+  MarkingManager(this._content);
 
   @override
   _MarkingManagerState createState() => _MarkingManagerState();
@@ -47,7 +47,7 @@ class _MarkingManagerState extends State<MarkingManager> {
             _contentMarker = null;
           else {
             _contentMarker = ContentMarker(
-              getScreenshotCallback: widget._content.getScreenshot,
+              getScreenshotCallback: (){print("xDDDD"); return widget._content.getScreenshot();},
               markingColor: markingColor,);
             _stackContent.add(_contentMarker);
           }
@@ -61,7 +61,6 @@ class _MarkingManagerState extends State<MarkingManager> {
   void initState() {
     super.initState();
     _stackContent = [widget._content];
-
     createSaveDirectory();
   }
 

@@ -14,20 +14,29 @@ class Menu extends StatefulWidget {
   _MenuState createState() => _MenuState();
 }
 
-class _MenuState extends State<Menu> {   //TODO probably can change to stateless
+class _MenuState extends State<Menu> {
+  WebMenuContentViewer _menuContentViewer; //TODO extract to abstract
+  Widget _menuContentViewerNavBar; //TODO extract to abstract
+
+  @override
+  void initState() {
+    super.initState();
+    _menuContentViewer = widget._menuContentViewer;
+    _menuContentViewerNavBar = widget._menuContentViewerNavBar;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
         child: Column(
           children: <Widget>[
-            if(widget._menuContentViewerNavBar != null) Flexible(
-              child: widget._menuContentViewerNavBar,
+            if(_menuContentViewerNavBar != null) Flexible(
+              child: _menuContentViewerNavBar,
               flex: 1,
             ),
             Flexible(
               flex: 14,
-              child: MarkingManager(widget._menuContentViewer, key: UniqueKey()),
+              child: MarkingManager(_menuContentViewer),
             )
           ]
         )

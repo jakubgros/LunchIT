@@ -7,6 +7,7 @@ import 'package:flutter_inappbrowser/flutter_inappbrowser.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/WebNavigation.dart';
 import 'package:provider/provider.dart';
 
+
 class WebMenuContentViewer extends StatelessWidget {
   final String _webUrl;
   final _controller = Completer<InAppWebViewController>();

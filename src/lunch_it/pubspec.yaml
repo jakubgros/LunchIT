@@ -26,6 +26,7 @@ dependencies:
     git: https://github.com/pichillilorenzo/flutter_inappbrowser
   image: ^2.1.4
   provider: ^3.1.0+1
+  http: ^0.12.0+2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -34,6 +35,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
 
 # For information on the generic Dart part of this file, see the

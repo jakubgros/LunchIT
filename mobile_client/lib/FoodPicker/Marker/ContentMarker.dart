@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image/image.dart' as ImgLib;
 
@@ -93,7 +94,7 @@ class _ContentMarkerState extends State<ContentMarker> {
                             return Image.memory(snapshot.data);
                           }
                           else
-                            return Placeholder(); //TODO put sth else here
+                            return Container();
                         },
                       )),
                 ),

@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:image/image.dart' as ImgLib;
 
 import 'MarkedRect.dart';
+import 'dart:ui' as ui;
 
 Future<ImgLib.Image> createImageOutOfMarkedRectAndBackground(Map args) async {
   assert(args.containsKey('background'));
@@ -77,7 +78,6 @@ class _ContentMarkerState extends State<ContentMarker> {
     return GestureDetector(
       onPanStart: gesturePanStartCallback,
       onPanUpdate: gesturePanUpdateCallback,
-      onPanEnd: gesturePanEndCallback,
       child: LayoutBuilder(
           builder: (context, constraints) => Stack(children: <Widget>[
                 FittedBox(
@@ -93,8 +93,18 @@ class _ContentMarkerState extends State<ContentMarker> {
                             widget._screenshotAsBytes = snapshot.data;
                             return Image.memory(snapshot.data);
                           }
-                          else
-                            return Container();
+                          else {
+                            return BackdropFilter(
+                                filter:  ui.ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                                child: SizedBox(
+                                  width: constraints.maxWidth,
+                                  height: constraints.maxHeight,
+                                  child: new Container(
+                                    decoration: new BoxDecoration(color: Colors.black.withOpacity(0.1)),
+                                  ),
+                                ),
+                              );
+                          }
                         },
                       )),
                 ),
@@ -112,7 +122,4 @@ class _ContentMarkerState extends State<ContentMarker> {
 
   void gesturePanUpdateCallback(DragUpdateDetails details) =>
     setState(() {_end = details.localPosition;});
-
-  //TODO probably safe to remove
-  void gesturePanEndCallback(DragEndDetails details) {}
 }

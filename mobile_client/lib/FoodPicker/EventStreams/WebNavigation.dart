@@ -5,7 +5,7 @@ class WebNavigationEventStream { //TODo extract repetition
   get stream => _controller.stream;
   get sink => _controller.sink;
 
-  void close() => _controller.close(); //TODO learn where to lose it, do the same for the rest of streams in the package
+  void close() => _controller.close();
 }
 
 class WebNavigationEvent {

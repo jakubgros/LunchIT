@@ -15,6 +15,8 @@ class WebMenuContentViewer extends StatefulWidget {
   WebMenuContentViewer({@required String url}) : _webUrl = url;
 
   Future<Uint8List> getScreenshot() async {
+    print("_controller.isCompleted");
+    print(_controller.isCompleted);
     var controller = await _controller.future;
     var imgAsDataBytes = await controller.takeScreenshot();
     return imgAsDataBytes;

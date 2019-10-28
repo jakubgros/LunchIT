@@ -10,8 +10,18 @@ import 'MenuViewer/Menu.dart';
 import 'MenuViewer/WebMenu/NavigationBar.dart';
 import 'MenuViewer/WebMenu/WebMenuContentViewer.dart';
 
-class FoodPicker extends StatelessWidget {
-  final VoidCallback _shoppingCartOnPressedCallback = () {}; //TODO implement
+class FoodPicker extends StatefulWidget {
+  @override
+  _FoodPickerState createState() => _FoodPickerState();
+}
+
+class _FoodPickerState extends State<FoodPicker> {
+
+
+  final VoidCallback _shoppingCartOnPressedCallback = () {};
+
+  Menu _menu;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -57,11 +67,7 @@ class FoodPicker extends StatelessWidget {
                       Provider<WebNavigationEventStream>.value(
                         value: WebNavigationEventStream(),
                         //TODO cancel streams subscriptions on dispose
-                        child: Menu(
-                          contentViewer: WebMenuContentViewer(
-                              url: 'https://www.uszwagra24.pl/menu/'),
-                          navbar: NavigationBar(),
-                        ),
+                        child: _menu,
                       ),
                     ],
                   )),
@@ -78,6 +84,15 @@ class FoodPicker extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  @override
+  void initState() {
+    _menu = Menu(
+      contentViewer: WebMenuContentViewer(
+          url: 'https://www.uszwagra24.pl/menu/'),
+      navbar: NavigationBar(),
     );
   }
 }

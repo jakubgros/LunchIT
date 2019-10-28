@@ -40,10 +40,13 @@ class _FoodPickerState extends State<FoodPicker> {
         ),
         body: MultiProvider(
           providers: [
-            Provider<MarkerModeEventStream>.value(
-                value: MarkerModeEventStream()),
-            Provider<AcceptMarkedEventStream>.value(
-              value: AcceptMarkedEventStream(),
+            Provider<MarkerModeEventStream>(
+              builder: (context) => MarkerModeEventStream(),
+              dispose: (context, value) => value.close(),
+            ),
+            Provider<AcceptMarkedEventStream>(
+              builder: (context) => AcceptMarkedEventStream(),
+              dispose: (context, value) => value.close(),
             )
           ],
           child: Column(
@@ -64,9 +67,9 @@ class _FoodPickerState extends State<FoodPicker> {
                   flex: 18,
                   child: Row(
                     children: <Widget>[
-                      Provider<WebNavigationEventStream>.value(
-                        value: WebNavigationEventStream(),
-                        //TODO cancel streams subscriptions on dispose
+                      Provider<WebNavigationEventStream>(
+                        builder: (context)=> WebNavigationEventStream(),
+                        dispose: (context, value) => value.close(),
                         child: _menu,
                       ),
                     ],

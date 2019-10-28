@@ -91,10 +91,13 @@ class _MarkingManagerState extends State<MarkingManager> {
             if(_contentMarker != null){
               Future<ImgLib.Image> markedImg = _contentMarker.getMarked();
               saveMarked(markedImg, event);
+              print("_contentMarker NIE");
             }
+            else
+              print("_contentMarker jest nullem");
 
 
-          }
+              }
       );
     }
     }

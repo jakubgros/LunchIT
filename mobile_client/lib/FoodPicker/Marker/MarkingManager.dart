@@ -75,30 +75,20 @@ class _MarkingManagerState extends State<MarkingManager> {
       File("${saveDir.path}/$fileName").writeAsBytesSync(ImgLib.encodePng(await markedAsImage));
   }
 
-  bool _isAcceptMarkedEventStreamListened = false;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    if(_isAcceptMarkedEventStreamListened == false) {
-      _isAcceptMarkedEventStreamListened = true;
-
-      Provider
-          .of<AcceptMarkedEventStream>(context)
-          .stream
-          .listen(
-              (AcceptMarkedEvent event) {
-            if(_contentMarker != null){
-              Future<ImgLib.Image> markedImg = _contentMarker.getMarked();
-              saveMarked(markedImg, event);
-              print("_contentMarker NIE");
+    Provider
+        .of<AcceptMarkedEventStream>(context)
+        .stream
+        .listen((AcceptMarkedEvent event) {
+            assert(_contentMarker != null);
+            Future<ImgLib.Image> markedImg = _contentMarker.getMarked();
+            saveMarked(markedImg, event);
+            print("_contentMarker NIE");
             }
-            else
-              print("_contentMarker jest nullem");
+    );
 
-
-              }
-      );
-    }
-    }
+  }
 }

@@ -47,6 +47,10 @@ class _OrderingToolsState extends State<OrderingTools> {
     });
   }
 
+  void _onPressAddCallback() {
+    Navigator.of(context).pushNamed('/foodPicker/addMenuPosition');
+  }
+
   @override
   Widget build(BuildContext context) {
     //TODO lock buttons until the page is loaded
@@ -77,8 +81,7 @@ class _OrderingToolsState extends State<OrderingTools> {
                 icon: Icons.add_shopping_cart,
                 defaultColor: Colors.green[300],
                 isPressed: false,
-                onPressed: () {/*TODO put hero here which displays current*/
-                })),
+                onPressed: _onPressAddCallback)),
       ],
     );
   }

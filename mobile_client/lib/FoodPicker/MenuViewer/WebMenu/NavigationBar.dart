@@ -8,18 +8,20 @@ class NavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final webNavigationEventStream = Provider.of<WebNavigationEventStream>(context);
 
-    return Row(
-      children: <Widget>[
-        IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => webNavigationEventStream.sink.add(WebNavigationEvent.goBack()),
-        ),
-        Spacer(),
-        IconButton(
-          icon: Icon(Icons.arrow_forward),
-          onPressed: () => webNavigationEventStream.sink.add(WebNavigationEvent.goForward()),
-        ),
-      ],
+    return Material(
+      child: Row(
+        children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => webNavigationEventStream.sink.add(WebNavigationEvent.goBack()),
+          ),
+          Spacer(),
+          IconButton(
+            icon: Icon(Icons.arrow_forward),
+            onPressed: () => webNavigationEventStream.sink.add(WebNavigationEvent.goForward()),
+          ),
+        ],
+      ),
     );
   }
 }

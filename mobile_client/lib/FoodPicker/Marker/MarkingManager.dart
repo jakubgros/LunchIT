@@ -57,11 +57,25 @@ class _MarkingManagerState extends State<MarkingManager> {
     );
   }
 
+  var _subscription;
   @override
   void initState() {
     super.initState();
     _stackContent = [widget._content];
     createSaveDirectory();
+
+    Provider.of<AcceptMarkedEventStream>(context, listen: false).stream.listen((AcceptMarkedEvent event) {
+      assert(_contentMarker != null);
+      Future<ImgLib.Image> markedImg = _contentMarker.getMarked();
+      saveMarked(markedImg, event);
+    }
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _subscription.cancel();
   }
 
   void createSaveDirectory() async {
@@ -73,21 +87,5 @@ class _MarkingManagerState extends State<MarkingManager> {
       String fileName = (markingMode.isAcceptMarkedFood() ? "food" : "price") + ".png";
       var saveDir = await _saveDir;
       File("${saveDir.path}/$fileName").writeAsBytesSync(ImgLib.encodePng(await markedAsImage));
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    Provider
-        .of<AcceptMarkedEventStream>(context)
-        .stream
-        .listen((AcceptMarkedEvent event) {
-            assert(_contentMarker != null);
-            Future<ImgLib.Image> markedImg = _contentMarker.getMarked();
-            saveMarked(markedImg, event);
-            }
-    );
-
   }
 }

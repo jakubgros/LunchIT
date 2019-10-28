@@ -10,12 +10,12 @@ import 'MenuViewer/Menu.dart';
 import 'MenuViewer/WebMenu/NavigationBar.dart';
 import 'MenuViewer/WebMenu/WebMenuContentViewer.dart';
 
-class FoodPicker extends StatefulWidget {
+class FoodPickerPage extends StatefulWidget {
   @override
-  _FoodPickerState createState() => _FoodPickerState();
+  _FoodPickerPageState createState() => _FoodPickerPageState();
 }
 
-class _FoodPickerState extends State<FoodPicker> {
+class _FoodPickerPageState extends State<FoodPickerPage> {
 
 
   final VoidCallback _shoppingCartOnPressedCallback = () {};
@@ -24,8 +24,7 @@ class _FoodPickerState extends State<FoodPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           actions: <Widget>[
             InkWell(
@@ -40,14 +39,14 @@ class _FoodPickerState extends State<FoodPicker> {
         ),
         body: MultiProvider(
           providers: [
-            Provider<MarkerModeEventStream>(
-              builder: (context) => MarkerModeEventStream(),
-              dispose: (context, value) => value.close(),
-            ),
-            Provider<AcceptMarkedEventStream>(
-              builder: (context) => AcceptMarkedEventStream(),
-              dispose: (context, value) => value.close(),
-            )
+              Provider<MarkerModeEventStream>(
+                builder: (context) => MarkerModeEventStream(),
+                dispose: (context, value) => value.close(),
+              ),
+              Provider<AcceptMarkedEventStream>(
+                builder: (context) => AcceptMarkedEventStream(),
+                dispose: (context, value) => value.close(),
+              ),
           ],
           child: Column(
             children: <Widget>[
@@ -86,8 +85,7 @@ class _FoodPickerState extends State<FoodPicker> {
             ],
           ),
         ),
-      ),
-    );
+        );
   }
 
   @override

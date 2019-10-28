@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -38,22 +37,15 @@ class _WebMenuContentViewerState extends State<WebMenuContentViewer> {
     );
   }
 
+  var _subscription;
   @override
   void initState() {
     super.initState();
     widget._controller = _controller;
-  }
 
-
-  @override
-  void didUpdateWidget(WebMenuContentViewer oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    widget._controller = _controller;
-  }
-
-  @override
-  void didChangeDependencies() {
-    Provider.of<WebNavigationEventStream>(context).stream.listen((WebNavigationEvent event){
+    _subscription = Provider
+        .of<WebNavigationEventStream>(context, listen: false)
+        .stream.listen((WebNavigationEvent event) {
       if (event.isGoBack())
         _controller.future.then((controller) => controller.goBack());
       if (event.isGoForward())
@@ -61,5 +53,15 @@ class _WebMenuContentViewerState extends State<WebMenuContentViewer> {
     });
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _subscription.cancel();
+  }
 
+  @override
+  void didUpdateWidget(WebMenuContentViewer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    widget._controller = _controller;
+  }
 }

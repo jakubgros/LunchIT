@@ -34,8 +34,8 @@ ImgLib.Image cropImage(ImgLib.Image img, Rect cropRect, double pixelRatio) {
 }
 
 class ContentMarker extends StatefulWidget {
-  Color _markingColor;
-  Future<Uint8List> Function() _getScreenshotCallback;
+  final Color _markingColor;
+  final Future<Uint8List> Function() _getScreenshotCallback;
   MarkedRect _markedRect;
   Uint8List _screenshotAsBytes;
 

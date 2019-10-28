@@ -6,9 +6,9 @@ import 'dart:convert';
 
 class ServerApi
 {
-  String _serverAdress = "localhost:5002";
+  String _serverAdress = "10.0.2.2:5002";
 
-  getAsText(String filePath) async {
+  Future<String> getAsText(String filePath) async {
     String endpoint = "/getAsText";
     String method = "POST";
     // ==============================

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_it/FoodPicker/AppBar/ShoppingCardNavbarButton.dart';
+import 'package:lunch_it/FoodPicker/AppBar/ShoppingCardAppbarButton.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/AcceptMarked.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/MarkerMode.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/WebNavigation.dart';
@@ -28,7 +28,7 @@ class _FoodPickerPageState extends State<FoodPickerPage> {
     return Scaffold(
         appBar: AppBar(
           actions: <Widget>[
-            ShoppingCardNavbarButton(),
+            ShoppingCardAppbarButton(),
           ],
           title: Text("#MAIL TITLE#"), //TODO dehardcode
           leading: BackButton(),

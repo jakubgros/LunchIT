@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class ShoppingCardNavbarButton extends StatelessWidget {
+class ShoppingCardAppbarButton extends StatelessWidget {
   VoidCallback _shoppingCartOnPressedCallback = (){}; //TODO
 
   @override

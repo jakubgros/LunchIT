@@ -41,10 +41,11 @@ def getAsText():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             asText = imageToText(file)
-            print(asText)
+            formatted = " ".join(asText.split())
+            print(formatted)
             '''
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))'''
-            return asText
+            return formatted
 
 
 

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:lunch_it/FoodPicker/AppBar/ShoppingCardAppbarButton.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/AcceptMarked.dart';
@@ -7,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import 'BottomBar/BottomMenu.dart';
 import 'FoodMenusBar/FoodMenusBar.dart';
+import 'Marker/MarkerData.dart';
 import 'MenuViewer/Menu.dart';
 import 'MenuViewer/WebMenu/NavigationBar.dart';
 import 'MenuViewer/WebMenu/WebMenuContentViewer.dart';
@@ -16,12 +19,10 @@ class FoodPickerPage extends StatefulWidget {
   _FoodPickerPageState createState() => _FoodPickerPageState();
 }
 
+
 class _FoodPickerPageState extends State<FoodPickerPage> {
-
-
-  final VoidCallback _shoppingCartOnPressedCallback = () {};
-
   Menu _menu;
+  final _markerData = MarkerData();
 
   @override
   Widget build(BuildContext context) {
@@ -44,41 +45,44 @@ class _FoodPickerPageState extends State<FoodPickerPage> {
                 dispose: (context, value) => value.close(),
               ),
           ],
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    FoodMenusBar(
-                        amountOfEntries: 2,
-                        listColor: Colors.blue[300],
-                        separatorColor: Colors.black),
-                  ],
-                ),
-              ),
-              Expanded(
-                  flex: 18,
+          child: Provider<MarkerData>.value(
+            value: _markerData,
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Provider<WebNavigationEventStream>(
-                        builder: (context)=> WebNavigationEventStream(),
-                        dispose: (context, value) => value.close(),
-                        child: _menu,
-                      ),
+                      FoodMenusBar(
+                          amountOfEntries: 2,
+                          listColor: Colors.blue[300],
+                          separatorColor: Colors.black),
                     ],
-                  )),
-              Expanded(
-                flex: 2,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    BottomMenu(),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+                Expanded(
+                    flex: 18,
+                    child: Row(
+                      children: <Widget>[
+                        Provider<WebNavigationEventStream>(
+                          builder: (context)=> WebNavigationEventStream(),
+                          dispose: (context, value) => value.close(),
+                          child: _menu,
+                        ),
+                      ],
+                    )),
+                Expanded(
+                  flex: 2,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      BottomMenu(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         );
@@ -86,6 +90,8 @@ class _FoodPickerPageState extends State<FoodPickerPage> {
 
   @override
   void initState() {
+    super.initState();
+
     _menu = Menu(
       contentViewer: WebMenuContentViewer(
           url: 'https://www.uszwagra24.pl/menu/'),

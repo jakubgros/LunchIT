@@ -40,13 +40,15 @@ class ContentMarker extends StatefulWidget {
   Uint8List _screenshotAsBytes;
 
   ContentMarker({
+    @required Key key,
     @required Color markingColor,
     @required Future<Uint8List> Function() getScreenshotCallback,
   })  : _markingColor = markingColor,
-        _getScreenshotCallback = getScreenshotCallback;
+        _getScreenshotCallback = getScreenshotCallback,
+  super(key: key);
 
   @override
-  _ContentMarkerState createState() => _ContentMarkerState();
+  ContentMarkerState createState() => ContentMarkerState();
 
   Future<ImgLib.Image> getMarked() async {
 
@@ -61,7 +63,7 @@ class ContentMarker extends StatefulWidget {
   }
 }
 
-class _ContentMarkerState extends State<ContentMarker> {
+class ContentMarkerState extends State<ContentMarker> {
   Offset _start = Offset(0, 0);
   Offset _end = Offset(0, 0);
 
@@ -122,4 +124,6 @@ class _ContentMarkerState extends State<ContentMarker> {
 
   void gesturePanUpdateCallback(DragUpdateDetails details) =>
     setState(() {_end = details.localPosition;});
+
+  bool get hasMarked => _start != _end;
 }

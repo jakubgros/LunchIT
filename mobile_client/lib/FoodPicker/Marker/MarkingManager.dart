@@ -9,6 +9,7 @@ import 'package:image/image.dart' as ImgLib;
 import 'package:lunch_it/FoodPicker/EventStreams/AcceptMarked.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/MarkerMode.dart';
 import 'package:lunch_it/FoodPicker/Marker/ContentMarker.dart';
+import 'package:lunch_it/FoodPicker/Marker/MarkerData.dart';
 import 'package:lunch_it/FoodPicker/MenuViewer/WebMenu/WebMenuContentViewer.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,7 @@ class _MarkingManagerState extends State<MarkingManager> {
   List<Widget> _stackContent;
   ContentMarker _contentMarker;
   Future<Directory> _saveDir;
+  final _contentMarkerStateKey = GlobalKey<ContentMarkerState>();
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,7 @@ class _MarkingManagerState extends State<MarkingManager> {
             _contentMarker = null;
           else {
             _contentMarker = ContentMarker(
+              key: _contentMarkerStateKey,
               getScreenshotCallback: widget._content.getScreenshot,
               markingColor: markingColor,);
             _stackContent.add(_contentMarker);
@@ -66,6 +69,9 @@ class _MarkingManagerState extends State<MarkingManager> {
 
     Provider.of<AcceptMarkedEventStream>(context, listen: false).stream.listen((AcceptMarkedEvent event) {
       assert(_contentMarker != null);
+      if(!_contentMarkerStateKey.currentState.hasMarked)
+        return;
+
       Future<ImgLib.Image> markedImg = _contentMarker.getMarked();
       saveMarked(markedImg, event);
     }
@@ -86,6 +92,14 @@ class _MarkingManagerState extends State<MarkingManager> {
   void saveMarked(Future<ImgLib.Image> markedAsImage, AcceptMarkedEvent markingMode) async {
       String fileName = (markingMode.isAcceptMarkedFood() ? "food" : "price") + ".png";
       var saveDir = await _saveDir;
-      File("${saveDir.path}/$fileName").writeAsBytesSync(ImgLib.encodePng(await markedAsImage));
+      File file = File("${saveDir.path}/$fileName");
+      file.writeAsBytesSync(ImgLib.encodePng(await markedAsImage));
+
+      MarkerData markerData = Provider.of<MarkerData>(context);
+
+    if(markingMode.isAcceptMarkedFood())
+      markerData.addFood(file);
+    else
+      markerData.addPrice(file);
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ShoppingCardAppbarButton extends StatelessWidget {
-  VoidCallback _shoppingCartOnPressedCallback = (){}; //TODO
+  final VoidCallback _shoppingCartOnPressedCallback = (){}; //TODO
 
   @override
   Widget build(BuildContext context) {

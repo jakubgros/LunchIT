@@ -5,6 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:lunch_it/FoodPicker/AppBar/ShoppingCardAppbarButton.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 
+class BasketEntry {
+  String _foodName;
+  double _price;
+  int _quantity;
+  String _comment;
+
+  BasketEntry(this._foodName, this._price, this._quantity, this._comment);
+
+
+}
+
 class AddMenuPositionPage extends StatefulWidget {
   @override
   _AddMenuPositionPageState createState() => _AddMenuPositionPageState();
@@ -58,7 +69,7 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
                       ],
                     ),
                   ),
-                  Text("Quantity: ${_quantity}"),
+                  Text("Quantity: $_quantity"),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -83,16 +94,26 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
         ));
   }
 
+  double convertPriceToDouble(String price) {
+    price = price.replaceAll(",", ".");
+    final letter = RegExp("[a-zA-Z]+");
+    price = price.replaceAll(letter, "");
+    price = price.replaceAll(" ", "");
+    return double.parse(price);
+  }
+
   void _addToBasket(context) {
     if(!_formState.currentState.validate())
       return;
 
-    String comment = _commentTextFieldController.text;
     String foodAsText = _foodTextFieldController.text;
     String priceAsText = _priceTextFieldController.text;
+    String comment = _commentTextFieldController.text;
+
+    var newEntry = BasketEntry(foodAsText, convertPriceToDouble(priceAsText), _quantity, comment);
+    //TODO add the entry to basket
 
     Navigator.of(context).pop();
-    // TODO Implement adding to basket
   }
 
   void _increaseQuantity() {

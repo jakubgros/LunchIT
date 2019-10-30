@@ -1,23 +1,28 @@
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lunch_it/FoodPicker/AppBar/ShoppingCardAppbarButton.dart';
 import 'package:lunch_it/FoodPicker/Basket/Basket.dart';
-import 'package:lunch_it/FoodPicker/FoodPickerPage.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/OcrPresenter.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/OrderPositionComment.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/QuantityManager.dart';
-import 'package:provider/provider.dart';
 
 class AddMenuPositionPage extends StatefulWidget {
-  final File _foodImage;
-  final File _priceImage;
+  final Image _foodImage;
+  final Future<String> _foodAsText;
+  final Image _priceImage;
+  final Future<String> _priceAsText;
 
-  AddMenuPositionPage({
-    @required File foodImage,
-    @required File priceImage})
-      : _foodImage = File(foodImage.path),
-        _priceImage = File(priceImage.path);
+  AddMenuPositionPage(
+      {@required Image foodAsImg,
+      @required Future<String> foodAsText,
+      @required Image priceAsImg,
+      @required Future<String> priceAsText})
+      : _foodImage = foodAsImg,
+        _priceImage = priceAsImg,
+        _foodAsText = foodAsText,
+        _priceAsText = priceAsText;
 
   @override
   _AddMenuPositionPageState createState() => _AddMenuPositionPageState();
@@ -46,11 +51,13 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
               child: Column(
                 children: <Widget>[
                   _food = OcrPresenterCorrecter(
-                    image: widget._foodImage,
+                    image: widget._foodImage, //TODO image is not replaced if I go back from this page, mark it once again and click add
+                    text: widget._foodAsText,
                     validator: _foodValidator,
                   ),
                   _price = OcrPresenterCorrecter(
                     image: widget._priceImage,
+                    text: widget._priceAsText,
                     validator: _priceValidator,
                   ),
                   OrdersPositionComment(_commentController),
@@ -86,9 +93,8 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
 
     //TODO add the entry to basket
 
-
-    Navigator.of(context).pop(true); //true means that element has been successfully added to the basket
-
+    Navigator.of(context).pop(
+        true); //true means that element has been successfully added to the basket
   }
 
   static String _foodValidator(String value) {
@@ -110,5 +116,3 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
       return null;
   }
 }
-
-

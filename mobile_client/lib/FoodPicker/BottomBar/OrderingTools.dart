@@ -58,8 +58,10 @@ class _OrderingToolsState extends State<OrderingTools> {
     Future<bool> hasAddedToBasket = Navigator.of(context).push(
       MaterialPageRoute(builder: (context) =>
           AddMenuPositionPage(
-            foodImage: markerData.food,
-            priceImage: markerData.price,)),
+            foodAsImg: markerData.foodImg,
+            foodAsText: markerData.foodAsText,
+            priceAsImg: markerData.priceImg,
+            priceAsText: markerData.priceAsText,)),
     );
 
     hasAddedToBasket.then((hasAdded) {

@@ -1,6 +1,9 @@
 
 import 'dart:io';
 
+import 'package:flutter/widgets.dart';
+import 'package:lunch_it/ServerApi/ServerApi.dart';
+
 class MarkerData {
   File _markedFood;
   File _markedPrice;
@@ -16,6 +19,10 @@ class MarkerData {
   bool get hasFoodData => _markedFood != null;
   bool get hasPriceData => _markedPrice != null;
 
-  File get food => _markedFood;
-  File get price => _markedPrice;
+  Image get foodImg => Image.file(_markedFood);
+  Image get priceImg => Image.file(_markedPrice);
+
+  Future<String> get foodAsText => ServerApi().getAsText(_markedFood.path);
+  Future<String> get priceAsText => ServerApi().getAsText(_markedPrice.path);
+
 }

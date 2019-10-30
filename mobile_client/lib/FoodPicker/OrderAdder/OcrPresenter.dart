@@ -5,15 +5,18 @@ import 'package:flutter/widgets.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 
 class OcrPresenterCorrecter extends StatelessWidget {
-  final File _imgFile;
+  final Image _image;
+  final Future<String> _imageAsText;
   final FormFieldValidator<String> _validator;
   String _fieldValue;
   String _ocrValue;
 
   OcrPresenterCorrecter({
-    @required File image,
-              FormFieldValidator<String> validator,
-  })  : _imgFile = image,
+    @required Image image,
+    @required Future<String> text,
+    FormFieldValidator<String> validator,
+  })  : _image = image,
+        _imageAsText = text,
         _validator = validator;
 
   @override
@@ -23,12 +26,12 @@ class OcrPresenterCorrecter extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(10),
           child: Column(children: <Widget>[
-            Image.file(
-              _imgFile,
+            FittedBox(
               fit: BoxFit.scaleDown,
+              child: _image,
             ),
             FutureBuilder<String>(
-                future: ServerApi().getAsText(_imgFile.path),
+                future: _imageAsText,
                 initialData: "",
                 builder: (context, snapshot) {
                   _ocrValue = snapshot.data;
@@ -43,7 +46,6 @@ class OcrPresenterCorrecter extends StatelessWidget {
           ]),
         ),
       );
-
 
   String get value => _fieldValue ?? _ocrValue;
 }

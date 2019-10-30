@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lunch_it/FoodPicker/AppBar/ShoppingCardAppbarButton.dart';
@@ -15,7 +13,8 @@ class AddMenuPositionPage extends StatefulWidget {
   final Future<String> _priceAsText;
 
   AddMenuPositionPage(
-      {@required Image foodAsImg,
+      {
+        @required Image foodAsImg,
       @required Future<String> foodAsText,
       @required Image priceAsImg,
       @required Future<String> priceAsText})

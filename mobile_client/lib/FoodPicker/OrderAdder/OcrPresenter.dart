@@ -26,10 +26,7 @@ class OcrPresenterCorrecter extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(10),
           child: Column(children: <Widget>[
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              child: _image,
-            ),
+            _image,
             FutureBuilder<String>(
                 future: _imageAsText,
                 initialData: "",

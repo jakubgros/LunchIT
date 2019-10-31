@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
@@ -6,14 +7,15 @@ import 'dart:convert';
 
 class ServerApi
 {
-  String _serverAdress = "10.0.2.2:5002";
+  static String _serverAdress = "10.0.2.2:5002";
 
-  Future<String> getAsText(String filePath) async {
+  Future<String> getAsText(File imageFile) => compute(_getAsText, imageFile);
+
+  static Future<String> _getAsText(File imageFile) async {
     String endpoint = "/getAsText";
     String method = "POST";
     // ==============================
 
-    File imageFile = File(filePath);
 
     var stream = http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();

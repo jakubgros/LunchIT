@@ -65,7 +65,7 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
 
   static double _convertPriceToDouble(String price) {
     price = price.replaceAll(",", ".");
-    final letter = RegExp("[a-zA-Z]+");
+    final letter = RegExp("[a-zA-Z]+"); //TODO change to replace everything but not numbers or dots
     price = price.replaceAll(letter, "");
     price = price.replaceAll(" ", "");
     return double.parse(price);

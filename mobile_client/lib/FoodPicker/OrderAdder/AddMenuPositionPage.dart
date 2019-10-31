@@ -19,10 +19,10 @@ class AddMenuPositionPage extends StatefulWidget {
 class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
   final _formState = GlobalKey<FormState>();
 
-  String _foodAsText = "";
-  String _priceAsText = "";
-  String _comment = "";
-  int _quantity = 1; //TODO get rid of this initial values
+  String _foodAsText;
+  String _priceAsText;
+  String _comment;
+  int _quantity;
 
   @override
   Widget build(BuildContext context) {
@@ -43,17 +43,17 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
                     OcrPresenterAndCorrecter(
                       image: markerData.foodImg,
                       imageAsText: markerData.foodAsText,
-                      onValueChanged: (String ocr) => _foodAsText = ocr,
+                      onSaved: (String value) => _foodAsText = value,
                       validator: _foodValidator,
                     ),
                     OcrPresenterAndCorrecter(
                       image: markerData.priceImg,
                       imageAsText: markerData.priceAsText,
-                      onValueChanged: (String ocr) => _priceAsText = ocr,
+                      onSaved: (String value) => _priceAsText = value,
                       validator: _priceValidator,
                     ),
-                    OrderComment(onChanged: (String comment) => _comment = comment),
-                    QuantityManager(onChanged: (int value) => _quantity = value),
+                    OrderComment(onSaved: (String value) => _comment = value),
+                    QuantityManager(onSaved: (String value) => _quantity = int.parse(value)),
                     RaisedButton(
                       child: Text("Add to basket"),
                       onPressed: () => _addToBasket(context),
@@ -76,6 +76,9 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
 
   void _addToBasket(context) {
     if (!_formState.currentState.validate()) return;
+
+    _formState.currentState.save();
+
     double price = _convertPriceToDouble(_priceAsText);
 
     var newEntry = BasketEntry(_foodAsText, price, _quantity, _comment);

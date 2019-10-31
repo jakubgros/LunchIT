@@ -2,29 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class QuantityManager extends StatefulWidget {
-  final void Function(int) onChanged;
+  final FormFieldSetter<String> onSaved;
 
-  QuantityManager({@required this.onChanged});
+  QuantityManager({@required this.onSaved});
 
   @override
-  QuantityManagerState createState() => QuantityManagerState();
+  _QuantityManagerState createState() => _QuantityManagerState();
 }
 
-class QuantityManagerState extends State<QuantityManager> {
-  int _quantity = 1;
-
-  @override
-  void initState() {
-    super.initState();
-
-    widget.onChanged(_quantity); //to pass initial value
-  }
+class _QuantityManagerState extends State<QuantityManager> {
+  final _controller = TextEditingController(text: "1");
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Text("Quantity: $_quantity"),
+        SizedBox(
+          width: 100,
+          child: TextFormField(
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              labelText: "Quantity: "
+            ),
+            controller: _controller,
+            onSaved: widget.onSaved,
+            autovalidate: true,
+            maxLines: 1,
+            readOnly: true,
+          ),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -41,18 +48,22 @@ class QuantityManagerState extends State<QuantityManager> {
       ],
     );
   }
-
+  
   void _increaseQuantity() {
-    setState(() {
-      widget.onChanged(++_quantity);
-    });
+    String value = _controller.text;
+    int valAsInt = int.parse(value);
+    ++valAsInt;
+    _controller.text = valAsInt.toString();
   }
 
   void _decreaseQuantity() {
-    if (_quantity > 1) {
-      setState(() {
-        widget.onChanged(--_quantity);
-      });
-    }
+    String value = _controller.text;
+    int valAsInt = int.parse(value);
+
+    if (valAsInt <= 1) // doesn't make sense to decrease the value
+      return;
+
+    --valAsInt;
+    _controller.text = valAsInt.toString();
   }
 }

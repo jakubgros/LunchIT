@@ -5,12 +5,12 @@ class OcrPresenterAndCorrecter extends StatelessWidget {
   final Image image;
   final Future<String> imageAsText;
   final FormFieldValidator<String> validator;
-  final void Function(String) onValueChanged;
+  final void Function(String) onSaved;
 
   OcrPresenterAndCorrecter({
     @required this.image,
     @required this.imageAsText,
-    @required this.onValueChanged,
+    @required this.onSaved,
     @required this.validator,
   });
 
@@ -26,10 +26,9 @@ class OcrPresenterAndCorrecter extends StatelessWidget {
                 future: imageAsText,
                 initialData: "",
                 builder: (context, snapshot) {
-                  onValueChanged(snapshot.data);
                   return TextFormField(
                     key: ValueKey(snapshot.data),
-                    onChanged: onValueChanged,
+                    onSaved: onSaved,
                     initialValue: snapshot.data,
                     maxLines: null,
                     validator: validator,

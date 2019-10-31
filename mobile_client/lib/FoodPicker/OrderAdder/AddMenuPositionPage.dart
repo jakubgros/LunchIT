@@ -6,6 +6,7 @@ import 'package:lunch_it/FoodPicker/Marker/MarkerData.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/OcrPresenter.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/OrderPositionComment.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/QuantityManager.dart';
+import 'package:lunch_it/Utilities/Validator.dart';
 import 'package:provider/provider.dart';
 
 class AddMenuPositionPage extends StatefulWidget {
@@ -95,12 +96,9 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
   }
 
   static String _priceValidator(String value) {
-    var priceRegexp =
-        RegExp(r'[0-9]+([,.][0-9]{1,2})?\s*((zl)|(zł)|(ZŁ)|(ZL)|(PLN)|(pln))?');
-
     if (value.isEmpty)
       return "The field can't  be empty!";
-    else if (!priceRegexp.hasMatch(value))
+    else if (!Validator.isPrice(value))
       return "the entered value is not a price";
     else
       return null;

@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_inappbrowser/flutter_inappbrowser.dart';
 import 'package:image/image.dart' as ImgLib;
 import 'package:lunch_it/FoodPicker/EventStreams/AcceptMarked.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/MarkerMode.dart';
@@ -13,6 +14,7 @@ import 'package:lunch_it/FoodPicker/Marker/MarkerData.dart';
 import 'package:lunch_it/FoodPicker/MenuViewer/WebMenu/WebMenuContentViewer.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class MarkingManager extends StatefulWidget {
   final WebMenuContentViewer _content; //TODO extract abstraction
@@ -26,7 +28,6 @@ class MarkingManager extends StatefulWidget {
 class _MarkingManagerState extends State<MarkingManager> {
   List<Widget> _stackContent;
   ContentMarker _contentMarker;
-  Future<Directory> _saveDir;
   final _contentMarkerStateKey = GlobalKey<ContentMarkerState>();
 
   @override
@@ -65,7 +66,6 @@ class _MarkingManagerState extends State<MarkingManager> {
   void initState() {
     super.initState();
     _stackContent = [widget._content];
-    createSaveDirectory();
 
     Provider.of<AcceptMarkedEventStream>(context, listen: false).stream.listen((AcceptMarkedEvent event) {
       assert(_contentMarker != null);
@@ -84,20 +84,13 @@ class _MarkingManagerState extends State<MarkingManager> {
     _subscription.cancel();
   }
 
-  void createSaveDirectory() async {
-    var cacheDir = await getTemporaryDirectory();
-    _saveDir = Directory("${cacheDir.path}/selected").create();
-  }
-
-  var a = 0;
   void saveMarked(Future<ImgLib.Image> markedAsImage, AcceptMarkedEvent markingMode) async {
-      String fileName = (markingMode.isAcceptMarkedFood() ? "food" : "price") + ".png";
-      var saveDir = await _saveDir;
-      File file = File("${saveDir.path}/$fileName");
+      Directory cacheDir = await getTemporaryDirectory();
+      String fileName = uuidGenerator.v1() + ".png";
+      File file = File("${cacheDir.path}/$fileName");
       file.writeAsBytesSync(ImgLib.encodePng(await markedAsImage));
 
       MarkerData markerData = Provider.of<MarkerData>(context, listen: false);
-
 
     if(markingMode.isAcceptMarkedFood())
       markerData.addFood(file);

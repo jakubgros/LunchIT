@@ -19,6 +19,7 @@ class MarkerData extends ChangeNotifier{
   }
 
   void reset() {
+    //TODO remove files
     _markedFood = null;
     _markedPrice = null;
   }

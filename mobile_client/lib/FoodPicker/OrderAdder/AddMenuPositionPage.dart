@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lunch_it/FoodPicker/AppBar/ShoppingCardAppbarButton.dart';
 import 'package:lunch_it/FoodPicker/Basket/Basket.dart';
 import 'package:lunch_it/FoodPicker/Marker/MarkerData.dart';
-import 'package:lunch_it/FoodPicker/OrderAdder/OcrPresenter.dart';
+import 'package:lunch_it/FoodPicker/OrderAdder/OcrPresenterAndCorrecter.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/OrderPositionComment.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/QuantityManager.dart';
 import 'package:lunch_it/Utilities/Validator.dart';
@@ -40,15 +40,15 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
                 builder: (context, markerData, child) =>
                 Column(
                   children: <Widget>[
-                    OcrPresenterCorrecter(
+                    OcrPresenterAndCorrecter(
                       image: markerData.foodImg,
-                      text: markerData.foodAsText,
+                      imageAsText: markerData.foodAsText,
                       onValueChanged: (String ocr) => _foodAsText = ocr,
                       validator: _foodValidator,
                     ),
-                    OcrPresenterCorrecter(
+                    OcrPresenterAndCorrecter(
                       image: markerData.priceImg,
-                      text: markerData.priceAsText,
+                      imageAsText: markerData.priceAsText,
                       onValueChanged: (String ocr) => _priceAsText = ocr,
                       validator: _priceValidator,
                     ),

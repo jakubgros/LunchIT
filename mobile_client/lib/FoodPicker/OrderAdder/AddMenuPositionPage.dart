@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lunch_it/FoodPicker/AppBar/ShoppingCardAppbarButton.dart';
 import 'package:lunch_it/FoodPicker/Basket/Basket.dart';
+import 'package:lunch_it/FoodPicker/Basket/BasketData.dart';
 import 'package:lunch_it/FoodPicker/Marker/MarkerData.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/OcrPresenterAndCorrecter.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/OrderPositionComment.dart';
@@ -83,7 +84,7 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
 
     var newEntry = BasketEntry(_foodAsText, price, _quantity, _comment);
 
-    //TODO add the entry to basket
+    Provider.of<BasketData>(context, listen: false).addEntry(newEntry);
 
     Navigator.of(context).pop(
         true); //true means that element has been successfully added to the basket

@@ -1,11 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class OrdersPositionComment extends StatelessWidget {
-  final TextEditingController _textFieldController;
+class OrderComment extends StatelessWidget {
+  final void Function(String) onChanged;
 
-  OrdersPositionComment(this._textFieldController);
+  OrderComment({@required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,7 @@ class OrdersPositionComment extends StatelessWidget {
         children: <Widget>[
           Text("Put your comments about the order below: "),
           TextField(
-            controller: _textFieldController,
+            onChanged: onChanged,
             decoration: InputDecoration(border: OutlineInputBorder()),
             maxLines: null,
           ),

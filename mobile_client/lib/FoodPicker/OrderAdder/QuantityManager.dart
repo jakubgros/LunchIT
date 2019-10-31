@@ -1,20 +1,15 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class QuantityManager extends StatefulWidget {
-
   QuantityManager({@required GlobalKey<QuantityManagerState>key}): super(key: key);
 
   @override
   QuantityManagerState createState() => QuantityManagerState();
-
 }
 
 class QuantityManagerState extends State<QuantityManager> {
   int _quantity = 1;
-
   int get quantity => _quantity;
 
   @override

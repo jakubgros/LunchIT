@@ -1,23 +1,21 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/ServerApi/ServerApi.dart';
 
 class OcrPresenterCorrecter extends StatelessWidget {
   final Image _image;
   final Future<String> _imageAsText;
   final FormFieldValidator<String> _validator;
-  String _fieldValue;
-  String _ocrValue;
+  final void Function(String) _onValueChanged;
 
   OcrPresenterCorrecter({
     @required Image image,
     @required Future<String> text,
+    @required void Function(String) onValueChanged,
     FormFieldValidator<String> validator,
   })  : _image = image,
         _imageAsText = text,
-        _validator = validator;
+        _validator = validator,
+        _onValueChanged = onValueChanged;
 
   @override
   Widget build(BuildContext context) => Card(
@@ -31,9 +29,9 @@ class OcrPresenterCorrecter extends StatelessWidget {
                 future: _imageAsText,
                 initialData: "",
                 builder: (context, snapshot) {
-                  _ocrValue = snapshot.data;
+                  _onValueChanged(snapshot.data);
                   return TextFormField(
-                    onChanged: (value) => _fieldValue = value,
+                    onChanged: _onValueChanged,
                     key: ValueKey(snapshot.data),
                     initialValue: snapshot.data,
                     maxLines: null,
@@ -44,5 +42,4 @@ class OcrPresenterCorrecter extends StatelessWidget {
         ),
       );
 
-  String get value => _fieldValue ?? _ocrValue;
 }

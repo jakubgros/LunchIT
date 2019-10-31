@@ -38,7 +38,7 @@ class MarkerData extends ChangeNotifier{
     resetPrice();
   }
   void resetPrice() {
-    _markedPrice?.delete();
+    _markedPrice?.delete(); //TODO remove files when app is closed
 
     _markedPrice = null;
     _markedPriceImg = null;
@@ -46,7 +46,7 @@ class MarkerData extends ChangeNotifier{
   }
 
   void resetFood() {
-    _markedFood?.delete();
+    _markedFood?.delete(); //TODO remove files when app is closed
 
     _markedFood = null;
     _markedFoodImg = null;

@@ -17,12 +17,12 @@ class AddMenuPositionPage extends StatefulWidget {
 }
 
 class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
-  final _commentController = TextEditingController();
   final _formState = GlobalKey<FormState>();
   final _quantityManagerKey = GlobalKey<QuantityManagerState>();
 
-  OcrPresenterCorrecter _food;
-  OcrPresenterCorrecter _price;
+  String _foodAsText = "";
+  String _priceAsText = "";
+  String _comment = "";
 
   @override
   Widget build(BuildContext context) {
@@ -40,17 +40,19 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
                 builder: (context, markerData, child) =>
                 Column(
                   children: <Widget>[
-                    _food = OcrPresenterCorrecter(
+                    OcrPresenterCorrecter(
                       image: markerData.foodImg,
                       text: markerData.foodAsText,
+                      onValueChanged: (String ocr) => _foodAsText = ocr,
                       validator: _foodValidator,
                     ),
-                    _price = OcrPresenterCorrecter(
+                    OcrPresenterCorrecter(
                       image: markerData.priceImg,
                       text: markerData.priceAsText,
+                      onValueChanged: (String ocr) => _priceAsText = ocr,
                       validator: _priceValidator,
                     ),
-                    OrdersPositionComment(_commentController),
+                    OrderComment(onChanged: (String comment) => _comment = comment),
                     QuantityManager(key: _quantityManagerKey),
                     RaisedButton(
                       child: Text("Add to basket"),
@@ -74,13 +76,10 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
 
   void _addToBasket(context) {
     if (!_formState.currentState.validate()) return;
-
-    String foodAsText = _food.value;
-    double price = _convertPriceToDouble(_price.value);
-    String comment = _commentController.text;
+    double price = _convertPriceToDouble(_priceAsText);
     int quantity = _quantityManagerKey.currentState.quantity;
 
-    var newEntry = BasketEntry(foodAsText, price, quantity, comment);
+    var newEntry = BasketEntry(_foodAsText, price, quantity, _comment);
 
     //TODO add the entry to basket
 

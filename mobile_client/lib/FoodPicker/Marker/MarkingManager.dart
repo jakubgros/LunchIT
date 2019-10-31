@@ -89,13 +89,15 @@ class _MarkingManagerState extends State<MarkingManager> {
     _saveDir = Directory("${cacheDir.path}/selected").create();
   }
 
+  var a = 0;
   void saveMarked(Future<ImgLib.Image> markedAsImage, AcceptMarkedEvent markingMode) async {
       String fileName = (markingMode.isAcceptMarkedFood() ? "food" : "price") + ".png";
       var saveDir = await _saveDir;
       File file = File("${saveDir.path}/$fileName");
       file.writeAsBytesSync(ImgLib.encodePng(await markedAsImage));
 
-      MarkerData markerData = Provider.of<MarkerData>(context);
+      MarkerData markerData = Provider.of<MarkerData>(context, listen: false);
+
 
     if(markingMode.isAcceptMarkedFood())
       markerData.addFood(file);

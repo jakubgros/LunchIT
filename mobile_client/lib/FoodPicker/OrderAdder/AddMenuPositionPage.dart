@@ -2,26 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lunch_it/FoodPicker/AppBar/ShoppingCardAppbarButton.dart';
 import 'package:lunch_it/FoodPicker/Basket/Basket.dart';
+import 'package:lunch_it/FoodPicker/Marker/MarkerData.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/OcrPresenter.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/OrderPositionComment.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/QuantityManager.dart';
+import 'package:provider/provider.dart';
 
 class AddMenuPositionPage extends StatefulWidget {
-  final Image _foodImage;
-  final Future<String> _foodAsText;
-  final Image _priceImage;
-  final Future<String> _priceAsText;
-
-  AddMenuPositionPage(
-      {
-        @required Image foodAsImg,
-      @required Future<String> foodAsText,
-      @required Image priceAsImg,
-      @required Future<String> priceAsText})
-      : _foodImage = foodAsImg,
-        _priceImage = priceAsImg,
-        _foodAsText = foodAsText,
-        _priceAsText = priceAsText;
+  AddMenuPositionPage();
 
   @override
   _AddMenuPositionPageState createState() => _AddMenuPositionPageState();
@@ -47,25 +35,28 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
           children: <Widget>[
             Form(
               key: _formState,
-              child: Column(
-                children: <Widget>[
-                  _food = OcrPresenterCorrecter(
-                    image: widget._foodImage, //TODO image is not replaced if I go back from this page, mark it once again and click add
-                    text: widget._foodAsText,
-                    validator: _foodValidator,
-                  ),
-                  _price = OcrPresenterCorrecter(
-                    image: widget._priceImage,
-                    text: widget._priceAsText,
-                    validator: _priceValidator,
-                  ),
-                  OrdersPositionComment(_commentController),
-                  QuantityManager(key: _quantityManagerKey),
-                  RaisedButton(
-                    child: Text("Add to basket"),
-                    onPressed: () => _addToBasket(context),
-                  ),
-                ],
+              child: Consumer<MarkerData>(
+                builder: (context, markerData, child) =>
+                Column(
+                  children: <Widget>[
+                    _food = OcrPresenterCorrecter(
+                      image: markerData.foodImg,
+                      text: markerData.foodAsText,
+                      validator: _foodValidator,
+                    ),
+                    _price = OcrPresenterCorrecter(
+                      image: markerData.priceImg,
+                      text: markerData.priceAsText,
+                      validator: _priceValidator,
+                    ),
+                    OrdersPositionComment(_commentController),
+                    QuantityManager(key: _quantityManagerKey),
+                    RaisedButton(
+                      child: Text("Add to basket"),
+                      onPressed: () => _addToBasket(context),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

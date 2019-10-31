@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/AcceptMarked.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/MarkerMode.dart';
-import 'package:lunch_it/FoodPicker/FoodPickerPage.dart';
 import 'package:lunch_it/FoodPicker/Marker/MarkerData.dart';
-import 'package:lunch_it/FoodPicker/OrderAdder/AddMenuPositionPage.dart';
 import 'package:provider/provider.dart';
 
 import 'Button.dart';
@@ -51,18 +49,13 @@ class _OrderingToolsState extends State<OrderingTools> {
   }
 
   void _onPressAddCallback() {
-    MarkerData markerData = Provider.of<MarkerData>(context);
+    MarkerData markerData = Provider.of<MarkerData>(context, listen: false);
+
     if (!markerData.hasFoodData || !markerData.hasPriceData)
       return; //TODO display notification
 
-    Future<bool> hasAddedToBasket = Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) =>
-          AddMenuPositionPage(
-            foodAsImg: markerData.foodImg,
-            foodAsText: markerData.foodAsText,
-            priceAsImg: markerData.priceImg,
-            priceAsText: markerData.priceAsText,)),
-    );
+    Future hasAddedToBasket = Navigator.of(context)
+        .pushNamed('/foodPicker/addMenuPositionPage');
 
     hasAddedToBasket.then((hasAdded) {
       if(hasAdded == true)

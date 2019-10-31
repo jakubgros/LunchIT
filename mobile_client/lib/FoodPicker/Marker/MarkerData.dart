@@ -4,12 +4,19 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 
-class MarkerData {
+class MarkerData extends ChangeNotifier{
   File _markedFood;
   File _markedPrice;
 
-  void addFood(File foodImage) => _markedFood = foodImage;
-  void addPrice(File priceImage) => _markedPrice = priceImage;
+  void addFood(File foodImage) {
+    _markedFood = foodImage;
+    notifyListeners();
+  }
+
+  void addPrice(File priceImage) {
+    _markedPrice = priceImage;
+    notifyListeners();
+  }
 
   void reset() {
     _markedFood = null;
@@ -18,6 +25,7 @@ class MarkerData {
 
   bool get hasFoodData => _markedFood != null;
   bool get hasPriceData => _markedPrice != null;
+
 
   Image get foodImg => Image.file(_markedFood);
   Image get priceImg => Image.file(_markedPrice);

@@ -22,7 +22,6 @@ class FoodPickerPage extends StatefulWidget {
 
 class _FoodPickerPageState extends State<FoodPickerPage> {
   Menu _menu;
-  final _markerData = MarkerData();
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +44,6 @@ class _FoodPickerPageState extends State<FoodPickerPage> {
                 dispose: (context, value) => value.close(),
               ),
           ],
-          child: Provider<MarkerData>.value(
-            value: _markerData,
             child: Column(
               children: <Widget>[
                 Expanded(
@@ -84,7 +81,6 @@ class _FoodPickerPageState extends State<FoodPickerPage> {
               ],
             ),
           ),
-        ),
         );
   }
 

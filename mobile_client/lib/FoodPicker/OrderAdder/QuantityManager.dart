@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class QuantityManager extends StatefulWidget {
-  QuantityManager({@required GlobalKey<QuantityManagerState>key}): super(key: key);
+  final void Function(int) onChanged;
+
+  QuantityManager({@required this.onChanged});
 
   @override
   QuantityManagerState createState() => QuantityManagerState();
@@ -10,7 +12,13 @@ class QuantityManager extends StatefulWidget {
 
 class QuantityManagerState extends State<QuantityManager> {
   int _quantity = 1;
-  int get quantity => _quantity;
+
+  @override
+  void initState() {
+    super.initState();
+
+    widget.onChanged(_quantity); //to pass initial value
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,14 +44,14 @@ class QuantityManagerState extends State<QuantityManager> {
 
   void _increaseQuantity() {
     setState(() {
-      ++_quantity;
+      widget.onChanged(++_quantity);
     });
   }
 
   void _decreaseQuantity() {
     if (_quantity > 1) {
       setState(() {
-        --_quantity;
+        widget.onChanged(--_quantity);
       });
     }
   }

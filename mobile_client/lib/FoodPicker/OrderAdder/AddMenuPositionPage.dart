@@ -18,11 +18,11 @@ class AddMenuPositionPage extends StatefulWidget {
 
 class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
   final _formState = GlobalKey<FormState>();
-  final _quantityManagerKey = GlobalKey<QuantityManagerState>();
 
   String _foodAsText = "";
   String _priceAsText = "";
   String _comment = "";
+  int _quantity = 1; //TODO get rid of this initial values
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
                       validator: _priceValidator,
                     ),
                     OrderComment(onChanged: (String comment) => _comment = comment),
-                    QuantityManager(key: _quantityManagerKey),
+                    QuantityManager(onChanged: (int value) => _quantity = value),
                     RaisedButton(
                       child: Text("Add to basket"),
                       onPressed: () => _addToBasket(context),
@@ -77,9 +77,8 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
   void _addToBasket(context) {
     if (!_formState.currentState.validate()) return;
     double price = _convertPriceToDouble(_priceAsText);
-    int quantity = _quantityManagerKey.currentState.quantity;
 
-    var newEntry = BasketEntry(_foodAsText, price, quantity, _comment);
+    var newEntry = BasketEntry(_foodAsText, price, _quantity, _comment);
 
     //TODO add the entry to basket
 

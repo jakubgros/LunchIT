@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lunch_it/Basket/BasketPage.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/AddMenuPositionPage.dart';
 import 'package:lunch_it/FoodPicker/FoodPickerPage.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
           routes: {
             '/foodPicker': (BuildContext context) => FoodPickerPage(),
             '/foodPicker/addMenuPositionPage': (BuildContext context) => AddMenuPositionPage(),
+            '/basketPage': (BuildContext context) => BasketPage(),
           }),
     );
   }

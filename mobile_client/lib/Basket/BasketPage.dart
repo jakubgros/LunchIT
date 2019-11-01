@@ -20,7 +20,9 @@ class BasketPage extends StatelessWidget {
               basketEntryBuilder(basketData, index),
         );
       }),
-      //bottomSheet: CashInfoBar(12.34, 56.78),
+      bottomSheet: FractionallySizedBox(
+          heightFactor: 1/20,
+          child: CashInfoBar(12.34, 56.78)),
     );
   }
 }

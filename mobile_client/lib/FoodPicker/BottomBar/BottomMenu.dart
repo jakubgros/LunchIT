@@ -13,7 +13,7 @@ class BottomMenu extends StatelessWidget {
             flex: 1,
             child: OrderingTools(),
           ),
-          Expanded(flex: 1, child: CashInfoBar(12.34, 56.78) //TODO dehardcode
+          Expanded(flex: 1, child: CashInfoBar()
               )
         ],
       ),

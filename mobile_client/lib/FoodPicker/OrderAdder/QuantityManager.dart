@@ -15,16 +15,15 @@ class _QuantityManagerState extends State<QuantityManager> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         SizedBox(
-          width: 100,
+          width: 30,
           child: TextFormField(
             decoration: InputDecoration(
               border: InputBorder.none,
-              labelText: "Quantity: "
-            ),
+          ),
             controller: _controller,
             onSaved: widget.onSaved,
             autovalidate: true,
@@ -32,19 +31,21 @@ class _QuantityManagerState extends State<QuantityManager> {
             readOnly: true,
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RaisedButton(
-              child: Icon(Icons.add),
-              onPressed: _increaseQuantity,
-            ),
-            RaisedButton(
-              child: Icon(Icons.remove),
-              onPressed: _decreaseQuantity,
-            ),
-          ],
-        )
+        Container(
+          width: 50,
+          child: RaisedButton(
+
+            child: Icon(Icons.add),
+            onPressed: _increaseQuantity,
+          ),
+        ),
+        Container(
+          width: 50,
+          child: RaisedButton(
+            child: Icon(Icons.remove),
+            onPressed: _decreaseQuantity,
+          ),
+        ),
       ],
     );
   }

@@ -47,12 +47,18 @@ Widget basketEntryBuilder(BasketData basketData, int index) {
                     entry.quantity}")
               ],
             ),
-            QuantityManager(),
-            FlatButton(
-              child: Icon(Icons.remove),
-              color: Colors.red[300],
-              onPressed: () {}, //TODO remove entry
+            Row(
+              children: <Widget>[
+                QuantityManager(),
+                Spacer(),
+                FlatButton(
+                  child: Icon(Icons.remove),
+                  color: Colors.red[300],
+                  onPressed: () {}, //TODO remove entry
+                )
+              ],
             )
+
           ],
         ),
       )

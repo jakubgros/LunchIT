@@ -57,7 +57,7 @@ Widget basketEntryBuilder(BasketData basketData, int index) {
                 FlatButton(
                   child: Icon(Icons.remove),
                   color: Colors.red[300],
-                  onPressed: () {}, //TODO remove entry
+                  onPressed: () => basketData.removeEntry(index), //TODO remove entry
                 )
               ],
             )

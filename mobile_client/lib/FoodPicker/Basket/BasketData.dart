@@ -16,8 +16,8 @@ class BasketData extends ChangeNotifier{
     notifyListeners(); //basket changed
   }
 
-  void replaceEntry(BasketEntry entry, int index) {
-    data[index] = entry;
+  void removeEntry(int index) {
+    data.removeAt(index);
     notifyListeners();
   }
 

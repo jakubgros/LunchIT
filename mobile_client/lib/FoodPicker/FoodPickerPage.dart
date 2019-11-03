@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:lunch_it/FoodPicker/AppBar/ShoppingCardAppbarButton.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/AcceptMarked.dart';
@@ -9,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import 'BottomBar/BottomMenu.dart';
 import 'FoodMenusBar/FoodMenusBar.dart';
-import 'Marker/MarkerData.dart';
 import 'MenuViewer/Menu.dart';
 import 'MenuViewer/WebMenu/NavigationBar.dart';
 import 'MenuViewer/WebMenu/WebMenuContentViewer.dart';

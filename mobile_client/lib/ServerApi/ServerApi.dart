@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:lunch_it/FoodPicker/Basket/BasketData.dart';
+import 'package:lunch_it/Basket/BasketData.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;

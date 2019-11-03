@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_it/FoodPicker/Basket/BasketData.dart';
+import 'package:lunch_it/Basket/BasketData.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 import 'package:provider/provider.dart';
 

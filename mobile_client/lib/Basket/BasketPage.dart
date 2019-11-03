@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/FoodPicker/Basket/BasketData.dart';
-import 'package:lunch_it/FoodPicker/Basket/BasketEntry.dart';
-import 'package:lunch_it/FoodPicker/Basket/PlaceOrderButton.dart';
+import 'package:lunch_it/Basket/BasketData.dart';
+import 'package:lunch_it/Basket/BasketEntry.dart';
+import 'package:lunch_it/Basket/PlaceOrderButton.dart';
 import 'package:lunch_it/FoodPicker/BottomBar/CashInfoBar.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/QuantityManager.dart';
 import 'package:provider/provider.dart';

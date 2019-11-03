@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/FoodPicker/Basket/BasketData.dart';
+import 'package:lunch_it/Basket/BasketData.dart';
 import 'package:provider/provider.dart';
 
 class CashInfoBar extends StatelessWidget {

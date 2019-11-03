@@ -14,7 +14,6 @@ import 'package:lunch_it/FoodPicker/Marker/MarkerData.dart';
 import 'package:lunch_it/FoodPicker/MenuViewer/WebMenu/WebMenuContentViewer.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 
 class MarkingManager extends StatefulWidget {
   final WebMenuContentViewer _content; //TODO extract abstraction

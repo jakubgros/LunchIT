@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_it/Basket/BasketPage.dart';
-import 'package:lunch_it/FoodPicker/Basket/BasketData.dart';
+import 'package:lunch_it/Basket/BasketData.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/AddMenuPositionPage.dart';
 import 'package:lunch_it/FoodPicker/FoodPickerPage.dart';
 import 'package:lunch_it/SuccessfulOrder.dart';

@@ -32,4 +32,12 @@ class BasketEntry extends ChangeNotifier {
   }
 
   BasketEntry(this._foodName, this._price, this._quantity, this._comment);
+
+  Map toJson() =>
+    {
+      "foodName": _foodName,
+      "price": _price,
+      "quantity": _quantity,
+      "comment": _comment,
+    };
 }

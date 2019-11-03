@@ -1,25 +1,36 @@
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/FoodPicker/Basket/Basket.dart';
+
+import 'BasketEntry.dart';
 
 class BasketData extends ChangeNotifier{
-  final data = List<BasketEntry>();
+  final meals = List<BasketEntry>();
 
-  int get length => data.length;
+  int get length => meals.length;
 
   BasketEntry getEntry(int index) {
-    return data[index];
+    return meals[index];
   }
 
   void addEntry(BasketEntry newEntry) {
     newEntry.addListener(() => this.notifyListeners()); //entry changed = notify listeners of whole basket
-    data.add(newEntry);
+    meals.add(newEntry);
     notifyListeners(); //basket changed
   }
 
   void removeEntry(int index) {
-    data.removeAt(index);
+    meals.removeAt(index);
     notifyListeners();
   }
 
-  double getSummaryCost() => data.fold(0, (previousVal, elem) => previousVal+elem.quantity*elem.price);
+  void clear() {
+    meals.clear();
+    notifyListeners();
+  }
+
+  double getSummaryCost() => meals.fold(0, (previousVal, elem) => previousVal+elem.quantity*elem.price);
+
+  Map toJson() =>
+    {
+      "meals": meals,
+    };
 }

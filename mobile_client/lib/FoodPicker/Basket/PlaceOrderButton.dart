@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lunch_it/FoodPicker/Basket/BasketData.dart';
+import 'package:lunch_it/ServerApi/ServerApi.dart';
+import 'package:provider/provider.dart';
 
 class PlaceOrderButton extends StatelessWidget {
   @override
@@ -12,10 +15,27 @@ class PlaceOrderButton extends StatelessWidget {
             icon: Icon(Icons.check),
             label: Text("Place order!"),
             color: Colors.green[300],
-            onPressed: () {}, //TODO
+            onPressed: () => _placeOrder(context),
           ),
         ),
       ],
     );
+  }
+
+  void _placeOrder(BuildContext context) async {
+    final basketData = Provider.of<BasketData>(context, listen: false);
+
+    //TODO
+/*    final orderInfo = Provider.of<OrderInfo>(context, listen: false);
+    if(basketData.getSummaryCost() > orderInfo.limit)
+      return; //TODO display message*/
+
+    Future<String> status = ServerApi().placeOrder(basketData);
+    if(await status != "success")
+      throw "failed to place order!";
+
+    basketData.clear();
+
+    Navigator.of(context).pushNamed('/succesfulOrder');
   }
 }

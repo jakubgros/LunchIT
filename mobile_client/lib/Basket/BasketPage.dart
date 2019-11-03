@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/FoodPicker/Basket/Basket.dart';
 import 'package:lunch_it/FoodPicker/Basket/BasketData.dart';
+import 'package:lunch_it/FoodPicker/Basket/BasketEntry.dart';
 import 'package:lunch_it/FoodPicker/Basket/PlaceOrderButton.dart';
 import 'package:lunch_it/FoodPicker/BottomBar/CashInfoBar.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/QuantityManager.dart';
@@ -72,7 +72,6 @@ Widget basketEntryBuilder(BasketData basketData, int index) {
         ),
       )
 
-    //TODO remove button, increase decrease quantity, sum of basket
   );
 }
 

@@ -11,8 +11,9 @@ class BasketData extends ChangeNotifier{
   }
 
   void addEntry(BasketEntry newEntry) {
+    newEntry.addListener(() => this.notifyListeners()); //entry changed = notify listeners of whole basket
     data.add(newEntry);
-    notifyListeners();
+    notifyListeners(); //basket changed
   }
 
   void replaceEntry(BasketEntry entry, int index) {

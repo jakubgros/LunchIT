@@ -49,7 +49,10 @@ Widget basketEntryBuilder(BasketData basketData, int index) {
             ),
             Row(
               children: <Widget>[
-                QuantityManager(),
+                QuantityManager(
+                  initVal: entry.quantity,
+                  onChanged: (int quantity) => entry.quantity = quantity,
+                ),
                 Spacer(),
                 FlatButton(
                   child: Icon(Icons.remove),
@@ -58,7 +61,6 @@ Widget basketEntryBuilder(BasketData basketData, int index) {
                 )
               ],
             )
-
           ],
         ),
       )

@@ -3,15 +3,23 @@ import 'package:flutter/widgets.dart';
 
 class QuantityManager extends StatefulWidget {
   final FormFieldSetter<String> onSaved;
+  final ValueChanged<int> onChanged;
+  final int initVal;
 
-  QuantityManager({@required this.onSaved});
+  QuantityManager({this.onSaved, this.onChanged, this.initVal = 1});
 
   @override
   _QuantityManagerState createState() => _QuantityManagerState();
 }
 
 class _QuantityManagerState extends State<QuantityManager> {
-  final _controller = TextEditingController(text: "1");
+  TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initVal.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +62,11 @@ class _QuantityManagerState extends State<QuantityManager> {
     String value = _controller.text;
     int valAsInt = int.parse(value);
     ++valAsInt;
+
     _controller.text = valAsInt.toString();
+
+    if(widget.onChanged != null)
+      widget.onChanged(valAsInt);
   }
 
   void _decreaseQuantity() {
@@ -66,5 +78,8 @@ class _QuantityManagerState extends State<QuantityManager> {
 
     --valAsInt;
     _controller.text = valAsInt.toString();
+
+    if(widget.onChanged != null)
+      widget.onChanged(valAsInt);
   }
 }

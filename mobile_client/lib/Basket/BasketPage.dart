@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lunch_it/FoodPicker/Basket/Basket.dart';
 import 'package:lunch_it/FoodPicker/Basket/BasketData.dart';
+import 'package:lunch_it/FoodPicker/Basket/PlaceOrderButton.dart';
 import 'package:lunch_it/FoodPicker/BottomBar/CashInfoBar.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/QuantityManager.dart';
 import 'package:provider/provider.dart';
@@ -19,10 +20,16 @@ class BasketPage extends StatelessWidget {
           itemBuilder: (context, index) =>
               basketEntryBuilder(basketData, index),
         ),
-        bottomSheet: FractionallySizedBox(
-            heightFactor: 1 / 20,
-            child: CashInfoBar(),
-      ));
+        bottomSheet: SizedBox(
+          height: 100,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              PlaceOrderButton(),
+              CashInfoBar(),
+            ],
+          ),
+        ));
     });
 }
 
@@ -57,7 +64,7 @@ Widget basketEntryBuilder(BasketData basketData, int index) {
                 FlatButton(
                   child: Icon(Icons.remove),
                   color: Colors.red[300],
-                  onPressed: () => basketData.removeEntry(index), //TODO remove entry
+                  onPressed: () => basketData.removeEntry(index),
                 )
               ],
             )
@@ -68,3 +75,4 @@ Widget basketEntryBuilder(BasketData basketData, int index) {
     //TODO remove button, increase decrease quantity, sum of basket
   );
 }
+

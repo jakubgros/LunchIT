@@ -1,21 +1,21 @@
 from flask import request, jsonify
 
-from src.data_models.unit_order import UnitOrderDataModel
+from src.data_models.placed_order import PlacedOrderDataModel
 from src.server import app, backend
 
 @app.route('/order', methods=['POST'])
 def order():
     try:
-        userId = backend.authenticate_user(request)
-        if(userId is None):
+        user_id = backend.authenticate_user(request)
+        if user_id is None:
             return 401
 
-        unitOrderDataModel = UnitOrderDataModel(request.json)
+        unit_order_data_model = PlacedOrderDataModel(request.json)
 
-        backend.add_order(unitOrderDataModel, userId)
+        order_id = backend.add_order(unit_order_data_model, user_id)
 
     except Exception as e:
         print(e)
-        return jsonify(statusCode=500, errorMsg = str(e)) # failure
+        return jsonify(statusCode=500, errorMsg=str(e)) # failure
 
-    return jsonify(statusCode=200)  # success
+    return jsonify(statusCode=200, id=order_id)  # success

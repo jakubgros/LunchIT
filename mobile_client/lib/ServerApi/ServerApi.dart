@@ -37,7 +37,7 @@ class ServerApi
   }
 
 
-  Future<String> placeOrder(BasketData basketData) async { //TODO make it work on seperate isolate
+  Future<bool> placeOrder(BasketData basketData) async { //TODO make it work on seperate isolate
     const String endpoint = "/order";
     // ==============================
 
@@ -53,7 +53,7 @@ class ServerApi
     final response = await http.post(uri, body: body, headers: headers);
     final responseJson = json.decode(response.body);
 
-    return responseJson['statusCode'];
+    return responseJson['statusCode'] == 200;
   }
 
 

@@ -1,13 +1,11 @@
 import psycopg2 as psycopg2
 
-from src.config import getConfig
-
-
+from src.utils.config import get_config
 
 
 class Database:
     def __init__(self):
-        config = getConfig("config.ini", "postgresql")
+        config = get_config("config.ini", "postgresql")
         self.connection = psycopg2.connect(**config)
         self.cursor = self.connection.cursor()
 

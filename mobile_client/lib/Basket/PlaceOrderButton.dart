@@ -30,9 +30,9 @@ class PlaceOrderButton extends StatelessWidget {
     if(basketData.getSummaryCost() > orderInfo.limit)
       return; //TODO display message*/
 
-    Future<String> status = ServerApi().placeOrder(basketData);
-    if(await status != "success")
-      throw "failed to place order!";
+    Future<bool> success = ServerApi().placeOrder(basketData);
+    if(await success == false)
+      return; //display message that request to server failed
 
     basketData.clear();
 

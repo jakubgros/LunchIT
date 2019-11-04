@@ -60,7 +60,6 @@ class _MarkingManagerState extends State<MarkingManager> {
     );
   }
 
-  var _subscription;
   @override
   void initState() {
     super.initState();
@@ -75,12 +74,6 @@ class _MarkingManagerState extends State<MarkingManager> {
       saveMarked(markedImg, event);
     }
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _subscription.cancel();
   }
 
   void saveMarked(Future<ImgLib.Image> markedAsImage, AcceptMarkedEvent markingMode) async {

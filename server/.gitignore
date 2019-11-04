@@ -193,3 +193,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#config files with sensitive data
+/config.ini

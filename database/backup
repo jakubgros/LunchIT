@@ -5,7 +5,31 @@
 -- Dumped from database version 12.0
 -- Dumped by pg_dump version 12.0
 
--- Started on 2019-11-04 08:50:06
+-- Started on 2019-11-04 19:52:00
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+DROP DATABASE "lunch_it";
+--
+-- TOC entry 2879 (class 1262 OID 16384)
+-- Name: lunch_it; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE "lunch_it" WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'Polish_Poland.1250' LC_CTYPE = 'Polish_Poland.1250';
+
+
+ALTER DATABASE "lunch_it" OWNER TO "postgres";
+
+\connect "lunch_it"
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -23,156 +47,354 @@ SET row_security = off;
 -- Name: lunch_it; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
-CREATE SCHEMA lunch_it;
+CREATE SCHEMA "lunch_it";
 
 
-ALTER SCHEMA lunch_it OWNER TO postgres;
+ALTER SCHEMA "lunch_it" OWNER TO "postgres";
 
 SET default_tablespace = '';
 
-SET default_table_access_method = heap;
+SET default_table_access_method = "heap";
 
 --
 -- TOC entry 207 (class 1259 OID 16424)
 -- Name: menu; Type: TABLE; Schema: lunch_it; Owner: postgres
 --
 
-CREATE TABLE lunch_it.menu (
-    id integer NOT NULL,
-    file bytea NOT NULL
+CREATE TABLE "lunch_it"."menu" (
+    "file" "bytea" NOT NULL,
+    "id" integer NOT NULL
 );
 
 
-ALTER TABLE lunch_it.menu OWNER TO postgres;
+ALTER TABLE "lunch_it"."menu" OWNER TO "postgres";
+
+--
+-- TOC entry 209 (class 1259 OID 16482)
+-- Name: menu_id_seq; Type: SEQUENCE; Schema: lunch_it; Owner: postgres
+--
+
+CREATE SEQUENCE "lunch_it"."menu_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE "lunch_it"."menu_id_seq" OWNER TO "postgres";
+
+--
+-- TOC entry 2880 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: menu_id_seq; Type: SEQUENCE OWNED BY; Schema: lunch_it; Owner: postgres
+--
+
+ALTER SEQUENCE "lunch_it"."menu_id_seq" OWNED BY "lunch_it"."menu"."id";
+
+
+--
+-- TOC entry 210 (class 1259 OID 16493)
+-- Name: order_entry_id_seq; Type: SEQUENCE; Schema: lunch_it; Owner: postgres
+--
+
+CREATE SEQUENCE "lunch_it"."order_entry_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    MAXVALUE 2147483647
+    CACHE 1;
+
+
+ALTER TABLE "lunch_it"."order_entry_id_seq" OWNER TO "postgres";
 
 --
 -- TOC entry 205 (class 1259 OID 16408)
 -- Name: order_entry; Type: TABLE; Schema: lunch_it; Owner: postgres
 --
 
-CREATE TABLE lunch_it.order_entry (
-    placed_order_id integer NOT NULL,
-    id integer NOT NULL,
-    meal_name "char"[] NOT NULL,
-    price numeric(5,2) NOT NULL,
-    quantity integer NOT NULL,
-    comment "char"[]
+CREATE TABLE "lunch_it"."order_entry" (
+    "placed_order_id" integer NOT NULL,
+    "id" integer DEFAULT "nextval"('"lunch_it"."order_entry_id_seq"'::"regclass") NOT NULL,
+    "meal_name" "char"[] NOT NULL,
+    "price" numeric(5,2) NOT NULL,
+    "quantity" integer NOT NULL,
+    "comment" "char"[]
 );
 
 
-ALTER TABLE lunch_it.order_entry OWNER TO postgres;
+ALTER TABLE "lunch_it"."order_entry" OWNER TO "postgres";
+
+--
+-- TOC entry 211 (class 1259 OID 16496)
+-- Name: order_request_id_seq; Type: SEQUENCE; Schema: lunch_it; Owner: postgres
+--
+
+CREATE SEQUENCE "lunch_it"."order_request_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    MAXVALUE 2147483647
+    CACHE 1;
+
+
+ALTER TABLE "lunch_it"."order_request_id_seq" OWNER TO "postgres";
 
 --
 -- TOC entry 206 (class 1259 OID 16416)
 -- Name: order_request; Type: TABLE; Schema: lunch_it; Owner: postgres
 --
 
-CREATE TABLE lunch_it.order_request (
-    id integer NOT NULL,
-    price_limit numeric(5,2) NOT NULL,
-    name "char"[] NOT NULL,
-    deadline date NOT NULL,
-    message "char"[]
+CREATE TABLE "lunch_it"."order_request" (
+    "id" integer DEFAULT "nextval"('"lunch_it"."order_request_id_seq"'::"regclass") NOT NULL,
+    "price_limit" numeric(5,2) NOT NULL,
+    "name" "char"[] NOT NULL,
+    "deadline" "date" NOT NULL,
+    "message" "char"[]
 );
 
 
-ALTER TABLE lunch_it.order_request OWNER TO postgres;
+ALTER TABLE "lunch_it"."order_request" OWNER TO "postgres";
 
 --
 -- TOC entry 208 (class 1259 OID 16432)
 -- Name: order_request_menu; Type: TABLE; Schema: lunch_it; Owner: postgres
 --
 
-CREATE TABLE lunch_it.order_request_menu (
-    menu_id integer NOT NULL,
-    order_request_id integer NOT NULL
+CREATE TABLE "lunch_it"."order_request_menu" (
+    "menu_id" integer NOT NULL,
+    "order_request_id" integer NOT NULL
 );
 
 
-ALTER TABLE lunch_it.order_request_menu OWNER TO postgres;
+ALTER TABLE "lunch_it"."order_request_menu" OWNER TO "postgres";
+
+--
+-- TOC entry 212 (class 1259 OID 16498)
+-- Name: placed_order_id_seq; Type: SEQUENCE; Schema: lunch_it; Owner: postgres
+--
+
+CREATE SEQUENCE "lunch_it"."placed_order_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    MAXVALUE 2147483647
+    CACHE 1;
+
+
+ALTER TABLE "lunch_it"."placed_order_id_seq" OWNER TO "postgres";
 
 --
 -- TOC entry 204 (class 1259 OID 16395)
 -- Name: placed_order; Type: TABLE; Schema: lunch_it; Owner: postgres
 --
 
-CREATE TABLE lunch_it.placed_order (
-    user_id "char"[] NOT NULL,
-    order_request_id integer NOT NULL,
-    id integer NOT NULL
+CREATE TABLE "lunch_it"."placed_order" (
+    "user_id" "char"[] NOT NULL,
+    "order_request_id" integer NOT NULL,
+    "id" integer DEFAULT "nextval"('"lunch_it"."placed_order_id_seq"'::"regclass") NOT NULL
 );
 
 
-ALTER TABLE lunch_it.placed_order OWNER TO postgres;
+ALTER TABLE "lunch_it"."placed_order" OWNER TO "postgres";
 
 --
 -- TOC entry 203 (class 1259 OID 16387)
 -- Name: user; Type: TABLE; Schema: lunch_it; Owner: postgres
 --
 
-CREATE TABLE lunch_it."user" (
-    email "char"[] NOT NULL,
-    password "char"[] NOT NULL
+CREATE TABLE "lunch_it"."user" (
+    "email" "char"[] NOT NULL,
+    "password" "char"[] NOT NULL
 );
 
 
-ALTER TABLE lunch_it."user" OWNER TO postgres;
+ALTER TABLE "lunch_it"."user" OWNER TO "postgres";
 
 --
--- TOC entry 2720 (class 2606 OID 16431)
+-- TOC entry 2722 (class 2604 OID 16484)
+-- Name: menu id; Type: DEFAULT; Schema: lunch_it; Owner: postgres
+--
+
+ALTER TABLE ONLY "lunch_it"."menu" ALTER COLUMN "id" SET DEFAULT "nextval"('"lunch_it"."menu_id_seq"'::"regclass");
+
+
+--
+-- TOC entry 2868 (class 0 OID 16424)
+-- Dependencies: 207
+-- Data for Name: menu; Type: TABLE DATA; Schema: lunch_it; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2866 (class 0 OID 16408)
+-- Dependencies: 205
+-- Data for Name: order_entry; Type: TABLE DATA; Schema: lunch_it; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2867 (class 0 OID 16416)
+-- Dependencies: 206
+-- Data for Name: order_request; Type: TABLE DATA; Schema: lunch_it; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2869 (class 0 OID 16432)
+-- Dependencies: 208
+-- Data for Name: order_request_menu; Type: TABLE DATA; Schema: lunch_it; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2865 (class 0 OID 16395)
+-- Dependencies: 204
+-- Data for Name: placed_order; Type: TABLE DATA; Schema: lunch_it; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2864 (class 0 OID 16387)
+-- Dependencies: 203
+-- Data for Name: user; Type: TABLE DATA; Schema: lunch_it; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2881 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: menu_id_seq; Type: SEQUENCE SET; Schema: lunch_it; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"lunch_it"."menu_id_seq"', 1, false);
+
+
+--
+-- TOC entry 2882 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: order_entry_id_seq; Type: SEQUENCE SET; Schema: lunch_it; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"lunch_it"."order_entry_id_seq"', 1, false);
+
+
+--
+-- TOC entry 2883 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: order_request_id_seq; Type: SEQUENCE SET; Schema: lunch_it; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"lunch_it"."order_request_id_seq"', 1, false);
+
+
+--
+-- TOC entry 2884 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: placed_order_id_seq; Type: SEQUENCE SET; Schema: lunch_it; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"lunch_it"."placed_order_id_seq"', 1, false);
+
+
+--
+-- TOC entry 2732 (class 2606 OID 16492)
 -- Name: menu menu_pkey; Type: CONSTRAINT; Schema: lunch_it; Owner: postgres
 --
 
-ALTER TABLE ONLY lunch_it.menu
-    ADD CONSTRAINT menu_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY "lunch_it"."menu"
+    ADD CONSTRAINT "menu_pkey" PRIMARY KEY ("id");
 
 
 --
--- TOC entry 2716 (class 2606 OID 16415)
+-- TOC entry 2728 (class 2606 OID 16415)
 -- Name: order_entry order_entry_pkey; Type: CONSTRAINT; Schema: lunch_it; Owner: postgres
 --
 
-ALTER TABLE ONLY lunch_it.order_entry
-    ADD CONSTRAINT order_entry_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY "lunch_it"."order_entry"
+    ADD CONSTRAINT "order_entry_pkey" PRIMARY KEY ("id");
 
 
 --
--- TOC entry 2718 (class 2606 OID 16423)
+-- TOC entry 2730 (class 2606 OID 16423)
 -- Name: order_request order_request_pkey; Type: CONSTRAINT; Schema: lunch_it; Owner: postgres
 --
 
-ALTER TABLE ONLY lunch_it.order_request
-    ADD CONSTRAINT order_request_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY "lunch_it"."order_request"
+    ADD CONSTRAINT "order_request_pkey" PRIMARY KEY ("id");
 
 
 --
--- TOC entry 2714 (class 2606 OID 16402)
+-- TOC entry 2726 (class 2606 OID 16402)
 -- Name: placed_order placed_order_pkey; Type: CONSTRAINT; Schema: lunch_it; Owner: postgres
 --
 
-ALTER TABLE ONLY lunch_it.placed_order
-    ADD CONSTRAINT placed_order_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY "lunch_it"."placed_order"
+    ADD CONSTRAINT "placed_order_pkey" PRIMARY KEY ("id");
 
 
 --
--- TOC entry 2712 (class 2606 OID 16394)
+-- TOC entry 2724 (class 2606 OID 16394)
 -- Name: user user_pkey; Type: CONSTRAINT; Schema: lunch_it; Owner: postgres
 --
 
-ALTER TABLE ONLY lunch_it."user"
-    ADD CONSTRAINT user_pkey PRIMARY KEY (email);
+ALTER TABLE ONLY "lunch_it"."user"
+    ADD CONSTRAINT "user_pkey" PRIMARY KEY ("email");
 
 
 --
--- TOC entry 2721 (class 2606 OID 16403)
--- Name: placed_order user_id; Type: FK CONSTRAINT; Schema: lunch_it; Owner: postgres
+-- TOC entry 2737 (class 2606 OID 16507)
+-- Name: order_request_menu menu_id_fk; Type: FK CONSTRAINT; Schema: lunch_it; Owner: postgres
 --
 
-ALTER TABLE ONLY lunch_it.placed_order
-    ADD CONSTRAINT user_id FOREIGN KEY (user_id) REFERENCES lunch_it."user"(email);
+ALTER TABLE ONLY "lunch_it"."order_request_menu"
+    ADD CONSTRAINT "menu_id_fk" FOREIGN KEY ("menu_id") REFERENCES "lunch_it"."menu"("id");
 
 
--- Completed on 2019-11-04 08:50:06
+--
+-- TOC entry 2736 (class 2606 OID 16512)
+-- Name: order_request_menu order_request_id_fk; Type: FK CONSTRAINT; Schema: lunch_it; Owner: postgres
+--
+
+ALTER TABLE ONLY "lunch_it"."order_request_menu"
+    ADD CONSTRAINT "order_request_id_fk" FOREIGN KEY ("order_request_id") REFERENCES "lunch_it"."order_request"("id");
+
+
+--
+-- TOC entry 2734 (class 2606 OID 16517)
+-- Name: placed_order order_request_id_fk; Type: FK CONSTRAINT; Schema: lunch_it; Owner: postgres
+--
+
+ALTER TABLE ONLY "lunch_it"."placed_order"
+    ADD CONSTRAINT "order_request_id_fk" FOREIGN KEY ("order_request_id") REFERENCES "lunch_it"."order_request"("id");
+
+
+--
+-- TOC entry 2735 (class 2606 OID 16502)
+-- Name: order_entry placed_order_id_fkey; Type: FK CONSTRAINT; Schema: lunch_it; Owner: postgres
+--
+
+ALTER TABLE ONLY "lunch_it"."order_entry"
+    ADD CONSTRAINT "placed_order_id_fkey" FOREIGN KEY ("placed_order_id") REFERENCES "lunch_it"."placed_order"("id");
+
+
+--
+-- TOC entry 2733 (class 2606 OID 16403)
+-- Name: placed_order user_id_fk; Type: FK CONSTRAINT; Schema: lunch_it; Owner: postgres
+--
+
+ALTER TABLE ONLY "lunch_it"."placed_order"
+    ADD CONSTRAINT "user_id_fk" FOREIGN KEY ("user_id") REFERENCES "lunch_it"."user"("email");
+
+
+-- Completed on 2019-11-04 19:52:00
 
 --
 -- PostgreSQL database dump complete

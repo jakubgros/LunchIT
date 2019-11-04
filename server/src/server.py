@@ -1,3 +1,5 @@
+from src.Database import Database
+
 try:
     from PIL import Image
 except ImportError:
@@ -51,7 +53,9 @@ def getAsText():
 
     return "success";
 
+db = Database()
 if __name__ == '__main__':
+    db.test()
     app.run(debug=True, port='5002')
 
 

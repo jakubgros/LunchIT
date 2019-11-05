@@ -31,3 +31,7 @@ class BackEnd:
     @staticmethod
     def image_to_text(image):
         return pytesseract.image_to_string(Image.open(image), lang='pol')
+
+
+
+backend = BackEnd()

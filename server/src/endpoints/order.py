@@ -1,9 +1,10 @@
-from flask import request, jsonify
+from flask import request, jsonify, Blueprint
 
 from src.data_models.placed_order import PlacedOrderDataModel
-from src.server import app, backend
+from src.backend import backend
 
-@app.route('/order', methods=['POST'])
+order_api = Blueprint("order_api", __name__)
+@order_api.route('/order', methods=['POST'])
 def order():
     try:
         user_id = backend.authenticate_user(request)

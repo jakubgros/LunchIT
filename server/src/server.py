@@ -1,10 +1,14 @@
-from src.backend import BackEnd
-
 from flask import Flask
+from src.endpoints.authenticate import authenticate_api
+from src.endpoints.get_as_text import getAsText_api
+from src.endpoints.order import order_api
 
 
 app = Flask(__name__)
-backend = BackEnd()
+
+app.register_blueprint(authenticate_api)
+app.register_blueprint(getAsText_api)
+app.register_blueprint(order_api)
 
 if __name__ == '__main__':
     app.run(debug=True, port='5002')

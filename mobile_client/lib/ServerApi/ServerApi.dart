@@ -67,7 +67,7 @@ class ServerApi
     String hashedPassword = _hash(password);
     String body = jsonEncode(
       {
-        "email": email,
+        "user_id": email,
         "hashed_password": hashedPassword,
       });
 

@@ -6,19 +6,21 @@ authenticate_api = Blueprint('authenticate_api', __name__)
 
 @authenticate_api.route('/authenticate', methods=['POST'])
 def authenticate():
-    json = request.json
+    reqBody = request.json
 
-    if "user_id" not in request.headers.keys():
-        return jsonify(statusCode=400, error="user_id not available in request")
+    if "user_id" not in reqBody:
+        return jsonify(error="user_id not available in request"), 400
 
-    if "hashed_password" not in request.headers.keys():
-        return jsonify(statusCode=400, error="hashed_password not available in request")
+    if "hashed_password" not in reqBody:
+        return jsonify(error="hashed_password not available in request"), 400
 
-    user_id = request.headers["user_id"]
-    hashed_password = request.headers["hashed_password"]
+    user_id = reqBody["user_id"]
+    hashed_password = reqBody["hashed_password"]
 
-    user_id = backend.authenticate_user(request)
-    if user_id is None:
-        return jsonify(statusCode=200, authenticated=True)
+    authenticated_user_id = backend.authenticate_user(user_id, hashed_password)
+    if authenticated_user_id is not None:
+        print("[authenticate] {user_id} access granted".format(user_id=user_id))
+        return jsonify(authenticated=True), 200
     else:
-        return jsonify(statusCode=200, authenticated=False)
+        print("[authenticate] {user_id} access denied".format(user_id=user_id))
+        return jsonify(authenticated=False), 200

@@ -46,6 +46,8 @@ class LoginPage extends StatelessWidget {
 
     if(loginForm.validate() == false)
       return;
+    else
+      loginForm.save();
 
     bool isUserValid = await ServerApi().checkUser(_email, _password);
 

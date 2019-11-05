@@ -23,7 +23,7 @@ class Database:
         cursor.close()
 
     def has_order(self, user_id, order_request_id):
-        statement = "SELECT COUNT(*) FROM placed_order WHERE user_id={user_id} AND order_request_id={order_request_id" \
+        statement = "SELECT COUNT(*) FROM lunch_it.placed_order WHERE user_id='{user_id}' AND order_request_id={order_request_id}" \
             .format(user_id=user_id, order_request_id=order_request_id)
 
         count = None
@@ -46,7 +46,7 @@ class Database:
         return placed_order_id
 
     def _add_placed_order(self, user_id, order_request_id):
-        statement = "INSERT INTO placed_order(user_id, order_request_id) VALUES({user_id}, {order_request_id}" \
+        statement = "INSERT INTO lunch_it.placed_order(user_id, order_request_id) VALUES('{user_id}', {order_request_id}" \
             .format(user_id=user_id, order_request_id=order_request_id)
 
         placed_order_id = None
@@ -58,8 +58,8 @@ class Database:
         return placed_order_id
 
     def _add_order_entry(self, entry, placed_order_id):
-        statement = """INSERT INTO order_entry(placed_order_id, meal_name, price, quantity, comment)
-            VALUES({placed_order_id}, {meal_name}, {price}, {quantity}, {comment})""" \
+        statement = """INSERT INTO lunch_it.order_entry(placed_order_id, meal_name, price, quantity, comment)
+            VALUES({placed_order_id}, '{meal_name}', {price}, {quantity}, '{comment}')""" \
             .format(
             placed_order_id=placed_order_id,
             meal_name=entry.food_name,
@@ -73,7 +73,7 @@ class Database:
                 cursor.execute(statement)
 
     def does_user_exist(self, user_id, hashed_password):
-        statement = "SELECT COUNT(*) FROM user WHERE email={email} AND password={password}" \
+        statement = "SELECT COUNT(*) FROM lunch_it.user WHERE email='{email}' AND password='{password}'" \
             .format(email=user_id, password=hashed_password)
 
         count = None

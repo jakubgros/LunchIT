@@ -5,10 +5,14 @@ import 'package:path/path.dart';
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:password/password.dart';
 
 class ServerApi
 {
   static String _serverAdress = "10.0.2.2:5002";
+
+  String _email;
+  String _hashedPassword;
 
   Future<String> getAsText(File imageFile) => compute(_getAsText, imageFile);
   static Future<String> _getAsText(File imageFile) async {
@@ -57,11 +61,45 @@ class ServerApi
   }
 
 
+  Future<bool> checkUser(String email, String password) async {
+    const String endpoint = "/authenticate";
+    // ==============================
+    String hashedPassword = _hash(password);
+    String body = jsonEncode(
+      {
+        "email": email,
+        "hashed_password": hashedPassword,
+      });
+
+    var uri = Uri.http(_serverAdress, endpoint);
+
+    Map<String,String> headers = {
+      'Content-type' : 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final response = await http.post(uri, body: body, headers: headers);
+    final responseJson = json.decode(response.body);
+
+    bool isUserValid = responseJson['authenticated'] == true;
+
+    if(isUserValid) { // save for future calls
+      _email = email;
+      _hashedPassword = hashedPassword;
+    }
+    return isUserValid;
+  }
+
+  String _hash(String password) {
+    final algorithm = PBKDF2();
+    String hash = Password.hash(password, algorithm);
+    return hash;
+}
 
 
+  ServerApi._privateCtor();
+  static final ServerApi _singleton = ServerApi._privateCtor();
+  factory ServerApi() => _singleton;
 
 
-    ServerApi._privateCtor();
-    static final ServerApi _singleton = ServerApi._privateCtor();
-    factory ServerApi() => _singleton;
 }

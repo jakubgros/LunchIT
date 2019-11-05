@@ -20,16 +20,7 @@ class BackEnd:
 
         return order_id
 
-    def authenticate_user(self, request):  # returns None if credentials are not valid, user id else
-        if "user_id" not in request.headers.keys():
-            return None
-
-        if "hashed_password" not in request.headers.keys():
-            return None
-
-        user_id = request.headers["user_id"]
-        hashed_password = request.headers["hashed_password"]
-
+    def authenticate_user(self, user_id, hashed_password):  # returns None if credentials are not valid, user id else
         does_exist = self.db.does_user_exist(user_id, hashed_password)
 
         if does_exist == False:

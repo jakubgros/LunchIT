@@ -3,10 +3,12 @@ import 'package:lunch_it/Basket/BasketPage.dart';
 import 'package:lunch_it/Basket/BasketData.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/AddMenuPositionPage.dart';
 import 'package:lunch_it/FoodPicker/FoodPickerPage.dart';
+import 'package:lunch_it/Login/LoginPage.dart';
 import 'package:lunch_it/SuccessfulOrder.dart';
 import 'package:provider/provider.dart';
 
 import 'FoodPicker/Marker/MarkerData.dart';
+import 'HomePage/HomePage.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,12 +26,14 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-          initialRoute: '/foodPicker',
+          initialRoute: '/login',
           routes: {
             '/foodPicker': (BuildContext context) => FoodPickerPage(),
             '/foodPicker/addMenuPositionPage': (BuildContext context) => AddMenuPositionPage(),
             '/basketPage': (BuildContext context) => BasketPage(),
             '/succesfulOrder': (BuildContext context) => SuccessfulOrder(),
+            '/login': (BuildContext context) => LoginPage(),
+            '/home': (BuildContext context) => HomePage(),
           }),
     );
   }

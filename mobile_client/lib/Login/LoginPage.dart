@@ -2,9 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  final String onSuccessPath;
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+
+  LoginPage({@required this.onSuccessPath});
+}
+
+class _LoginPageState extends State<LoginPage> {
   String _email;
+
   String _password;
+
+  bool _incorrectCredentials = false;
 
   final _loginFormKey = GlobalKey<FormState>();
 
@@ -34,6 +46,7 @@ class LoginPage extends StatelessWidget {
                     child: Text("LOGIN"),
                     onPressed: () => _login(context)
                 ),
+                if(_incorrectCredentials) Text("Provided credentials are incorrect") else Container(),
               ],
             ),
           ),
@@ -52,9 +65,10 @@ class LoginPage extends StatelessWidget {
     bool isUserValid = await ServerApi().checkUser(_email, _password);
 
     if(isUserValid)
-      Navigator.of(context).pushNamed('/home');
+      Navigator.of(context).pushNamed(widget.onSuccessPath);
     else
-      ;//TODO display error
+      setState(() {
+        _incorrectCredentials = true;
+      });
   }
-
 }

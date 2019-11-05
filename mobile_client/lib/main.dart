@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
             '/foodPicker/addMenuPositionPage': (BuildContext context) => AddMenuPositionPage(),
             '/basketPage': (BuildContext context) => BasketPage(),
             '/succesfulOrder': (BuildContext context) => SuccessfulOrder(),
-            '/login': (BuildContext context) => LoginPage(),
+            '/login': (BuildContext context) => LoginPage(onSuccessPath: '/foodPicker'),
             '/home': (BuildContext context) => HomePage(),
           }),
     );

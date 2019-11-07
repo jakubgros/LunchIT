@@ -8,7 +8,18 @@ class SuccessfulOrder extends StatelessWidget {
           leading: Container(), //to remove go back icon
           title: Text("#MAIL TITLE#"), //TODO dehardcode
         ),
-        body: Text("Successful order"));
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+                Text("Successful order"),
+                RaisedButton(
+                  child: Text("Click here to go to home page"),
+                  onPressed: () => Navigator.of(context).pushNamed('/home'),
+                )
+            ],
+          ),
+        ));
   }
 }
 

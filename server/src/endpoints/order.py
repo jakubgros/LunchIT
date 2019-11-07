@@ -2,21 +2,31 @@ from flask import request, jsonify, Blueprint
 
 from src.data_models.placed_order import PlacedOrderDataModel
 from src.backend import backend
+import json
+
+
+def _getUserId(request):
+    (username, password) = request.headers.environ["HTTP_AUTHORIZATION"].split(':', 1)
+    return username
 
 order_api = Blueprint("order_api", __name__)
 @order_api.route('/order', methods=['POST'])
 def order():
-    try:
-        user_id = backend.authenticate_user(request)
-        if user_id is None:
-            return 401
+    with backend:
+        try:
+            isAuthorized = backend.authenticate_request(request)
 
-        unit_order_data_model = PlacedOrderDataModel(request.json)
+            if isAuthorized == False:
+                return 401 # unauthenticated
 
-        order_id = backend.add_order(unit_order_data_model, user_id)
+            unit_order_data_model = PlacedOrderDataModel(request.json)
 
-    except Exception as e:
-        print(e)
-        return jsonify(statusCode=500, errorMsg=str(e)) # failure
+            user_id = _getUserId(request)
+            order_id = backend.add_order(unit_order_data_model.data, user_id)
 
-    return jsonify(statusCode=200, id=order_id)  # success
+        except Exception as e:
+            print(e)
+            return jsonify(errorMsg=str(e)), 500 # error server failure
+
+        print("[order] user {user_id} placed order: \n".format(user_id=user_id) + str(json.dumps(request.json, indent=2)))
+        return jsonify(id=order_id), 200 # success

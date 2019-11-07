@@ -7,20 +7,21 @@ from src.utils.validators.file_validators import is_image_file
 getAsText_api = Blueprint("getAsText_api", __name__)
 @getAsText_api.route('/getAsText', methods=['GET', 'POST'])  # TODO change to post get only
 def getAsText():
-    if request.method == 'POST':  # TODO not sure if needed
+    with backend:
+        if request.method == 'POST':  # TODO not sure if needed
 
-        if 'file' not in request.files:
-            return "file missing in request", 123  # TODO implement status codes
+            if 'file' not in request.files:
+                return "file missing in request", 123  # TODO implement status codes
 
-        file = request.files['file']
-        if file.filename == '':
-            return "No file name", 124
+            file = request.files['file']
+            if file.filename == '':
+                return "No file name", 124
 
-        if file and is_image_file(file.filename):
-            filename = secure_filename(file.filename)
-            asText = backend.image_to_text(file)
-            formatted = " ".join(asText.split())
-            print(formatted)
-            '''
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))'''
-            return formatted
+            if file and is_image_file(file.filename):
+                filename = secure_filename(file.filename)
+                asText = backend.image_to_text(file)
+                formatted = " ".join(asText.split())
+                print(formatted)
+                '''
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))'''
+                return formatted

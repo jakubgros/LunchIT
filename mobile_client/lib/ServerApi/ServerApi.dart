@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:lunch_it/Basket/BasketData.dart';
+import 'package:lunch_it/Basket/Order.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
@@ -10,9 +11,19 @@ import 'package:password/password.dart';
 class ServerApi
 {
   static String _serverAdress = "10.0.2.2:5002";
+  final http.Client _client = http.Client();
 
-  String _email;
-  String _hashedPassword;
+  String _email = "";
+  String _hashedPassword = "";
+
+  void closeConnection() { //TODO call it somewhere
+    _client.close();
+  }
+
+  Map<String, String> _getAuthHeader() {
+    var authHeader = Map<String, String>.from({'authorization': "$_email:$_hashedPassword"});
+    return authHeader;
+  }
 
   Future<String> getAsText(File imageFile) => compute(_getAsText, imageFile);
   static Future<String> _getAsText(File imageFile) async {
@@ -41,23 +52,26 @@ class ServerApi
   }
 
 
-  Future<bool> placeOrder(BasketData basketData) async { //TODO make it work on seperate isolate
+  Future<bool> placeOrder(Order order) async { //TODO make it work on seperate isolate
     const String endpoint = "/order";
     // ==============================
 
-    String body = jsonEncode(basketData);
-
-    var uri = Uri.http(_serverAdress, endpoint);
 
     Map<String,String> headers = {
       'Content-type' : 'application/json',
       'Accept': 'application/json',
     };
 
-    final response = await http.post(uri, body: body, headers: headers);
-    final responseJson = json.decode(response.body);
+    var uri = Uri.http(_serverAdress, endpoint); //TODO make all of queries look like this method
+    http.Request request = http.Request("POST", uri);
+    request.headers.addAll(_getAuthHeader());
+    request.headers.addAll(headers);
+    request.body = jsonEncode(order);
 
-    return responseJson['statusCode'] == 200;
+    http.StreamedResponse streamedResponse = await _client.send(request);
+    http.Response response = await http.Response.fromStream(streamedResponse);
+
+    return response.statusCode == 200;
   }
 
 

@@ -57,11 +57,8 @@ class BackEnd:
 
         return user_id is not None
 
-    def get_all_order_requests(self, user_id, need_to_be_done):
-        if need_to_be_done:
-            return self.db.get_all_order_requests_needed_to_be_done(user_id)
-        else:
-            return self.db.get_all_order_requests_not_needed_to_be_done(user_id)
+    def get_order_requests(self, user_id):
+        return self.db.get_order_requests(user_id)
 
 
 

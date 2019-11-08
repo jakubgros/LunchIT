@@ -80,21 +80,11 @@ class Database:
 
         return count == 1
 
-    def get_all_order_requests_not_needed_to_be_done(self, user_id):
-        return self.get_all_order_requests(user_id, query_type="to_be_done")
-
-    def get_all_order_requests_needed_to_be_done(self, user_id):
-        return self.get_all_order_requests(user_id, query_type="no_need_to_be_done")
-
-    def get_all_order_requests(self, user_id, query_type):
-        if query_type == "to_be_done":
-            where_prefix = ""
-        elif query_type == "no_need_to_be_done":
-            where_prefix = "NOT"
-
+    def get_order_requests(self, user_id, ):
         statement = r"""
         SELECT
-            NAME,
+            placed_order.id as id,
+            name,
             price_limit,
             deadline,
             message
@@ -107,15 +97,14 @@ class Database:
             (order_request.id = placed_order.order_request_id)
                          
         WHERE
-            {prefix} (
-                deadline < NOW() /* has_deadline_passed */
-                OR
-                lunch_it.placed_order.id IS NOT NULL AND user_id=%(user_id)s /* has_ordered */
-            )
-         
+            deadline > NOW() AND placed_order.id IS NULL /* not expired and not ordered*/
+                OR 
+            placed_order.id IS NOT NULL /* ordered */
+
         ORDER BY
+            placed_order.id IS NOT NULL,
             deadline ASC
-                        """.format(prefix=where_prefix)
+                        """
 
         args = {
             "user_id": user_id,
@@ -127,10 +116,11 @@ class Database:
         result = list()
         for row in allData:
             result.append({
-                "name": row[0],
-                "price_limit": row[1],
-                "deadline": row[2],
-                "message": row[3],
+                "order_id": row[0],
+                "name": row[1],
+                "price_limit": row[2],
+                "deadline": row[3],
+                "message": row[4],
             })
 
         return result

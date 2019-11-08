@@ -7,18 +7,8 @@ from src.utils.utilities import getUserId
 
 order_request_api = Blueprint("order_request_api", __name__)
 
-
-@order_request_api.route('/orderRequest/todo', methods=['GET'])
-def order_request_todo():
-    return order_request(request, type="todo")
-
-
-@order_request_api.route('/orderRequest/notTodo', methods=['GET'])
-def order_request_done():
-    return order_request(request, type="notTodo")
-
-
-def order_request(request, type):
+@order_request_api.route('/orderRequest', methods=['GET'])
+def order_request():
     with backend:
         isAuthorized = backend.authenticate_request(request)
 
@@ -27,9 +17,6 @@ def order_request(request, type):
 
         user_id = getUserId(request)
 
-        if type == "todo":
-            order_requests = backend.get_all_order_requests(user_id, need_to_be_done=True)
-        elif type == "notTodo":
-            order_requests = backend.get_all_order_requests(user_id, need_to_be_done=False)
+        order_requests = backend.get_order_requests(user_id)
 
         return json.dumps(order_requests, default=str, indent=4, sort_keys=True), 200

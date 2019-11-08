@@ -4,10 +4,7 @@ from src.data_models.placed_order import PlacedOrderDataModel
 from src.backend import backend
 import json
 
-
-def _getUserId(request):
-    (username, password) = request.headers.environ["HTTP_AUTHORIZATION"].split(':', 1)
-    return username
+from src.utils.utilities import getUserId
 
 order_api = Blueprint("order_api", __name__)
 @order_api.route('/order', methods=['POST'])
@@ -21,7 +18,7 @@ def order():
 
             unit_order_data_model = PlacedOrderDataModel(request.json)
 
-            user_id = _getUserId(request)
+            user_id = getUserId(request)
             order_id = backend.add_order(unit_order_data_model.data, user_id)
 
         except Exception as e:

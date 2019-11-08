@@ -79,3 +79,58 @@ class Database:
         count = self.cursor.fetchone()[0]
 
         return count == 1
+
+    def get_all_order_requests_not_needed_to_be_done(self, user_id):
+        return self.get_all_order_requests(user_id, query_type="to_be_done")
+
+    def get_all_order_requests_needed_to_be_done(self, user_id):
+        return self.get_all_order_requests(user_id, query_type="no_need_to_be_done")
+
+    def get_all_order_requests(self, user_id, query_type):
+        if query_type == "to_be_done":
+            where_prefix = ""
+        elif query_type == "no_need_to_be_done":
+            where_prefix = "NOT"
+
+        statement = r"""
+        SELECT
+            NAME,
+            price_limit,
+            deadline,
+            message
+         
+        FROM
+            lunch_it.order_request
+        LEFT OUTER JOIN
+            lunch_it.placed_order
+        ON
+            (order_request.id = placed_order.order_request_id)
+                         
+        WHERE
+            {prefix} (
+                deadline < NOW() /* has_deadline_passed */
+                OR
+                lunch_it.placed_order.id IS NOT NULL AND user_id=%(user_id)s /* has_ordered */
+            )
+         
+        ORDER BY
+            deadline ASC
+                        """.format(prefix=where_prefix)
+
+        args = {
+            "user_id": user_id,
+        }
+
+        self.cursor.execute(statement, args)
+        allData = self.cursor.fetchall()
+
+        result = list()
+        for row in allData:
+            result.append({
+                "name": row[0],
+                "price_limit": row[1],
+                "deadline": row[2],
+                "message": row[3],
+            })
+
+        return result

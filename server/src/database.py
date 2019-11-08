@@ -83,12 +83,13 @@ class Database:
     def get_order_requests(self, user_id, ):
         statement = r"""
         SELECT
-            placed_order.id as id,
+            placed_order.id as placed_order_id,
             name,
             price_limit,
             deadline,
-            message
-         
+            message,
+            order_request.id as order_request_id
+            
         FROM
             lunch_it.order_request
         LEFT OUTER JOIN
@@ -116,11 +117,12 @@ class Database:
         result = list()
         for row in allData:
             result.append({
-                "order_id": row[0],
+                "placed_order_id": row[0],
                 "name": row[1],
                 "price_limit": row[2],
                 "deadline": row[3],
                 "message": row[4],
+                "order_request_id": row[5],
             })
 
         return result

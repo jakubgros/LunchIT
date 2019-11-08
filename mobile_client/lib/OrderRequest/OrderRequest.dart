@@ -5,17 +5,19 @@ class OrderRequest {
   final String title;
   final DateTime deadline;
   final String message;
-  final int orderId;
+  final int placedOrderId;
+  final int orderRequestId;
 
   OrderRequest({
+    @required this.orderRequestId,
     @required this.priceLimit,
     @required this.title,
     @required this.deadline,
-    this.orderId,
+    this.placedOrderId,
     this.message,
   });
 
   bool hasExpired() => DateTime.now().isAfter(deadline);
-  bool canOrder() => !hasExpired() && orderId==null;
-  bool get isOrdered => orderId!=null;
+  bool canOrder() => !hasExpired() && placedOrderId==null;
+  bool get isOrdered => placedOrderId!=null;
 }

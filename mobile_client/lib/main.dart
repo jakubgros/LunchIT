@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import 'FoodPicker/Marker/MarkerData.dart';
 import 'HomePage/HomePage.dart';
+import 'OrderDataPresenter/OrderDataPresenterPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,14 +27,15 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-          initialRoute: '/login',
+          initialRoute: '/home', //TODO change to login
           routes: {
             '/foodPicker': (BuildContext context) => FoodPickerPage(),
             '/foodPicker/addMenuPositionPage': (BuildContext context) => AddMenuPositionPage(),
             '/basketPage': (BuildContext context) => BasketPage(),
             '/succesfulOrder': (BuildContext context) => SuccessfulOrder(),
-            '/login': (BuildContext context) => LoginPage(onSuccessPath: '/foodPicker'),
+            '/login': (BuildContext context) => LoginPage(onSuccessPath: '/home'),
             '/home': (BuildContext context) => HomePage(),
+            '/orderDataPresenter': (BuildContext context) => OrderDataPresenterPage(),
           }),
     );
   }

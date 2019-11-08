@@ -20,4 +20,5 @@ class OrderRequest {
   bool hasExpired() => DateTime.now().isAfter(deadline);
   bool canOrder() => !hasExpired() && placedOrderId==null;
   bool get isOrdered => placedOrderId!=null;
+  Duration get timeLeft => deadline.difference(DateTime.now());
 }

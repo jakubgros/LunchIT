@@ -10,12 +10,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  Future<List<OrderRequest>> _orderRequests;
 
   @override
   void initState() {
     super.initState();
-    _orderRequests = ServerApi().getOrderRequests();
   }
 
   @override
@@ -26,7 +24,7 @@ class _HomePageState extends State<HomePage> {
           title: Text("List of order requests"),
         ),
           body: FutureBuilder<List<OrderRequest>>(
-            future: _orderRequests,
+            future: ServerApi().getOrderRequests(),
             builder: (BuildContext context, AsyncSnapshot<List<OrderRequest>> snapshot) {
               return ListView.builder(
                 itemCount: snapshot.hasData ? snapshot.data.length : 0,
@@ -60,6 +58,17 @@ class OrderRequestPresenter extends StatelessWidget {
     return "$year-$month-$day $hour:$minute";
   }
 
+  String _getTimeLeftAsFormattedString(Duration d){
+    if(d.inDays > 0)
+      return "${d.inDays} days";
+    if(d.inHours > 0)
+      return "${d.inHours} hours";
+    if (d.inMinutes > 0)
+      return "${d.inMinutes} minutes";
+    else
+      return "${d.inSeconds} seconds";
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -81,12 +90,24 @@ class OrderRequestPresenter extends StatelessWidget {
                 ),),
                 Divider(color: Colors.black,),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text("Price limit: ${orderRequest.priceLimit.toStringAsFixed(2)}"),
-                    Spacer(),
-                    Text("Deadline: ${_getDateAsFormattedString(orderRequest.deadline)}"),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        DescriptionAndValue("Price limit: ", "${orderRequest.priceLimit.toStringAsFixed(2)}"),
+                        DescriptionAndValue("Status: ", "${orderRequest.isOrdered ? "Ordered" : "Not ordered"}"),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        DescriptionAndValue("Deadline: ", "${_getDateAsFormattedString(orderRequest.deadline)}"),
+                        if(!orderRequest.isOrdered) DescriptionAndValue("Time left: ", "${_getTimeLeftAsFormattedString(orderRequest.timeLeft)}")
+                      ],
+                    )
                   ],
-                )
+                ),
 
               ],
             ),
@@ -95,3 +116,36 @@ class OrderRequestPresenter extends StatelessWidget {
     );
   }
 }
+
+
+class BoldText extends StatelessWidget {
+  final String text;
+
+  BoldText(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(text,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+      ));
+  }
+}
+
+class DescriptionAndValue extends StatelessWidget {
+  final String description;
+  final String value;
+
+  DescriptionAndValue(this.description, this.value);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Text(description),
+        BoldText(value),
+      ],
+    );
+  }
+}
+

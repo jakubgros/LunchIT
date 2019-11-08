@@ -14,7 +14,7 @@ def order():
             isAuthorized = backend.authenticate_request(request)
 
             if isAuthorized == False:
-                return 401 # unauthenticated
+                return "", 401 # unauthenticated
 
             unit_order_data_model = PlacedOrderDataModel(request.json)
 

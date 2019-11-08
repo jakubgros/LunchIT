@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:lunch_it/Basket/BasketData.dart';
 import 'package:lunch_it/Basket/Order.dart';
+import 'package:lunch_it/OrderRequest/OrderRequest.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
@@ -13,8 +14,8 @@ class ServerApi
   static String _serverAdress = "10.0.2.2:5002";
   final http.Client _client = http.Client();
 
-  String _email = "";
-  String _hashedPassword = "";
+  String _email = "kubagros@gmail.com"; //TODO change to "" - allows to skip login page for debugging purposes
+  String _hashedPassword = _hash("admin"); //TODO change to ""
 
   void closeConnection() { //TODO call it somewhere
     _client.close();
@@ -104,12 +105,53 @@ class ServerApi
     return isUserValid;
   }
 
-  String _hash(String password) {
+  static String _hash(String password) {
     final algorithm = PBKDF2();
     String hash = Password.hash(password, algorithm);
     return hash;
-}
+  }
 
+  Future<List<OrderRequest>> getOrderRequests() async{
+    try{
+      const String endpoint = "/orderRequest";
+      // ==============================
+
+      Map<String,String> headers = {
+        'Content-type' : 'application/json',
+        'Accept': 'application/json',
+      };
+
+      var uri = Uri.http(_serverAdress, endpoint); //TODO make all of queries look like this method
+      http.Request request = http.Request("GET", uri);
+      request.headers.addAll(_getAuthHeader());
+      request.headers.addAll(headers);
+
+      http.StreamedResponse streamedResponse = await _client.send(request);
+      http.Response response = await http.Response.fromStream(streamedResponse);
+
+      if(response.statusCode != 200) //TODO extract statusCode processing to seperate method
+        throw Exception("error");
+
+      var orderRequests = List<OrderRequest>();
+      List listOfJsonObj = jsonDecode(response.body);
+      for(Map jsonObj in listOfJsonObj) {
+        orderRequests.add(
+            OrderRequest(
+                orderId: jsonObj["order_id"],
+                title: jsonObj["name"],
+                priceLimit: jsonObj["price_limit"],
+                deadline: DateTime.parse(jsonObj["deadline"]),
+                message: jsonObj["message"]
+            )
+        );
+      }
+      return orderRequests;
+    }
+    catch(e)
+    {
+      print(e); //TODO add try catch to all async because it gets swallowed otherwise
+    }
+  }
 
   ServerApi._privateCtor();
   static final ServerApi _singleton = ServerApi._privateCtor();

@@ -13,7 +13,7 @@ def order_request():
         isAuthorized = backend.authenticate_request(request)
 
         if isAuthorized == False:
-            return 401  # unauthenticated
+            return "", 401  # unauthenticated
 
         user_id = getUserId(request)
 

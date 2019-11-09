@@ -19,6 +19,35 @@ class OrderRequest {
     this.message,
   });
 
+  String _getWithFollowingZeroIfNeeded(int val) {
+    if(val<10)
+      return "0$val";
+    else
+      return "$val";
+  }
+
+  String _getDateAsFormattedString(DateTime d){
+    String year = d.year.toString();
+    String month = _getWithFollowingZeroIfNeeded(d.month);
+    String day = _getWithFollowingZeroIfNeeded(d.day);
+    String hour = _getWithFollowingZeroIfNeeded(d.hour);
+    String minute = _getWithFollowingZeroIfNeeded(d.minute);
+    return "$year-$month-$day $hour:$minute";
+  }
+
+  String _getTimeLeftAsFormattedString(Duration d){
+    if(d.inDays > 0)
+      return "${d.inDays} days";
+    if(d.inHours > 0)
+      return "${d.inHours} hours";
+    if (d.inMinutes > 0)
+      return "${d.inMinutes} minutes";
+    else
+      return "${d.inSeconds} seconds";
+  }
+
+  String get deadlineAsFormattedStr => _getDateAsFormattedString(deadline);
+  String get timeLeftAsFormattedString => _getTimeLeftAsFormattedString(timeLeft);
   bool hasExpired() => DateTime.now().isAfter(deadline);
   bool canOrder() => !hasExpired() && placedOrderId==null;
   bool get isOrdered => placedOrderId!=null;

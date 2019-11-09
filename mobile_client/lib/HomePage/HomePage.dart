@@ -43,32 +43,6 @@ class OrderRequestPresenter extends StatelessWidget {
 
   const OrderRequestPresenter(this.orderRequest);
 
-  String _getWithFollowingZeroIfNeeded(int val) {
-    if(val<10)
-      return "0$val";
-    else
-      return "$val";
-  }
-  String _getDateAsFormattedString(DateTime d){
-    String year = d.year.toString();
-    String month = _getWithFollowingZeroIfNeeded(d.month);
-    String day = _getWithFollowingZeroIfNeeded(d.day);
-    String hour = _getWithFollowingZeroIfNeeded(d.hour);
-    String minute = _getWithFollowingZeroIfNeeded(d.minute);
-    return "$year-$month-$day $hour:$minute";
-  }
-
-  String _getTimeLeftAsFormattedString(Duration d){
-    if(d.inDays > 0)
-      return "${d.inDays} days";
-    if(d.inHours > 0)
-      return "${d.inHours} hours";
-    if (d.inMinutes > 0)
-      return "${d.inMinutes} minutes";
-    else
-      return "${d.inSeconds} seconds";
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -105,8 +79,8 @@ class OrderRequestPresenter extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        DescriptionAndValue("Deadline: ", "${_getDateAsFormattedString(orderRequest.deadline)}"),
-                        if(!orderRequest.isOrdered) DescriptionAndValue("Time left: ", "${_getTimeLeftAsFormattedString(orderRequest.timeLeft)}")
+                        DescriptionAndValue("Deadline: ", "${orderRequest.deadlineAsFormattedStr}"),
+                        if(!orderRequest.isOrdered) DescriptionAndValue("Time left: ", "${orderRequest.timeLeftAsFormattedString}")
                       ],
                     )
                   ],

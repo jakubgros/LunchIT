@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:lunch_it/Basket/BasketData.dart';
+import 'package:lunch_it/Basket/BasketEntry.dart';
 import 'package:lunch_it/Basket/Order.dart';
 import 'package:lunch_it/OrderRequest/OrderRequest.dart';
 import 'package:path/path.dart';
@@ -165,6 +166,11 @@ class ServerApi
 
   bool checkSavedCredentials() {
     return true; //TODO implement areCredentialsSaved, unmock _login and _password, implement this method
+  }
+
+  Future<List<BasketEntry>> getPlacedOrder(int placedOrderId) async {
+
+    
   }
 
 

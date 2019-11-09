@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
               '/succesfulOrder': (BuildContext context) => SuccessfulOrder(),
               '/login': (BuildContext context) => LoginPage(onSuccessPath: '/home'),
               '/home': (BuildContext context) => HomePage(),
-              '/orderDataPresenter': (BuildContext context) => OrderDataPresenterPage(),
+              '/orderDataPresenter': (BuildContext context) => OrderDataPresenterPage(settings.arguments),
             };
             WidgetBuilder builder = routes[currentRoute];
             return MaterialPageRoute(builder: (ctx) => builder(ctx));

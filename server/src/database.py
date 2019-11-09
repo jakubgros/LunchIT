@@ -88,7 +88,8 @@ class Database:
             price_limit,
             deadline,
             message,
-            order_request.id as order_request_id
+            order_request.id as order_request_id,
+            menu_url
             
         FROM
             lunch_it.order_request
@@ -123,6 +124,7 @@ class Database:
                 "deadline": row[3],
                 "message": row[4],
                 "order_request_id": row[5],
+                "menu_url": row[6],
             })
 
         return result

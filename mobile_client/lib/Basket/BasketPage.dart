@@ -13,9 +13,7 @@ class BasketPage extends StatelessWidget {
   Widget build(BuildContext context) =>
     Consumer<BasketData>(builder: (context, basketData, child) {
       return Scaffold(
-        appBar: AppBar(
-          title: Text("#MAIL TITLE#"), //TODO dehardcode
-        ),
+        appBar: AppBar(),
         body: ListView.builder(
           itemCount: basketData.length,
           itemBuilder: (context, index) =>

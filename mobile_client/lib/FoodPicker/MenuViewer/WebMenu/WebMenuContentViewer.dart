@@ -42,7 +42,6 @@ class _WebMenuContentViewerState extends State<WebMenuContentViewer> {
   void initState() {
     super.initState();
     widget._controller = _controller;
-
     _subscription = Provider
         .of<WebNavigationEventStream>(context, listen: false)
         .stream.listen((WebNavigationEvent event) {

@@ -3,6 +3,7 @@ import 'package:lunch_it/FoodPicker/AppBar/ShoppingCardAppbarButton.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/AcceptMarked.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/MarkerMode.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/WebNavigation.dart';
+import 'package:lunch_it/OrderRequest/OrderRequest.dart';
 import 'package:provider/provider.dart';
 
 import 'BottomBar/BottomMenu.dart';
@@ -11,6 +12,10 @@ import 'MenuViewer/WebMenu/NavigationBar.dart';
 import 'MenuViewer/WebMenu/WebMenuContentViewer.dart';
 
 class FoodPickerPage extends StatefulWidget {
+  final OrderRequest orderRequest;
+
+  FoodPickerPage(this.orderRequest);
+
   @override
   _FoodPickerPageState createState() => _FoodPickerPageState();
 }
@@ -21,12 +26,14 @@ class _FoodPickerPageState extends State<FoodPickerPage> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
         appBar: AppBar(
           actions: <Widget>[
             ShoppingCardAppbarButton(),
           ],
-          title: Text("#MAIL TITLE#"), //TODO dehardcode
+          title: Text(widget.orderRequest.title), //TODO dehardcode
           leading: BackButton(),
         ),
         body: MultiProvider(
@@ -74,7 +81,7 @@ class _FoodPickerPageState extends State<FoodPickerPage> {
 
     _menu = Menu(
       contentViewer: WebMenuContentViewer(
-          url: 'https://www.uszwagra24.pl/menu/'),
+          url: widget.orderRequest.menuUrl),
       navbar: NavigationBar(),
     );
   }

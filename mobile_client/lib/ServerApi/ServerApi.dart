@@ -137,12 +137,13 @@ class ServerApi
       for(Map jsonObj in listOfJsonObj) {
         orderRequests.add(
             OrderRequest(
-                orderRequestId: jsonObj["order_request_id"],
-                placedOrderId: jsonObj["placed_order_id"],
-                title: jsonObj["name"],
-                priceLimit: jsonObj["price_limit"],
-                deadline: DateTime.parse(jsonObj["deadline"]),
-                message: jsonObj["message"]
+              orderRequestId: jsonObj["order_request_id"],
+              placedOrderId: jsonObj["placed_order_id"],
+              title: jsonObj["name"],
+              priceLimit: jsonObj["price_limit"],
+              deadline: DateTime.parse(jsonObj["deadline"]),
+              message: jsonObj["message"],
+              menuUrl: jsonObj["menu_url"]
             )
         );
       }
@@ -157,6 +158,14 @@ class ServerApi
   ServerApi._privateCtor();
   static final ServerApi _singleton = ServerApi._privateCtor();
   factory ServerApi() => _singleton;
+
+  bool areCredentialsSaved() {
+    return true; //TODO
+  }
+
+  bool checkSavedCredentials() {
+    return true; //TODO implement areCredentialsSaved, unmock _login and _password, implement this method
+  }
 
 
 }

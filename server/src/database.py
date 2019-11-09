@@ -128,3 +128,35 @@ class Database:
             })
 
         return result
+
+    def get_placed_order(self, placed_order_id):
+        statement = r"""
+            SELECT 
+                meal_name,
+                price,
+                quantity,
+                comment
+            FROM 
+                lunch_it.order_entry
+            WHERE
+                placed_order_id = %(placed_order_id)s
+        """
+
+        args = {
+            "placed_order_id": placed_order_id,
+        }
+
+        self.cursor.execute(statement, args)
+        allData = self.cursor.fetchall()
+
+        result = list()
+        for row in allData:
+            result.append({
+                "food_name": row[0],
+                "price": row[1],
+                "quantity": row[2],
+                "comment": row[3],
+            })
+
+        return result
+

@@ -38,7 +38,7 @@ class BasketEntryCard extends StatelessWidget {
                       entry.quantity}")
                 ],
               ),
-              if (_isModifiable == false) Row(
+              if (_isModifiable == true) Row(
                 children: <Widget>[
                   QuantityManager(
                     initVal: entry.quantity,

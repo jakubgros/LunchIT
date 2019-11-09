@@ -178,13 +178,11 @@ class ServerApi
         'Accept': 'application/json',
       };
 
-      var uri = Uri.http(_serverAdress, endpoint);
+      var params = {"placed_order_id": placedOrderId.toString()};
+      var uri = Uri.http(_serverAdress, endpoint, params);
       http.Request request = http.Request("GET", uri);
       request.headers.addAll(_getAuthHeader());
       request.headers.addAll(headers);
-      request.body = json.encode({
-        "placed_order_id": placedOrderId,
-      });
 
       http.StreamedResponse streamedResponse = await _client.send(request);
       http.Response response = await http.Response.fromStream(streamedResponse);

@@ -10,8 +10,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-
+  
   @override
   void initState() {
     super.initState();
@@ -22,6 +21,7 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          leading: Container(),
           title: Text("List of order requests"),
         ),
           body: FutureBuilder<List<OrderRequest>>(
@@ -54,7 +54,7 @@ class OrderRequestPresenter extends StatelessWidget {
           }
           else if(!orderRequest.hasExpired()){
             Provider.of<OrderRequest>(context).assign(orderRequest);
-            Navigator.of(context).pushNamed('/foodPicker', arguments: orderRequest); //TODO LN-57 get data about request from navigator in foodPicker
+            Navigator.of(context).pushNamed('/foodPicker', arguments: orderRequest);
           }
         },
         child: Card(
@@ -94,7 +94,7 @@ class OrderRequestPresenter extends StatelessWidget {
               ],
             ),
           ),
-        ) //TODO LN-57
+        )
     );
   }
 }

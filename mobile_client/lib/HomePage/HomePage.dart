@@ -79,7 +79,7 @@ class OrderRequestPresenter extends StatelessWidget {
             Navigator.of(context).pushNamed('/foodPicker', arguments: orderRequest); //TODO LN-57 get data about request from navigator in foodPicker
         },
         child: Card(
-          color: orderRequest.canOrder() ? Colors.green[200] : Colors.grey[500],
+          color: orderRequest.canOrder() ? Colors.red[200] : Colors.green[200],
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(

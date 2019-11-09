@@ -7,14 +7,12 @@ class OrderRequest {
   final String message;
   final int placedOrderId;
   final int orderRequestId;
-  final String menuUrl;
 
   OrderRequest({
     @required this.orderRequestId,
     @required this.priceLimit,
     @required this.title,
     @required this.deadline,
-    @required this.menuUrl,
     this.placedOrderId,
     this.message,
   });

@@ -137,7 +137,6 @@ class ServerApi
       for(Map jsonObj in listOfJsonObj) {
         orderRequests.add(
             OrderRequest(
-                menuUrl: jsonObj["menu_url"],
                 orderRequestId: jsonObj["order_request_id"],
                 placedOrderId: jsonObj["placed_order_id"],
                 title: jsonObj["name"],

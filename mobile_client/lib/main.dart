@@ -4,6 +4,7 @@ import 'package:lunch_it/Basket/BasketData.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/AddMenuPositionPage.dart';
 import 'package:lunch_it/FoodPicker/FoodPickerPage.dart';
 import 'package:lunch_it/Login/LoginPage.dart';
+import 'package:lunch_it/OrderRequest/OrderRequest.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 import 'package:lunch_it/SuccessfulOrder.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<BasketData>(
           builder: (context) => BasketData(),
+        ),
+        Provider<OrderRequest>(
+          builder: (context) => OrderRequest(),
         )
       ],
       child: MaterialApp(
@@ -42,10 +46,6 @@ class MyApp extends StatelessWidget {
               else
                 currentRoute = '/login';
             }
-
-
-
-
             var routes = <String, WidgetBuilder> {
               '/foodPicker': (BuildContext context) => FoodPickerPage(settings.arguments),
               '/foodPicker/addMenuPositionPage': (BuildContext context) => AddMenuPositionPage(),

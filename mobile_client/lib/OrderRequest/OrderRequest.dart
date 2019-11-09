@@ -1,23 +1,48 @@
 import 'package:flutter/foundation.dart';
 
 class OrderRequest {
-  final double priceLimit;
-  final String title;
-  final DateTime deadline;
-  final String message;
-  final int placedOrderId;
-  final int orderRequestId;
-  final String menuUrl;
+  double _priceLimit;
+  String _title;
+  DateTime _deadline;
+  String _message;
+  int _placedOrderId;
+  int _orderRequestId;
+  String _menuUrl;
+
+  double get priceLimit => _priceLimit;
+  String get title => _title;
+  DateTime get deadline => _deadline;
+  String get message => _message;
+  int get placedOrderId => _placedOrderId;
+  int get orderRequestId => _orderRequestId;
+  String get menuUrl => _menuUrl;
 
   OrderRequest({
-    @required this.orderRequestId,
-    @required this.priceLimit,
-    @required this.title,
-    @required this.deadline,
-    @required this.menuUrl,
-    this.placedOrderId,
-    this.message,
-  });
+    @required orderRequestId,
+    @required priceLimit,
+    @required title,
+    @required deadline,
+    @required menuUrl,
+    placedOrderId,
+    message,
+  }):
+    _orderRequestId = orderRequestId,
+    _priceLimit = priceLimit,
+    _title = title,
+    _deadline = deadline,
+    _menuUrl = menuUrl,
+    _placedOrderId = placedOrderId,
+    _message = message;
+
+  void assign(OrderRequest other) {
+    _priceLimit = other._priceLimit;
+    _title = other._title;
+    _deadline = other._deadline;
+    _message = other._message;
+    _placedOrderId = other._placedOrderId;
+    _orderRequestId = other._orderRequestId;
+    _menuUrl = other._menuUrl;
+  }
 
   String _getWithFollowingZeroIfNeeded(int val) {
     if(val<10)
@@ -52,4 +77,9 @@ class OrderRequest {
   bool canOrder() => !hasExpired() && placedOrderId==null;
   bool get isOrdered => placedOrderId!=null;
   Duration get timeLeft => deadline.difference(DateTime.now());
+
+
+
+
+
 }

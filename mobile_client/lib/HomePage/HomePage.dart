@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lunch_it/OrderRequest/OrderRequest.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -47,10 +48,14 @@ class OrderRequestPresenter extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          if(orderRequest.isOrdered)
+          if(orderRequest.isOrdered) {
+            Provider.of<OrderRequest>(context).assign(orderRequest);
             Navigator.of(context).pushNamed('/orderDataPresenter', arguments: orderRequest);
-          else if(!orderRequest.hasExpired())
+          }
+          else if(!orderRequest.hasExpired()){
+            Provider.of<OrderRequest>(context).assign(orderRequest);
             Navigator.of(context).pushNamed('/foodPicker', arguments: orderRequest); //TODO LN-57 get data about request from navigator in foodPicker
+          }
         },
         child: Card(
           color: orderRequest.canOrder() ? Colors.red[200] : Colors.green[200],

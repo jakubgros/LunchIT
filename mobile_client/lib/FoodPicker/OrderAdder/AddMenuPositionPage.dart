@@ -82,6 +82,9 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
 
     double price = _convertPriceToDouble(_priceAsText);
 
+    if(_comment.trim() == "")
+      _comment = null;
+
     var newEntry = BasketEntry(_foodAsText, price, _quantity, _comment);
 
     Provider.of<BasketData>(context, listen: false).addEntry(newEntry);

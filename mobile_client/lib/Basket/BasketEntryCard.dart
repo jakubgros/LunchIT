@@ -29,27 +29,35 @@ class BasketEntryCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(entry.foodName),
-                  Spacer(),
                   Text("${entry.price} x ${entry.quantity} = ${entry.price *
                       entry.quantity}")
                 ],
               ),
-              if (_isModifiable == true) Row(
+              if(entry.comment != null) Divider(color: Colors.black,),
+              if(entry.comment != null) Text("Comment: ${entry.comment}"),
+              if (_isModifiable == true) Column(
                 children: <Widget>[
-                  QuantityManager(
-                    initVal: entry.quantity,
-                    onChanged: (int quantity) => entry.quantity = quantity,
+                  Divider(color: Colors.black),
+                  Row(
+                    children: <Widget>[
+                      QuantityManager(
+                        initVal: entry.quantity,
+                        onChanged: (int quantity) => entry.quantity = quantity,
+                      ),
+                      Spacer(),
+                      FlatButton(
+                        child: Icon(Icons.remove),
+                        color: Colors.red[300],
+                        onPressed: () => basketData.removeEntry(index),
+                      )
+                    ],
                   ),
-                  Spacer(),
-                  FlatButton(
-                    child: Icon(Icons.remove),
-                    color: Colors.red[300],
-                    onPressed: () => basketData.removeEntry(index),
-                  )
                 ],
               )
             ],

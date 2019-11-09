@@ -1,11 +1,11 @@
 from werkzeug.utils import secure_filename
-from flask import request, Blueprint
-
+from flask import request
+from .. import routes
 from src.backend import backend
 from src.utils.validators.file_validators import is_image_file
 
-getAsText_api = Blueprint("getAsText_api", __name__)
-@getAsText_api.route('/getAsText', methods=['GET', 'POST'])  # TODO change to post get only
+
+@routes.route('/getAsText', methods=['GET', 'POST'])  # TODO change to post get only
 def getAsText():
     with backend:
         if request.method == 'POST':  # TODO not sure if needed

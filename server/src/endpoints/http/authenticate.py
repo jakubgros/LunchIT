@@ -1,10 +1,8 @@
-from flask import request, jsonify, Blueprint
-
+from flask import request, jsonify
 from src.backend import backend
+from .. import routes
 
-authenticate_api = Blueprint('authenticate_api', __name__)
-
-@authenticate_api.route('/authenticate', methods=['POST'])
+@routes.route('/authenticate', methods=['POST'])
 def authenticate():
     with backend:
         reqBody = request.json

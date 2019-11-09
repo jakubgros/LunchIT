@@ -1,13 +1,10 @@
 from flask import request, Blueprint
-
 from src.backend import backend
 import simplejson as json
-
 from src.utils.utilities import getUserId
+from .. import routes
 
-order_request_api = Blueprint("order_request_api", __name__)
-
-@order_request_api.route('/orderRequest', methods=['GET'])
+@routes.route('/orderRequest', methods=['GET'])
 def order_request():
     with backend:
         isAuthorized = backend.authenticate_request(request)

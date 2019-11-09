@@ -2,6 +2,7 @@ from configparser import ConfigParser
 
 def get_config(filename, section):
     parser = ConfigParser()
+    parser.optionxform = str # to preserve case sensitivity
     parser.read(filename)
 
     config = {}

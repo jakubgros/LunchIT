@@ -1,16 +1,19 @@
 from flask import Flask
-from src.endpoints.authenticate import authenticate_api
-from src.endpoints.get_as_text import getAsText_api
-from src.endpoints.order import order_api_get, order_api_post
-from src.endpoints.order_request import order_request_api
+from flask_mail import Mail
+from src.endpoints import *
+from src.utils.config import get_config
 
 app = Flask(__name__)
 
-app.register_blueprint(authenticate_api)
-app.register_blueprint(getAsText_api)
-app.register_blueprint(order_api_get)
-app.register_blueprint(order_api_post)
-app.register_blueprint(order_request_api)
+config = get_config("config.ini", "mail")
+config["MAIL_PORT"]= int(config["MAIL_PORT"])
+config["MAIL_USE_TLS"] = config["MAIL_USE_TLS"].lower() in ['true', '1']
+config["MAIL_USE_SSL"] = config["MAIL_USE_SSL"].lower() in ['true', '1']
+app.config.update(config)
+
+app.register_blueprint(routes)
+
+mail = Mail(app)
 
 if __name__ == '__main__':
     app.run(debug=True, port='5002')

@@ -5,7 +5,6 @@ import 'package:lunch_it/Basket/BasketEntry.dart';
 import 'package:lunch_it/Basket/BasketEntryCard.dart';
 import 'package:lunch_it/Basket/PlaceOrderButton.dart';
 import 'package:lunch_it/FoodPicker/BottomBar/CashInfoBar.dart';
-import 'package:lunch_it/FoodPicker/OrderAdder/QuantityManager.dart';
 import 'package:provider/provider.dart';
 
 class BasketPage extends StatelessWidget {

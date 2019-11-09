@@ -7,7 +7,6 @@ import 'package:lunch_it/OrderRequest/OrderRequest.dart';
 import 'package:provider/provider.dart';
 
 import 'BottomBar/BottomMenu.dart';
-import 'FoodMenusBar/FoodMenusBar.dart';
 import 'MenuViewer/Menu.dart';
 import 'MenuViewer/WebMenu/NavigationBar.dart';
 import 'MenuViewer/WebMenu/WebMenuContentViewer.dart';
@@ -38,18 +37,6 @@ class FoodPickerPage extends StatelessWidget {
           ],
             child: Column(
               children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      FoodMenusBar(
-                          amountOfEntries: 2,
-                          listColor: Colors.blue[300],
-                          separatorColor: Colors.black),
-                    ],
-                  ),
-                ),
                 Expanded(
                     flex: 18,
                     child: Row(

@@ -169,8 +169,46 @@ class ServerApi
   }
 
   Future<List<BasketEntry>> getPlacedOrder(int placedOrderId) async {
+    try{
+      const String endpoint = "/order";
+      // ==============================
 
-    
+      Map<String,String> headers = {
+        'Content-type' : 'application/json',
+        'Accept': 'application/json',
+      };
+
+      var uri = Uri.http(_serverAdress, endpoint);
+      http.Request request = http.Request("GET", uri);
+      request.headers.addAll(_getAuthHeader());
+      request.headers.addAll(headers);
+      request.body = json.encode({
+        "placed_order_id": placedOrderId,
+      });
+
+      http.StreamedResponse streamedResponse = await _client.send(request);
+      http.Response response = await http.Response.fromStream(streamedResponse);
+
+      if(response.statusCode != 200) //TODO extract statusCode processing to seperate method
+        throw Exception("error");
+
+      var order = List<BasketEntry>();
+      List listOfJsonObj = jsonDecode(response.body);
+      for(Map jsonObj in listOfJsonObj) {
+        order.add(
+            BasketEntry(
+                jsonObj["food_name"],
+                jsonObj["price"],
+                jsonObj["quantity"],
+                jsonObj["comment"])
+        );
+      }
+      return order;
+    }
+    catch(e)
+    {
+      print(e); //TODO add try catch to all async because it gets swallowed otherwise
+    }
   }
 
 

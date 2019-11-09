@@ -3,6 +3,7 @@ import 'package:lunch_it/FoodPicker/AppBar/ShoppingCardAppbarButton.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/AcceptMarked.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/MarkerMode.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/WebNavigation.dart';
+import 'package:lunch_it/OrderRequest/OrderRequest.dart';
 import 'package:provider/provider.dart';
 
 import 'BottomBar/BottomMenu.dart';
@@ -11,23 +12,17 @@ import 'MenuViewer/Menu.dart';
 import 'MenuViewer/WebMenu/NavigationBar.dart';
 import 'MenuViewer/WebMenu/WebMenuContentViewer.dart';
 
-class FoodPickerPage extends StatefulWidget {
-  @override
-  _FoodPickerPageState createState() => _FoodPickerPageState();
-}
-
-
-class _FoodPickerPageState extends State<FoodPickerPage> {
-  Menu _menu;
-
+class FoodPickerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final OrderRequest orderRequest = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
         appBar: AppBar(
           actions: <Widget>[
             ShoppingCardAppbarButton(),
           ],
-          title: Text("#MAIL TITLE#"), //TODO dehardcode
+          title: Text(orderRequest.title),
           leading: BackButton(),
         ),
         body: MultiProvider(
@@ -62,7 +57,11 @@ class _FoodPickerPageState extends State<FoodPickerPage> {
                         Provider<WebNavigationEventStream>(
                           builder: (context)=> WebNavigationEventStream(),
                           dispose: (context, value) => value.close(),
-                          child: _menu,
+                          child: Menu(
+                            contentViewer: WebMenuContentViewer(
+                                url: orderRequest.menuUrl),
+                            navbar: NavigationBar(),
+                          ),
                         ),
                       ],
                     )),
@@ -79,16 +78,5 @@ class _FoodPickerPageState extends State<FoodPickerPage> {
             ),
           ),
         );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _menu = Menu(
-      contentViewer: WebMenuContentViewer(
-          url: 'https://www.uszwagra24.pl/menu/'),
-      navbar: NavigationBar(),
-    );
   }
 }

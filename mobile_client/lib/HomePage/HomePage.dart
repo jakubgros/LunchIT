@@ -87,7 +87,9 @@ class OrderRequestPresenter extends StatelessWidget {
                 Text(orderRequest.title,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
+                  fontSize: 20
                 ),),
+                if(orderRequest.message != null) Text(orderRequest.message),
                 Divider(color: Colors.black,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

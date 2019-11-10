@@ -14,6 +14,6 @@ def order_request_for_single_user():
 
         user_id = getUserId(request)
 
-        order_requests = backend.get_order_requests(user_id)
+        order_requests = backend.get_order_requests_for_user(user_id)
 
         return json.dumps(order_requests, default=str, indent=4, sort_keys=True), 200

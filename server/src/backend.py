@@ -57,10 +57,13 @@ class BackEnd:
 
         return user_id is not None
 
-    def get_order_requests(self, user_id):
-        return self.db.get_order_requests(user_id)
+    def get_order_requests_for_user(self, user_id):
+        return self.db.get_order_requests_for_user(user_id)
 
     def get_placed_order(self, placed_order_id):
         return self.db.get_placed_order(placed_order_id)
+
+    def get_all_order_requests(self):
+        return self.db.get_all_order_requests()
 
 backend = BackEnd() # will be used by other files

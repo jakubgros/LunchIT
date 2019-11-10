@@ -80,7 +80,7 @@ class Database:
 
         return count == 1
 
-    def get_order_requests(self, user_id, ):
+    def get_order_requests_for_user(self, user_id):
         statement = r"""
         SELECT
             placed_order.id as placed_order_id,
@@ -160,3 +160,35 @@ class Database:
 
         return result
 
+    def get_all_order_requests(self):
+        statement = r"""
+                SELECT
+                    id,
+                    price_limit,
+                    name,
+                    deadline,
+                    message,
+                    menu_url
+
+                FROM
+                    lunch_it.order_request
+
+                ORDER BY
+                    deadline DESC
+                                """
+
+        self.cursor.execute(statement)
+        all_data = self.cursor.fetchall()
+
+        result = list()
+        for row in all_data:
+            result.append({
+                "id": row[0],
+                "price_limit": row[1],
+                "name": row[2],
+                "deadline": row[3],
+                "message": row[4],
+                "menu_url": row[5],
+            })
+
+        return result

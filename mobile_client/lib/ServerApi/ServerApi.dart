@@ -114,7 +114,7 @@ class ServerApi
 
   Future<List<OrderRequest>> getOrderRequests() async{
     try{
-      const String endpoint = "/orderRequest";
+      const String endpoint = "/orderRequestForSingleUser";
       // ==============================
 
       Map<String,String> headers = {

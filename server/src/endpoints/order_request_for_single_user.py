@@ -4,8 +4,8 @@ import simplejson as json
 from src.utils.utilities import getUserId
 from src.endpoints import routes
 
-@routes.route('/orderRequest', methods=['GET'])
-def order_request():
+@routes.route('/orderRequestForSingleUser', methods=['GET'])
+def order_request_for_single_user():
     with backend:
         isAuthorized = backend.authenticate_request(request)
 

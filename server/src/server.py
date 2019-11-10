@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_mail import Mail
 from src.endpoints import *
 from src.utils.config import get_config
 
@@ -13,7 +12,6 @@ app.config.update(config)
 
 app.register_blueprint(routes)
 
-mail = Mail(app)
 
 if __name__ == '__main__':
     app.run(debug=True, port='5002')

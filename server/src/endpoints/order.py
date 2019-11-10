@@ -2,7 +2,7 @@ from flask import request, jsonify
 from src.data_models.placed_order import PlacedOrderDataModel
 from src.backend import backend
 import json
-from .. import routes
+from src.endpoints import routes
 
 from src.utils.utilities import getUserId
 

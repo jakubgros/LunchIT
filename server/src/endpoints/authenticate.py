@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from src.backend import backend
-from .. import routes
+from src.endpoints import routes
 
 @routes.route('/authenticate', methods=['POST'])
 def authenticate():

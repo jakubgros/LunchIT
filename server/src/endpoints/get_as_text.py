@@ -1,6 +1,6 @@
 from werkzeug.utils import secure_filename
 from flask import request
-from .. import routes
+from src.endpoints import routes
 from src.backend import backend
 from src.utils.validators.file_validators import is_image_file
 

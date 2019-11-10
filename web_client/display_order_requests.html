@@ -1,0 +1,76 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>LunchIT - all order requests</title>
+  <meta name="description" content="all order requests">
+  <meta name="author" content="Jakub Gros">
+
+  <style>
+
+    table {
+        width: 100%;
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+  </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+
+
+
+    $.get("http://127.0.0.1:5002/allOrderRequests", (data, status) => {
+        var jsonData = $.parseJSON(data);
+
+        console.log(jsonData);
+        var table = $("#all_orders_table");
+        for(r = 0; r < jsonData.length; ++r) {
+
+            row = $("<tr></tr>");
+            order_request_id = jsonData[r]["id"]
+            row.append($("<th></th>").text(order_request_id));
+            row.append($("<th></th>").text(jsonData[r]["name"]));
+            row.append($("<th></th>").text(jsonData[r]["price_limit"]));
+            row.append($("<th></th>").text(jsonData[r]["deadline"]));
+
+            menuUrl = $("<a></a>").text("menu").attr("href", jsonData[r]["menu_url"]);
+            row.append($("<th></th>").append(menuUrl));
+
+            console.log(jsonData[r]["message"])
+            row.append($("<th></th>").append($("<pre></pre>").text(jsonData[r]["message"])));
+         
+            orders = $("<a></a>").text("orders").attr("href", `/lunch_it/orders?order_request_id=${order_request_id}`);
+            row.append($("<th></th>").append(orders));
+
+            table.append(row);
+        }
+
+    });
+
+});
+
+</script>
+
+
+</head>
+
+<body>
+    <table style="width:100%" id="all_orders_table">
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Price limit</th>
+          <th>Deadline</th>
+          <th>Menu url</th>
+          <th>Message</th>
+          <th>Orders</th>
+        </tr>
+      </table>
+</body>
+</html>

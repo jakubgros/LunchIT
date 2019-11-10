@@ -1,8 +1,9 @@
-from flask import request, Blueprint
+from flask import request
 from src.backend import backend
 import simplejson as json
 from src.utils.utilities import getUserId
 from src.endpoints import routes
+
 
 @routes.route('/orderRequestForSingleUser', methods=['GET'])
 def order_request_for_single_user():

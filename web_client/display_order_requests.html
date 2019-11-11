@@ -8,6 +8,7 @@
   <meta name="description" content="all order requests">
   <meta name="author" content="Jakub Gros">
 
+  <link rel="stylesheet" type="text/css" href="styles/navbar.css">
   <style>
 
     table {
@@ -27,6 +28,9 @@
 
 <script>
 $(document).ready(function(){
+
+    $("#navbar").load("/navbar.html");
+
     $.get("http://127.0.0.1:5002/allOrderRequests", (data, status) => {
         var jsonData = $.parseJSON(data);
 
@@ -54,8 +58,9 @@ $(document).ready(function(){
 </script>
 
 </head>
-
 <body>
+    <div id="navbar"></div>
+
     <table style="width:100%" id="all_orders_table">
         <tr>
           <th>ID</th>

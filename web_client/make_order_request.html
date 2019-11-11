@@ -1,0 +1,114 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>LunchIT - make order request</title>
+  <meta name="description" content="make order request">
+  <meta name="author" content="Jakub Gros">
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+  function submitForm() {
+    var title = $("#title").val();
+    var menu_url = $("#menu_url").val();
+    var price_limit = $("#price_limit").val();
+    var deadline = $("#deadline").val();
+    var message = $("#message").val();
+
+    var data = {
+      "title": title,
+      "menu_url": menu_url,
+      "price_limit": price_limit,
+      "deadline": deadline,
+      "message": message,
+    };
+
+    $.ajax('http://127.0.0.1:5002/order_request', {
+      data : JSON.stringify(data),
+      contentType : 'application/json',
+      type : 'POST',
+      error : () => alert("error"),
+      success : () => window.location.replace("/display_order_requests.html"),
+    });
+  }
+
+  function validateForm() {
+    //TODO
+      return null //return null if everything is ok, string message what is wrong else
+  }
+
+  $(document).ready(() => {
+    var today = new Date().toISOString();
+    $(deadline).attr('min', today);
+
+    $(submit_button).click(()=>{
+      var resultMsg = validateForm();
+      if(resultMsg==null)
+        submitForm();
+      else
+        alert(resultMsg);}
+      )
+  });
+
+</script>
+
+<style>
+
+    .input_field {
+      margin-left: 10px;
+      margin-bottom: 10px;
+      display: block;
+      width: 100%;
+    }
+
+    #message {
+      min-height: 20vh;
+      word-wrap: break-word;
+    }
+
+    .order_request_form {
+      width: 50%;
+      margin: 0 auto;
+    }
+  
+    #submit_button {
+      width: 20%;
+      margin: 10px;
+
+    }
+  
+
+  </style>
+
+</head>
+
+<body>
+    <div class="order_request_form">
+
+      <label for="title">Title</label>
+      <input class="input_field" type="text" id="title" reqiured>
+
+      <label for="menu_url">Menu url</label>
+      <input class="input_field" type="url" id="menu_url" reqiured>
+
+      <label for="price_limit">Price limit</label>
+      <input class="input_field" type="number" step="5" min=0 id="price_limit" reqiured>
+
+      <label for="deadline">Deadline</label>
+      <input class="input_field" type="datetime-local" id="deadline" required>
+
+      <label for="message">Additional message</label>
+      <textarea class="input_field" id="message"></textarea>
+  
+      <button id="submit_button">Submit</button>
+
+    </div>
+
+</body>
+
+</html>

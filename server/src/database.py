@@ -1,7 +1,7 @@
 import psycopg2 as psycopg2
 
 from src.utils.config import get_config
-
+from datetime import datetime
 
 class Database:
     def __init__(self):
@@ -192,3 +192,25 @@ class Database:
             })
 
         return result
+
+    def add_order_request(self, order_request):
+        statement = r"""
+        INSERT INTO 
+            lunch_it.order_request(price_limit, name, deadline, message, menu_url)
+            
+        VALUES(%(price_limit)s, %(name)s, %(deadline)s, %(message)s, %(menu_url)s)
+        
+        RETURNING id"""
+
+        args = {
+            "price_limit": float(order_request["price_limit"]),
+            "name": order_request["title"],
+            "deadline": datetime.strptime(order_request["deadline"], "%Y-%m-%dT%H:%M"),
+            "message": order_request["message"],
+            "menu_url": order_request["menu_url"],
+        }
+
+        self.cursor.execute(statement, args)
+        order_request_id = self.cursor.fetchone()[0]
+
+        return order_request_id

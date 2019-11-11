@@ -5,7 +5,9 @@ from src.utils.config import get_config
 
 app = Flask(__name__)
 
+from flask_cors import CORS
 
+app = Flask(__name__)
 
 config = get_config("config.ini", "mail")
 config["MAIL_PORT"]= int(config["MAIL_PORT"])
@@ -15,11 +17,8 @@ app.config.update(config)
 
 app.register_blueprint(routes)
 
-@app.after_request # TODO adjust on production version
-def after_request(response):
-    header = response.headers
-    header['Access-Control-Allow-Origin'] = '*'
-    return response
+
+cors = CORS(app) # TODO adjust on production server
 
 if __name__ == '__main__':
     app.run(debug=True, port='5002')

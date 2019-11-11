@@ -30,10 +30,8 @@ $(document).ready(function(){
     $.get("http://127.0.0.1:5002/allOrderRequests", (data, status) => {
         var jsonData = $.parseJSON(data);
 
-        console.log(jsonData);
         var table = $("#all_orders_table");
         for(r = 0; r < jsonData.length; ++r) {
-
             row = $("<tr></tr>");
             order_request_id = jsonData[r]["id"]
             row.append($("<th></th>").text(order_request_id));
@@ -44,7 +42,6 @@ $(document).ready(function(){
             menuUrl = $("<a></a>").text("menu").attr("href", jsonData[r]["menu_url"]);
             row.append($("<th></th>").append(menuUrl));
 
-            console.log(jsonData[r]["message"])
             row.append($("<th></th>").append($("<pre></pre>").text(jsonData[r]["message"])));
          
             orders = $("<a></a>").text("orders").attr("href", `/lunch_it/orders?order_request_id=${order_request_id}`);
@@ -52,9 +49,7 @@ $(document).ready(function(){
 
             table.append(row);
         }
-
     });
-
 });
 </script>
 

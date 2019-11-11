@@ -66,4 +66,8 @@ class BackEnd:
     def get_all_order_requests(self):
         return self.db.get_all_order_requests()
 
+    def add_order_request(self, order_request):
+        return self.db.add_order_request(order_request)
+
+
 backend = BackEnd() # will be used by other files

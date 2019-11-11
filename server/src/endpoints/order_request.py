@@ -14,3 +14,20 @@ def order_request_post():
         except Exception as e:
             print(e)
             return jsonify(error=str(e)), 500  # error server failure
+
+
+@routes.route('/order_request', methods=['GET'])
+def order_request_get_all_orders():
+    with backend:
+        try:
+            orders = backend.get_placed_orders_merged(request.args['id'])
+
+        except Exception as e:  # TODO add sth like this everywhere
+            print(e)
+            return jsonify(error=str(e)), 500  # error server failure
+
+        return jsonify(orders), 200  # success
+
+
+
+

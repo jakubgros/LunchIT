@@ -3,6 +3,7 @@ import psycopg2 as psycopg2
 from src.utils.config import get_config
 from datetime import datetime
 
+
 class Database:
     def __init__(self):
         config = get_config("config.ini", "postgresql")
@@ -214,3 +215,40 @@ class Database:
         order_request_id = self.cursor.fetchone()[0]
 
         return order_request_id
+
+    def get_placed_orders(self, order_request_id):
+        statement = r"""
+            SELECT
+                meal_name,
+                quantity,
+                comment
+            FROM
+                lunch_it.order_request
+            INNER JOIN
+                lunch_it.placed_order
+            ON
+                (order_request.id = placed_order.order_request_id)
+            INNER JOIN
+                lunch_it.order_entry
+            ON
+                (placed_order.id = order_entry.placed_order_id)
+            WHERE
+                order_request.id = %(order_request_id)s
+        """
+
+        args = {
+            "order_request_id": int(order_request_id),
+        }
+
+        self.cursor.execute(statement, args)
+        all_data = self.cursor.fetchall()
+
+        result = list()
+        for row in all_data:
+            result.append({
+                "meal_name": row[0],
+                "quantity": row[1],
+                "comment": row[2],
+            })
+
+        return result

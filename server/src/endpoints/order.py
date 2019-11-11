@@ -6,6 +6,7 @@ from src.endpoints import routes
 
 from src.utils.utilities import getUserId
 
+#add decorator for authorization wherever its needed
 
 @routes.route('/order', methods=['POST'])
 def orderPost():
@@ -47,3 +48,5 @@ def orderGet():
             return jsonify(error=str(e)), 500  # error server failure
 
         return jsonify(order), 200  # success
+
+

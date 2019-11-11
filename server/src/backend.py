@@ -69,5 +69,23 @@ class BackEnd:
     def add_order_request(self, order_request):
         return self.db.add_order_request(order_request)
 
+    def get_placed_orders_merged(self, order_request_id):
+        placed_orders = self.db.get_placed_orders(order_request_id)
+
+        merged = dict()
+        for order in placed_orders:
+            meal_name = order["meal_name"]
+            if meal_name not in merged:
+                merged[meal_name] = dict()
+
+            comment = "-" if order["comment"] is None\
+                else order["comment"]
+
+            if comment not in merged[meal_name]:
+                merged[meal_name][comment] = 1
+            else:
+                merged[meal_name][comment] += order["quantity"]
+
+        return merged
 
 backend = BackEnd() # will be used by other files

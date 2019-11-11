@@ -77,10 +77,15 @@ class ServerApi
   }
 
 
-  Future<bool> checkUser(String email, String password) async {
+  Future<bool> checkUser(String email, String password, {bool isPasswordHashed=false}) async {
     const String endpoint = "/authenticate";
     // ==============================
-    String hashedPassword = _hash(password);
+    String hashedPassword;
+    if(isPasswordHashed)
+      hashedPassword=password;
+    else
+      hashedPassword = _hash(password);
+
     String body = jsonEncode(
       {
         "user_id": email,
@@ -164,8 +169,8 @@ class ServerApi
     return true; //TODO
   }
 
-  bool checkSavedCredentials() {
-    return true; //TODO implement areCredentialsSaved, unmock _login and _password, implement this method
+  Future<bool> checkSavedCredentials() {
+    return checkUser(_email, _hashedPassword, isPasswordHashed: true);
   }
 
   Future<List<BasketEntry>> getPlacedOrder(int placedOrderId) async {

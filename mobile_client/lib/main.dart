@@ -35,30 +35,55 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           onGenerateRoute: (RouteSettings settings) {
             String currentRoute = settings.name;
+            Object arguments = settings.arguments;
 
             if(currentRoute == '/'){
               if(ServerApi().areCredentialsSaved()){
-                isLoggedIn = ServerApi().checkSavedCredentials();
-
-                if(isLoggedIn)
-                  currentRoute = '/home';
+                Future<bool> hasGrantedAccess = ServerApi().checkSavedCredentials();
+                currentRoute = '/savedCredentialsChecker';
+                arguments = hasGrantedAccess;
               }
               else
                 currentRoute = '/login';
             }
+
             var routes = <String, WidgetBuilder> {
-              '/foodPicker': (BuildContext context) => FoodPickerPage(settings.arguments),
+              '/foodPicker': (BuildContext context) => FoodPickerPage(arguments),
               '/foodPicker/addMenuPositionPage': (BuildContext context) => AddMenuPositionPage(),
               '/basketPage': (BuildContext context) => BasketPage(),
               '/succesfulOrder': (BuildContext context) => SuccessfulOrder(),
               '/login': (BuildContext context) => LoginPage(onSuccessPath: '/home'),
               '/home': (BuildContext context) => HomePage(),
-              '/orderDataPresenter': (BuildContext context) => OrderDataPresenterPage(settings.arguments),
+              '/orderDataPresenter': (BuildContext context) => OrderDataPresenterPage(arguments),
+              '/savedCredentialsChecker': (BuildContext context) => SavedCredentialsChecker(arguments),
+
             };
             WidgetBuilder builder = routes[currentRoute];
             return MaterialPageRoute(builder: (ctx) => builder(ctx));
           },
       ),
     );
+  }
+}
+
+class SavedCredentialsChecker extends StatelessWidget {
+
+  Future<bool> hasGrantedAccessFuture;
+  SavedCredentialsChecker(this.hasGrantedAccessFuture);
+
+  bool hasRegisteredCallback = false;
+  @override
+  Widget build(BuildContext context) {
+
+    if(hasRegisteredCallback == false) {
+      hasGrantedAccessFuture.then((hasGranted) {
+        if (hasGranted)
+          Navigator.of(context).pushNamed('/home');
+        else
+          Navigator.of(context).pushNamed('/login');
+      });
+    }
+
+    return Container();
   }
 }

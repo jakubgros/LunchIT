@@ -25,7 +25,6 @@ def order_request_get_all_orders():
         except Exception as e:  # TODO add sth like this everywhere
             print(e)
             return jsonify(error=str(e)), 500  # error server failure
-
         return jsonify(orders), 200  # success
 
 

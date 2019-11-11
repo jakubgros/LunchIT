@@ -44,7 +44,7 @@ $(document).ready(function(){
 
             row.append($("<th></th>").append($("<pre></pre>").text(jsonData[r]["message"])));
          
-            orders = $("<a></a>").text("orders").attr("href", `/lunch_it/orders?order_request_id=${order_request_id}`);
+            orders = $("<a></a>").text("orders").attr("href", `/order_request.html?id=${order_request_id}`);
             row.append($("<th></th>").append(orders));
 
             table.append(row);

@@ -30,9 +30,9 @@ class BackEnd:
         return order_id
 
     def authenticate_user(self, user_id, hashed_password):  # returns None if credentials are not valid, user id else
-        does_exist = self.db.are_credentials_correct(user_id, hashed_password)
+        are_credentials_correct = self.db.are_credentials_correct(user_id, hashed_password)
 
-        if does_exist == False:
+        if are_credentials_correct == False:
             return None
         else:
             return user_id
@@ -46,10 +46,15 @@ class BackEnd:
             return False
 
         auth_header = request.headers.environ["HTTP_AUTHORIZATION"]
+        if len(auth_header) == 0:
+            return False
 
         (username, hashed_password) = auth_header.split(':', 1)
 
-        if username is None or hashed_password is None:
+        if username is None \
+                or hashed_password is None\
+                or len(username) == 0 \
+                or len(hashed_password) == 0:
             return False
 
 

@@ -8,11 +8,9 @@ class Database:
     def __init__(self):
         config = get_config("config.ini", "postgresql")
         self.connection = psycopg2.connect(**config)
-        self.cursor = self.connection.cursor()
 
     def __del__(self):
         self.connection.close()
-        self.cursor.close()
 
     def rollback(self):
         self.connection.rollback()
@@ -21,19 +19,20 @@ class Database:
         self.connection.commit()
 
     def has_order(self, user_id, order_request_id):
-        statement = r"""SELECT COUNT(*) FROM lunch_it.placed_order WHERE user_id=%(user_id)s AND order_request_id=%(order_request_id)s;"""
-        args = {
-            "user_id": user_id,
-            "order_request_id": order_request_id,
-        }
+        with self.connection.cursor() as cursor:
+            statement = r"""SELECT COUNT(*) FROM lunch_it.placed_order WHERE user_id=%(user_id)s AND order_request_id=%(order_request_id)s;"""
+            args = {
+                "user_id": user_id,
+                "order_request_id": order_request_id,
+            }
 
-        self.cursor.execute(statement, args)
-        count = self.cursor.fetchone()[0]
+            cursor.execute(statement, args)
+            count = cursor.fetchone()[0]
 
-        if count > 1:
-            raise Exception("user can't have more than one placed order for single order request")
+            if count > 1:
+                raise Exception("user can't have more than one placed order for single order request")
 
-        return count == 1
+            return count == 1
 
     def add_order(self, placed_order, user_id):
         placed_order_id = self._add_placed_order(user_id, placed_order["orderRequestId"])
@@ -45,234 +44,250 @@ class Database:
         return placed_order_id
 
     def _add_placed_order(self, user_id, order_request_id):
-        statement = r"""INSERT INTO lunch_it.placed_order(user_id, order_request_id) VALUES(%(user_id)s, %(order_request_id)s) RETURNING id"""
-        args = {
-            "user_id": user_id,
-            "order_request_id": order_request_id,
-        }
+        with self.connection.cursor() as cursor:
+            statement = r"""INSERT INTO lunch_it.placed_order(user_id, order_request_id) VALUES(%(user_id)s, %(order_request_id)s) RETURNING id;"""
+            args = {
+                "user_id": user_id,
+                "order_request_id": order_request_id,
+            }
 
-        self.cursor.execute(statement, args)
-        placed_order_id = self.cursor.fetchone()[0]
+            cursor.execute(statement, args)
+            placed_order_id = cursor.fetchone()[0]
 
-        return placed_order_id
+            return placed_order_id
 
     def _add_order_entry(self, entry, placed_order_id):
-        statement = r"""INSERT INTO lunch_it.order_entry(placed_order_id, meal_name, price, quantity, comment)
-            VALUES(%(placed_order_id)s, %(meal_name)s, %(price)s, %(quantity)s, %(comment)s)"""
-        args = {
-            "placed_order_id": placed_order_id,
-            "meal_name": entry["foodName"],
-            "price": entry["price"],
-            "quantity": entry["quantity"],
-            "comment": None if entry["comment"] == "" else entry["comment"],
-        }
+        with self.connection.cursor() as cursor:
+            statement = r"""INSERT INTO lunch_it.order_entry(placed_order_id, meal_name, price, quantity, comment)
+                VALUES(%(placed_order_id)s, %(meal_name)s, %(price)s, %(quantity)s, %(comment)s);"""
+            args = {
+                "placed_order_id": placed_order_id,
+                "meal_name": entry["foodName"],
+                "price": entry["price"],
+                "quantity": entry["quantity"],
+                "comment": None if entry["comment"] == "" else entry["comment"],
+            }
 
-        self.cursor.execute(statement, args)
+            cursor.execute(statement, args)
 
     def are_credentials_correct(self, user_id, hashed_password):
-        statement = r"""SELECT COUNT(*) FROM lunch_it.user WHERE email=%(email)s AND password=%(password)s"""
-        args = {
-            "email": user_id,
-            "password": hashed_password,
-        }
+        with self.connection.cursor() as cursor:
+            statement = r"""SELECT COUNT(*) FROM lunch_it.user WHERE email=%(email)s AND password=%(password)s;"""
+            args = {
+                "email": user_id,
+                "password": hashed_password,
+            }
 
-        self.cursor.execute(statement, args)
-        count = self.cursor.fetchone()[0]
+            cursor.execute(statement, args)
+            count = cursor.fetchone()
+            count = count[0]
 
-        return count == 1
+            return count == 1
+
 
     def get_order_requests_for_user(self, user_id):
-        statement = r"""
-        SELECT
-            placed_order.id as placed_order_id,
-            name,
-            price_limit,
-            deadline,
-            message,
-            order_request.id as order_request_id,
-            menu_url
-            
-        FROM
-            lunch_it.order_request
-        LEFT OUTER JOIN
-            lunch_it.placed_order
-        ON
-            (order_request.id = placed_order.order_request_id)
-                         
-        WHERE
-            deadline > NOW() AND placed_order.id IS NULL /* not expired and not ordered*/
-                OR 
-            placed_order.id IS NOT NULL /* ordered */
-
-        ORDER BY
-            placed_order.id IS NOT NULL,
-            deadline ASC
-                        """
-
-        args = {
-            "user_id": user_id,
-        }
-
-        self.cursor.execute(statement, args)
-        allData = self.cursor.fetchall()
-
-        result = list()
-        for row in allData:
-            result.append({
-                "placed_order_id": row[0],
-                "name": row[1],
-                "price_limit": row[2],
-                "deadline": row[3],
-                "message": row[4],
-                "order_request_id": row[5],
-                "menu_url": row[6],
-            })
-
-        return result
-
-    def get_placed_order(self, placed_order_id):
-        statement = r"""
-            SELECT 
-                meal_name,
-                price,
-                quantity,
-                comment
-            FROM 
-                lunch_it.order_entry
-            WHERE
-                placed_order_id = %(placed_order_id)s
-        """
-
-        args = {
-            "placed_order_id": placed_order_id,
-        }
-
-        self.cursor.execute(statement, args)
-        allData = self.cursor.fetchall()
-
-        result = list()
-        for row in allData:
-            result.append({
-                "food_name": row[0],
-                "price": row[1],
-                "quantity": row[2],
-                "comment": row[3],
-            })
-
-        return result
-
-    def get_all_order_requests(self):
-        statement = r"""
-                SELECT
-                    id,
-                    price_limit,
-                    name,
-                    deadline,
-                    message,
-                    menu_url
-
-                FROM
-                    lunch_it.order_request
-
-                ORDER BY
-                    deadline DESC
-                                """
-
-        self.cursor.execute(statement)
-        all_data = self.cursor.fetchall()
-
-        result = list()
-        for row in all_data:
-            result.append({
-                "id": row[0],
-                "price_limit": row[1],
-                "name": row[2],
-                "deadline": row[3],
-                "message": row[4],
-                "menu_url": row[5],
-            })
-
-        return result
-
-    def add_order_request(self, order_request):
-        statement = r"""
-        INSERT INTO 
-            lunch_it.order_request(price_limit, name, deadline, message, menu_url)
-            
-        VALUES(%(price_limit)s, %(name)s, %(deadline)s, %(message)s, %(menu_url)s)
-        
-        RETURNING id"""
-
-        args = {
-            "price_limit": float(order_request["price_limit"]),
-            "name": order_request["title"],
-            "deadline": datetime.strptime(order_request["deadline"], "%Y-%m-%dT%H:%M"),
-            "message": order_request["message"],
-            "menu_url": order_request["menu_url"],
-        }
-
-        self.cursor.execute(statement, args)
-        order_request_id = self.cursor.fetchone()[0]
-
-        return order_request_id
-
-    def get_placed_orders(self, order_request_id):
-        statement = r"""
+        with self.connection.cursor() as cursor:
+            statement = r"""
             SELECT
-                meal_name,
-                quantity,
-                comment
+                placed_order.id as placed_order_id,
+                name,
+                price_limit,
+                deadline,
+                message,
+                order_request.id as order_request_id,
+                menu_url
+                
             FROM
                 lunch_it.order_request
-            INNER JOIN
+            LEFT OUTER JOIN
                 lunch_it.placed_order
             ON
                 (order_request.id = placed_order.order_request_id)
-            INNER JOIN
-                lunch_it.order_entry
-            ON
-                (placed_order.id = order_entry.placed_order_id)
+                             
             WHERE
-                order_request.id = %(order_request_id)s
-        """
+                deadline > NOW() AND placed_order.id IS NULL /* not expired and not ordered*/
+                    OR 
+                ( 
+                    placed_order.id IS NOT NULL 
+                        AND 
+                    placed_order.user_id=%(user_id)s
+                ) /* ordered */
+    
+            ORDER BY
+                placed_order.id IS NOT NULL,
+                deadline ASC;
+                            """
 
-        args = {
-            "order_request_id": int(order_request_id),
-        }
+            args = {
+                "user_id": user_id,
+            }
 
-        self.cursor.execute(statement, args)
-        all_data = self.cursor.fetchall()
+            cursor.execute(statement, args)
+            allData = cursor.fetchall()
 
-        result = list()
-        for row in all_data:
-            result.append({
-                "meal_name": row[0],
-                "quantity": row[1],
-                "comment": row[2],
-            })
+            result = list()
+            for row in allData:
+                result.append({
+                    "placed_order_id": row[0],
+                    "name": row[1],
+                    "price_limit": row[2],
+                    "deadline": row[3],
+                    "message": row[4],
+                    "order_request_id": row[5],
+                    "menu_url": row[6],
+                })
 
-        return result
+            return result
+
+    def get_placed_order(self, placed_order_id):
+        with self.connection.cursor() as cursor:
+            statement = r"""
+                SELECT 
+                    meal_name,
+                    price,
+                    quantity,
+                    comment
+                FROM 
+                    lunch_it.order_entry
+                WHERE
+                    placed_order_id = %(placed_order_id)s;
+            """
+
+            args = {
+                "placed_order_id": placed_order_id,
+            }
+
+            cursor.execute(statement, args)
+            allData = cursor.fetchall()
+
+            result = list()
+            for row in allData:
+                result.append({
+                    "food_name": row[0],
+                    "price": row[1],
+                    "quantity": row[2],
+                    "comment": row[3],
+                })
+
+            return result
+
+    def get_all_order_requests(self):
+        with self.connection.cursor() as cursor:
+            statement = r"""
+                    SELECT
+                        id,
+                        price_limit,
+                        name,
+                        deadline,
+                        message,
+                        menu_url
+    
+                    FROM
+                        lunch_it.order_request
+    
+                    ORDER BY
+                        deadline DESC;
+                                    """
+
+            cursor.execute(statement)
+            all_data = cursor.fetchall()
+
+            result = list()
+            for row in all_data:
+                result.append({
+                    "id": row[0],
+                    "price_limit": row[1],
+                    "name": row[2],
+                    "deadline": row[3],
+                    "message": row[4],
+                    "menu_url": row[5],
+                })
+
+            return result
+
+    def add_order_request(self, order_request):
+        with self.connection.cursor() as cursor:
+            statement = r"""
+            INSERT INTO 
+                lunch_it.order_request(price_limit, name, deadline, message, menu_url)
+                
+            VALUES(%(price_limit)s, %(name)s, %(deadline)s, %(message)s, %(menu_url)s)
+            
+            RETURNING id;"""
+
+            args = {
+                "price_limit": float(order_request["price_limit"]),
+                "name": order_request["title"],
+                "deadline": datetime.strptime(order_request["deadline"], "%Y-%m-%dT%H:%M"),
+                "message": order_request["message"],
+                "menu_url": order_request["menu_url"],
+            }
+
+            cursor.execute(statement, args)
+            order_request_id = cursor.fetchone()[0]
+
+            return order_request_id
+
+    def get_placed_orders(self, order_request_id):
+        with self.connection.cursor() as cursor:
+            statement = r"""
+                SELECT
+                    meal_name,
+                    quantity,
+                    comment
+                FROM
+                    lunch_it.order_request
+                INNER JOIN
+                    lunch_it.placed_order
+                ON
+                    (order_request.id = placed_order.order_request_id)
+                INNER JOIN
+                    lunch_it.order_entry
+                ON
+                    (placed_order.id = order_entry.placed_order_id)
+                WHERE
+                    order_request.id = %(order_request_id)s;
+            """
+
+            args = {
+                "order_request_id": int(order_request_id),
+            }
+
+            cursor.execute(statement, args)
+            all_data = cursor.fetchall()
+
+            result = list()
+            for row in all_data:
+                result.append({
+                    "meal_name": row[0],
+                    "quantity": row[1],
+                    "comment": row[2],
+                })
+
+            return result
 
     def does_user_exist(self, user_id):
-        statement = r"""SELECT COUNT(*) FROM lunch_it.user WHERE email=%(email)s"""
-        args = {
-            "email": user_id,
-        }
+        with self.connection.cursor() as cursor:
+            statement = r"""SELECT COUNT(*) FROM lunch_it.user WHERE email=%(email)s;"""
+            args = {
+                "email": user_id,
+            }
 
-        self.cursor.execute(statement, args)
-        count = self.cursor.fetchone()[0]
+            cursor.execute(statement, args)
+            count = cursor.fetchone()[0]
 
-        return count == 1
+            return count == 1
 
     def create_user(self, user_id, hashed_password):
-        if self.does_user_exist(user_id):
-            return False
+        with self.connection.cursor() as cursor:
+            if self.does_user_exist(user_id):
+                return False
 
-        statement = r"""INSERT INTO lunch_it.user(email, password) VALUES(%(email)s, %(password)s)"""
-        args = {
-            "email": user_id,
-            "password": hashed_password,
-        }
+            statement = r"""INSERT INTO lunch_it.user(email, password) VALUES(%(email)s, %(password)s);"""
+            args = {
+                "email": user_id,
+                "password": hashed_password,
+            }
 
-        self.cursor.execute(statement, args)
-        return True
+            cursor.execute(statement, args)
+            return True

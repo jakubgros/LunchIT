@@ -35,27 +35,16 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           onGenerateRoute: (RouteSettings settings) {
             String currentRoute = settings.name;
-            Object arguments = settings.arguments;
-
-            if(currentRoute == '/'){
-              if(ServerApi().areCredentialsSaved()){
-                Future<bool> hasGrantedAccess = ServerApi().checkSavedCredentials();
-                currentRoute = '/savedCredentialsChecker';
-                arguments = hasGrantedAccess;
-              }
-              else
-                currentRoute = '/login';
-            }
 
             var routes = <String, WidgetBuilder> {
-              '/foodPicker': (BuildContext context) => FoodPickerPage(arguments),
+              '/foodPicker': (BuildContext context) => FoodPickerPage(settings.arguments),
               '/foodPicker/addMenuPositionPage': (BuildContext context) => AddMenuPositionPage(),
               '/basketPage': (BuildContext context) => BasketPage(),
               '/succesfulOrder': (BuildContext context) => SuccessfulOrder(),
               '/login': (BuildContext context) => LoginPage(onSuccessPath: '/home'),
               '/home': (BuildContext context) => HomePage(),
-              '/orderDataPresenter': (BuildContext context) => OrderDataPresenterPage(arguments),
-              '/savedCredentialsChecker': (BuildContext context) => SavedCredentialsChecker(arguments),
+              '/orderDataPresenter': (BuildContext context) => OrderDataPresenterPage(settings.arguments),
+              '/': (BuildContext context) => SavedCredentialsChecker(),
 
             };
             WidgetBuilder builder = routes[currentRoute];
@@ -66,22 +55,25 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+bool hasRegisteredCallback = false;
 class SavedCredentialsChecker extends StatelessWidget {
 
-  Future<bool> hasGrantedAccessFuture;
-  SavedCredentialsChecker(this.hasGrantedAccessFuture);
+  void _registerCallback(NavigatorState navigator) async{
 
-  bool hasRegisteredCallback = false;
+      bool hasGrantedAccess = await ServerApi().checkSavedCredentials();
+      if(hasGrantedAccess)
+        navigator.pushNamed('/home');
+      else
+        navigator.pushNamed('/login');
+  }
+
   @override
   Widget build(BuildContext context) {
 
     if(hasRegisteredCallback == false) {
-      hasGrantedAccessFuture.then((hasGranted) {
-        if (hasGranted)
-          Navigator.of(context).pushNamed('/home');
-        else
-          Navigator.of(context).pushNamed('/login');
-      });
+      _registerCallback(Navigator.of(context));
+      hasRegisteredCallback = true;
     }
 
     return Container();

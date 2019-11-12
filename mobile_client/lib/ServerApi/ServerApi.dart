@@ -9,15 +9,22 @@ import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:password/password.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ServerApi
 {
   static String _serverAdress = "10.0.2.2:5002";
   final http.Client _client = http.Client();
 
-  String _email = "kubagros@gmail.com"; //TODO change to "" - allows to skip login page for debugging purposes
-  String _hashedPassword = _hash("admin"); //TODO change to ""
+  String _email;
+  String _hashedPassword;
 
+  Future<String> get _rememberedCredentialsFilePath async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String credFileName = "cred.txt";
+    return appDocDir.path + "/" + credFileName;
+  }
+  
   void closeConnection() { //TODO call it somewhere
     _client.close();
   }
@@ -77,7 +84,8 @@ class ServerApi
   }
 
 
-  Future<bool> checkUser(String email, String password, {bool isPasswordHashed=false}) async {
+  Future<bool> checkUser(String email, String password, { bool isPasswordHashed=false,
+        bool rememberCredentials }) async {
     const String endpoint = "/authenticate";
     // ==============================
     String hashedPassword;
@@ -108,6 +116,10 @@ class ServerApi
       _email = email;
       _hashedPassword = hashedPassword;
     }
+
+    if(rememberCredentials)
+      _rememberCredentials(email, hashedPassword);
+
     return isUserValid;
   }
 
@@ -165,12 +177,12 @@ class ServerApi
   static final ServerApi _singleton = ServerApi._privateCtor();
   factory ServerApi() => _singleton;
 
-  bool areCredentialsSaved() {
-    return true; //TODO
-  }
 
-  Future<bool> checkSavedCredentials() {
-    return checkUser(_email, _hashedPassword, isPasswordHashed: true);
+  Future<bool> checkSavedCredentials() async {
+    bool hasLoadedSuccessfully = await _loadSavedCredentials();
+    if(hasLoadedSuccessfully == false)
+      return false;
+    return checkUser(_email, _hashedPassword, isPasswordHashed: true, rememberCredentials: false);
   }
 
   Future<List<BasketEntry>> getPlacedOrder(int placedOrderId) async {
@@ -214,5 +226,23 @@ class ServerApi
     }
   }
 
+  void _rememberCredentials(String email, String hashedPassword) async {
+    File credFile = await File(await _rememberedCredentialsFilePath).create();
+    String content = email + " " + hashedPassword;
+    credFile.writeAsString(content);
+  }
 
+  Future<bool> _loadSavedCredentials() async {
+    bool fileExists = FileSystemEntity.typeSync(await _rememberedCredentialsFilePath) != FileSystemEntityType.notFound;
+    
+    if(fileExists == false)
+      return false;
+    
+    File credFile = File(await _rememberedCredentialsFilePath);
+    List<String> content = (await credFile.readAsString()).split(" ");
+    _email = content[0];
+    _hashedPassword = content[1];
+
+    return true;
+  }
 }

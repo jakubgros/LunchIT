@@ -69,7 +69,7 @@ class Database:
 
         self.cursor.execute(statement, args)
 
-    def does_user_exist(self, user_id, hashed_password):
+    def are_credentials_correct(self, user_id, hashed_password):
         statement = r"""SELECT COUNT(*) FROM lunch_it.user WHERE email=%(email)s AND password=%(password)s"""
         args = {
             "email": user_id,
@@ -252,3 +252,27 @@ class Database:
             })
 
         return result
+
+    def does_user_exist(self, user_id):
+        statement = r"""SELECT COUNT(*) FROM lunch_it.user WHERE email=%(email)s"""
+        args = {
+            "email": user_id,
+        }
+
+        self.cursor.execute(statement, args)
+        count = self.cursor.fetchone()[0]
+
+        return count == 1
+
+    def create_user(self, user_id, hashed_password):
+        if self.does_user_exist(user_id):
+            return False
+
+        statement = r"""INSERT INTO lunch_it.user(email, password) VALUES(%(email)s, %(password)s)"""
+        args = {
+            "email": user_id,
+            "password": hashed_password,
+        }
+
+        self.cursor.execute(statement, args)
+        return True

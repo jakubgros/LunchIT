@@ -30,7 +30,7 @@ class BackEnd:
         return order_id
 
     def authenticate_user(self, user_id, hashed_password):  # returns None if credentials are not valid, user id else
-        does_exist = self.db.does_user_exist(user_id, hashed_password)
+        does_exist = self.db.are_credentials_correct(user_id, hashed_password)
 
         if does_exist == False:
             return None
@@ -87,5 +87,8 @@ class BackEnd:
                 merged[meal_name][comment] += order["quantity"]
 
         return merged
+
+    def create_user(self, user_id, hashed_password):
+        return self.db.create_user(user_id, hashed_password)
 
 backend = BackEnd() # will be used by other files

@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import 'FoodPicker/Marker/MarkerData.dart';
 import 'HomePage/HomePage.dart';
+import 'Login/RegistrationPage.dart';
 import 'OrderDataPresenter/OrderDataPresenterPage.dart';
 
 void main() => runApp(MyApp());
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
               '/basketPage': (BuildContext context) => BasketPage(),
               '/succesfulOrder': (BuildContext context) => SuccessfulOrder(),
               '/login': (BuildContext context) => LoginPage(onSuccessPath: '/home'),
+              '/register': (BuildContext context) => RegistrationPage(),
               '/home': (BuildContext context) => HomePage(),
               '/orderDataPresenter': (BuildContext context) => OrderDataPresenterPage(settings.arguments),
               '/': (BuildContext context) => SavedCredentialsChecker(),

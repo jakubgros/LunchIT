@@ -52,11 +52,27 @@ class _LoginPageState extends State<LoginPage> {
                     Text("Remember me"),
                   ],
                 ),
+
                 RaisedButton(
                     child: Text("LOGIN"),
                     onPressed: () => _login(context)
                 ),
                 if(_incorrectCredentials) Text("Provided credentials are incorrect") else Container(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: <Widget>[
+                      Text("Don't have account? "),
+                      InkWell(
+                        child: Text("Go to registration",
+                        style: TextStyle(
+                          color: Colors.blue[700]
+                        ),),
+                        onTap: () => Navigator.of(context).pushNamed('/register'),
+                      )
+                    ],
+                  ),
+                )
               ],
             ),
           ),

@@ -84,7 +84,10 @@ class OrderRequestPresenter extends StatelessWidget {
           }
         },
         child: Card(
-          color: orderRequest.canOrder() ? Colors.red[200] : Colors.green[200],
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.elliptical(15, 15))),
+          elevation: 10,
+          margin: EdgeInsets.only(top: 10, left: 5, right: 5),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -104,7 +107,8 @@ class OrderRequestPresenter extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         DescriptionAndValue("Price limit: ", "${orderRequest.priceLimit.toStringAsFixed(2)}"),
-                        DescriptionAndValue("Status: ", "${orderRequest.isOrdered ? "Ordered" : "Not ordered"}"),
+                        DescriptionAndValue("Status: ", "${orderRequest.isOrdered ? "Ordered" : "Not ordered"}",
+                          valueColor: orderRequest.canOrder() ? Colors.red[500] : Colors.green[500]),
                       ],
                     ),
                     Column(
@@ -128,14 +132,15 @@ class OrderRequestPresenter extends StatelessWidget {
 
 class BoldText extends StatelessWidget {
   final String text;
-
-  BoldText(this.text);
+  final Color color;
+  BoldText(this.text, {this.color});
 
   @override
   Widget build(BuildContext context) {
     return Text(text,
       style: TextStyle(
         fontWeight: FontWeight.bold,
+        color: color,
       ));
   }
 }
@@ -143,15 +148,15 @@ class BoldText extends StatelessWidget {
 class DescriptionAndValue extends StatelessWidget {
   final String description;
   final String value;
-
-  DescriptionAndValue(this.description, this.value);
+  final Color valueColor;
+  DescriptionAndValue(this.description, this.value, {this.valueColor});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
         Text(description),
-        BoldText(value),
+        BoldText(value, color: valueColor),
       ],
     );
   }

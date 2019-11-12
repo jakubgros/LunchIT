@@ -245,4 +245,12 @@ class ServerApi
 
     return true;
   }
+
+  void _removeSavedCredentials() => _rememberCredentials("","");
+
+  void logout() {
+    _email = "";
+    _hashedPassword = "";
+    _removeSavedCredentials();
+  }
 }

@@ -22,6 +22,9 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         appBar: AppBar(
           leading: Container(),
+          actions: <Widget>[
+            Logout(),
+          ],
           title: Text("List of order requests"),
         ),
           body: FutureBuilder<List<OrderRequest>>(
@@ -37,7 +40,30 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+class Logout extends StatelessWidget {
 
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Column(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.exit_to_app),
+                onPressed: (){
+                  Navigator.of(context).pushNamed('/login');
+                  ServerApi().logout();
+                },
+              ),
+              Text("Logout"),
+            ],
+          ),
+        )
+    );
+  }
+}
 
 class OrderRequestPresenter extends StatelessWidget {
   final OrderRequest orderRequest;

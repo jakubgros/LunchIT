@@ -17,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   String _password;
 
   bool _incorrectCredentials = false;
-
+  bool _rememberCredentials = false;
   final _loginFormKey = GlobalKey<FormState>();
 
   @override
@@ -42,6 +42,16 @@ class _LoginPageState extends State<LoginPage> {
                     onSaved: (value) => _password = value,
                     obscureText: true,
                     decoration: InputDecoration(labelText: "Password")),
+
+                Row(
+                  children: <Widget>[
+                    Checkbox(
+                      value: _rememberCredentials,
+                      onChanged: (value) => setState(()=> _rememberCredentials = value),
+                    ),
+                    Text("Remember me"),
+                  ],
+                ),
                 RaisedButton(
                     child: Text("LOGIN"),
                     onPressed: () => _login(context)
@@ -62,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
     else
       loginForm.save();
 
-    bool isUserValid = await ServerApi().checkUser(_email, _password, rememberCredentials: true);
+    bool isUserValid = await ServerApi().checkUser(_email, _password, rememberCredentials: _rememberCredentials);
 
     if(isUserValid)
       Navigator.of(context).pushNamed(widget.onSuccessPath);

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/QuantityManager.dart';
+import 'package:lunch_it/HomePage/HomePage.dart';
 
 import 'BasketData.dart';
 import 'BasketEntry.dart';
@@ -21,11 +22,8 @@ class BasketEntryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        color: Colors.grey[250],
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.elliptical(10, 10))),
-        margin: EdgeInsets.all(5),
-        elevation: 5,
+        elevation: 10,
+        margin: EdgeInsets.only(top: 3, left: 5, right: 5),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -34,13 +32,12 @@ class BasketEntryCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(entry.foodName),
+                  BoldText(entry.foodName),
                   Text("${entry.price} x ${entry.quantity} = ${entry.price *
                       entry.quantity}")
                 ],
               ),
-              if(entry.comment != null) Divider(color: Colors.black,),
-              if(entry.comment != null) Text("Comment: ${entry.comment}"),
+              if(entry.comment != null) Text("(${entry.comment})"),
               if (_isModifiable == true) Column(
                 children: <Widget>[
                   Divider(color: Colors.black),

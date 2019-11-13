@@ -18,13 +18,13 @@ class BasketPage extends StatelessWidget {
           itemBuilder: (context, index) =>
               basketEntryBuilder(basketData, index),
         ),
-        bottomSheet: SizedBox(
-          height: 100,
+        bottomSheet: FractionallySizedBox(
+          heightFactor: 1/10,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               PlaceOrderButton(),
-              CashInfoBar(),
+              Expanded(child: CashInfoBar()),
             ],
           ),
         ));

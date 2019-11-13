@@ -1,82 +1,76 @@
 <!doctype html>
-
 <html lang="en">
-<head>
-  <meta charset="utf-8">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>LunchIT - make order request</title>
-  <meta name="description" content="make order request">
-  <meta name="author" content="Jakub Gros">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="styles/navbar.css">
+    <title>LunchIT - make order request</title>
+  </head>
+  <body>
+    <div id="navbar"></div>
 
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-<script>
-  $(document).ready(() => {
-    $("#navbar").load("/navbar.html");
-    let searchParams = new URLSearchParams(window.location.search)
-
-    if(searchParams.has('id') == false){
-      alert("invalid id");
-    }
-    else {
-      var id = searchParams.get('id');
-      $.ajax(`http://127.0.0.1:5002/order_request?id=${id}`, {
-        type : 'GET',
-        error : () => alert("error"),
-        success : (data, status, xhr) => {
-
-          var table = $("#all_orders_table");
-          for(var meal_name in data) {
-            row = $("<tr></tr>");
-            row.append($("<th></th>").text(meal_name));
-
-            for(var comment in data[meal_name]) {
-              row.append($("<th></th>").text(comment));
-              var quantity = data[meal_name][comment];
-              row.append($("<th></th>").text(quantity));
-            }
-            table.append(row);
-          }
-        }
-      });
-    }
-
-  });
-</script>
-
-<link rel="stylesheet" type="text/css" href="styles/main.css">
-<link rel="stylesheet" type="text/css" href="styles/navbar.css">
-
-<style>
-    table {
-        width: 100%;
-    }
-    table, th, td {
-        border: 1px solid black;
-    }
-
-    td{
-        text-align: left; 
-        vertical-align: middle;
-    }
-
-</style>
-
-</head>
-
-<body>
-  <div id="navbar"></div>
-
-    <table id="all_orders_table">
-        <tr class="tab_header">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr class="tab_header">
             <th>Food name</th>
             <th>Comment</th>
             <th>Quantity</th>
           </tr>
+        </thead>
+        <tbody id="all_orders_table"> 
+        </tbody>
     </table>
 
-</body>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(() => {
+        $("#navbar").load("/navbar.html");
+        let searchParams = new URLSearchParams(window.location.search)
 
+        if(searchParams.has('id') == false){
+          alert("invalid id");
+        }
+        else {
+          var id = searchParams.get('id');
+          $.ajax(`http://127.0.0.1:5002/order_request?id=${id}`, {
+            type : 'GET',
+            error : () => alert("error"),
+            success : (data, status, xhr) => {
+
+              var table = $("#all_orders_table");
+              for(var meal_name in data) {
+                row = $("<tr></tr>");
+                row.append($("<th></th>").text(meal_name));
+
+                for(var comment in data[meal_name]) {
+                  row.append($("<th></th>").text(comment));
+                  var quantity = data[meal_name][comment];
+                  row.append($("<th></th>").text(quantity));
+                }
+                table.append(row);
+              }
+            }
+          });
+        }
+
+      });
+    </script>
+  </body>
 </html>
+
+
+
+
+
+
+
+

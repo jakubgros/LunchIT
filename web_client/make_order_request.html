@@ -1,119 +1,105 @@
+
+
+
+
+
+
+
+
 <!doctype html>
-
 <html lang="en">
-<head>
-  <meta charset="utf-8">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>LunchIT - make order request</title>
-  <meta name="description" content="make order request">
-  <meta name="author" content="Jakub Gros">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="styles/navbar.css">
 
+    <title>LunchIT - make order request</title>
+  </head>
+  <body>
+      <div id="navbar"></div>
+      <div class="container">
+        <form>
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input class="form-control" type="text" id="title" reqiured>
 
+          <div class="form-group"></div>
+            <label for="menu_url">Menu url</label>
+            <input class="form-control" type="url" id="menu_url" reqiured>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+          <div class="form-group"></div>
+            <label for="price_limit">Price limit</label>
+            <input class="form-control" type="number" step="5" min=0 id="price_limit" reqiured>
 
-<script>
-  function submitForm() {
-    var title = $("#title").val();
-    var menu_url = $("#menu_url").val();
-    var price_limit = $("#price_limit").val();
-    var deadline = $("#deadline").val();
-    var message = $("#message").val();
+          <div class="form-group">
+            <label for="deadline">Deadline</label>
+            <input class="form-control" type="datetime-local" id="deadline" required>
 
-    var data = {
-      "title": title,
-      "menu_url": menu_url,
-      "price_limit": price_limit,
-      "deadline": deadline,
-      "message": message,
-    };
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea class="form-control" id="message" rows="3"></textarea>
+          </div>
+        </form>
+      </div>
+      <button id="submit_button" class="btn btn-primary">Create</button>
 
-    $.ajax('http://127.0.0.1:5002/order_request', {
-      data : JSON.stringify(data),
-      contentType : 'application/json',
-      type : 'POST',
-      error : () => alert("error"),
-      success : () => window.location.replace("/display_order_requests.html"),
-    });
-  }
-
-  function validateForm() {
-    //TODO
-      return null //return null if everything is ok, string message what is wrong else
-  }
-
-  $(document).ready(() => {
-    $("#navbar").load("/navbar.html");
-
-    var today = new Date().toISOString();
-    $(deadline).attr('min', today);
-
-    $(submit_button).click(()=>{
-      var resultMsg = validateForm();
-      if(resultMsg==null)
-        submitForm();
-      else
-        alert(resultMsg);}
-      )
-  });
-
-</script>
-
-<link rel="stylesheet" type="text/css" href="styles/navbar.css">
-<style>
-
-    .input_field {
-      margin-left: 10px;
-      margin-bottom: 10px;
-      display: block;
-      width: 100%;
-    }
-
-    #message {
-      min-height: 20vh;
-      word-wrap: break-word;
-    }
-
-    .order_request_form {
-      width: 50%;
-      margin: 0 auto;
-    }
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   
-    #submit_button {
-      width: 20%;
-      margin: 10px;
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    }
-  
-
-  </style>
-
-</head>
-
-<body>
-    <div id="navbar"></div>
-
-    <div class="order_request_form">
-
-      <label for="title">Title</label>
-      <input class="input_field" type="text" id="title" reqiured>
-
-      <label for="menu_url">Menu url</label>
-      <input class="input_field" type="url" id="menu_url" reqiured>
-
-      <label for="price_limit">Price limit</label>
-      <input class="input_field" type="number" step="5" min=0 id="price_limit" reqiured>
-
-      <label for="deadline">Deadline</label>
-      <input class="input_field" type="datetime-local" id="deadline" required>
-
-      <label for="message">Additional message</label>
-      <textarea class="input_field" id="message"></textarea>
-  
-      <button id="submit_button">Submit</button>
-
-    </div>
-
-</body>
-
+    <script>
+        function submitForm() {
+          var title = $("#title").val();
+          var menu_url = $("#menu_url").val();
+          var price_limit = $("#price_limit").val();
+          var deadline = $("#deadline").val();
+          var message = $("#message").val();
+      
+          var data = {
+            "title": title,
+            "menu_url": menu_url,
+            "price_limit": price_limit,
+            "deadline": deadline,
+            "message": message,
+          };
+      
+          $.ajax('http://127.0.0.1:5002/order_request', {
+            data : JSON.stringify(data),
+            contentType : 'application/json',
+            type : 'POST',
+            error : () => alert("error"),
+            success : () => window.location.replace("/display_order_requests.html"),
+          });
+        }
+      
+        function validateForm() {
+          //TODO
+            return null //return null if everything is ok, string message what is wrong else
+        }
+      
+        $(document).ready(() => {
+          $("#navbar").load("/navbar.html");
+      
+          var today = new Date().toISOString();
+          $(deadline).attr('min', today);
+      
+          $("#submit_button").click(()=>{
+            var resultMsg = validateForm();
+            if(resultMsg==null)
+              submitForm();
+            else
+              alert(resultMsg);}
+            )
+        });
+      
+      </script>
+  </body>
 </html>

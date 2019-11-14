@@ -66,7 +66,12 @@ class ServerApi
     return result;
   }
 
-  Future<http.Response> _sendJsonRequest({@required String endpoint, @required Method method, String body}) async {
+  Future<http.Response> _sendJsonRequest(
+      { @required String endpoint,
+        @required Method method,
+        String body,
+        @required bool sendWithAuthHeader,
+      }) async {
     var methodToString = {
       Method.POST: "POST",
       Method.GET: "GET",
@@ -82,7 +87,10 @@ class ServerApi
 
     var uri = Uri.http(_serverAdress, endpoint);
     http.Request request = http.Request(methodToString[method], uri);
-    request.headers.addAll(_getAuthHeader());
+
+    if(sendWithAuthHeader)
+      request.headers.addAll(_getAuthHeader());
+
     request.headers.addAll(headers);
     request.body = body;
 
@@ -96,50 +104,43 @@ class ServerApi
     http.Response response = await _sendJsonRequest(
         endpoint: '/order',
         method: Method.POST,
-        body: jsonEncode(order)
+        body: jsonEncode(order),
+        sendWithAuthHeader: true,
     );
 
     return response.statusCode == 200;
   }
 
 
-  Future<bool> checkUser(String email, String password, { bool isPasswordHashed=false,
+  Future<bool> logIn(String email, String password, { bool isPasswordHashed=false,
         bool rememberCredentials }) async {
-    const String endpoint = "/authenticate";
-    // ==============================
-    String hashedPassword;
-    if(isPasswordHashed)
-      hashedPassword=password;
-    else
-      hashedPassword = _hash(password);
 
-    String body = jsonEncode(
-      {
+    if(isPasswordHashed == false)
+      password = _hash(password);
+
+    http.Response response = await _sendJsonRequest(
+      endpoint: '/authenticate',
+      method: Method.POST,
+      sendWithAuthHeader: false,
+      body: jsonEncode({
         "user_id": email,
-        "hashed_password": hashedPassword,
-      });
+        "hashed_password": password,
+      }),
+    );
 
-    var uri = Uri.http(_serverAdress, endpoint);
-
-    Map<String,String> headers = {
-      'Content-type' : 'application/json',
-      'Accept': 'application/json',
-    };
-
-    final response = await http.post(uri, body: body, headers: headers);
     final responseJson = json.decode(response.body);
 
-    bool isUserValid = responseJson['authenticated'] == true;
+    bool hasLoggedIn = responseJson['authenticated'] == true;
 
-    if(isUserValid) { // save for future calls
+    if(hasLoggedIn) { // save for future calls
       _email = email;
-      _hashedPassword = hashedPassword;
+      _hashedPassword = password;
     }
 
     if(rememberCredentials)
-      _rememberCredentials(email, hashedPassword);
+      _rememberCredentials(email, password);
 
-    return isUserValid;
+    return hasLoggedIn;
   }
 
   static String _hash(String password) {
@@ -201,7 +202,7 @@ class ServerApi
     bool hasLoadedSuccessfully = await _loadSavedCredentials();
     if(hasLoadedSuccessfully == false)
       return false;
-    return checkUser(_email, _hashedPassword, isPasswordHashed: true, rememberCredentials: false);
+    return logIn(_email, _hashedPassword, isPasswordHashed: true, rememberCredentials: false);
   }
 
   Future<List<BasketEntry>> getPlacedOrder(int placedOrderId) async {

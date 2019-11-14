@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
     else
       loginForm.save();
 
-    bool isUserValid = await ServerApi().checkUser(_email, _password, rememberCredentials: _rememberCredentials);
+    bool isUserValid = await ServerApi().logIn(_email, _password, rememberCredentials: _rememberCredentials);
 
     if(isUserValid)
       Navigator.of(context).pushNamed(widget.onSuccessPath);

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'Models/OrderRequestModel.dart';
 
 class SuccessfulOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    String title = Provider.of<OrderRequest>(context).title;
+    
     return Scaffold(
         appBar: AppBar(
           leading: Container(), //to remove go back icon
-          title: Text("#MAIL TITLE#"), //TODO dehardcode
+          title: Text(title),
         ),
         body: Center(
           child: Column(

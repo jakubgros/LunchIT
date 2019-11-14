@@ -33,7 +33,7 @@ class _FoodPickerPageState extends State<FoodPickerPage> {
           actions: <Widget>[
             ShoppingCardAppbarButton(),
           ],
-          title: Text(widget.orderRequest.title), //TODO dehardcode
+          title: Text(widget.orderRequest.title),
           leading: BackButton(),
         ),
         body: MultiProvider(

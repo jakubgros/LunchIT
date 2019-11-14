@@ -239,26 +239,17 @@ class ServerApi
   }
 
   Future<bool> registerUser(String email, String password) async {
-    const String endpoint = "/create_account";
-    // ==============================
-    String hashedPassword = _hash(password);
+    http.Response response = await _sendJsonRequest(
+      endpoint: '/create_account',
+      method: Method.GET,
+      sendWithAuthHeader: true,
+      body: jsonEncode({
+            "user_id": email,
+            "hashed_password": _hash(password),
+      })
+    );
 
-    String body = jsonEncode(
-        {
-          "user_id": email,
-          "hashed_password": hashedPassword,
-        });
-
-    var uri = Uri.http(_serverAdress, endpoint);
-
-    Map<String,String> headers = {
-      'Content-type' : 'application/json',
-      'Accept': 'application/json',
-    };
-
-    final response = await http.post(uri, body: body, headers: headers);
     final responseJson = json.decode(response.body);
-
     bool hasCreatedUser = responseJson['status'] == "created";
 
     return hasCreatedUser;

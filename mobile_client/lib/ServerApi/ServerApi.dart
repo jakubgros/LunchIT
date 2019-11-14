@@ -17,6 +17,7 @@ enum Method {
   PATCH,
   DELETE,
 }
+
 class ServerApi
 {
   String _email;
@@ -25,7 +26,9 @@ class ServerApi
   static String _serverAdress = "10.0.2.2:5002";
   final http.Client _client = http.Client();
 
-
+  ServerApi._privateCtor();
+  static final ServerApi _singleton = ServerApi._privateCtor();
+  factory ServerApi() => _singleton;
 
   Future<String> get _rememberedCredentialsFilePath async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
@@ -72,14 +75,13 @@ class ServerApi
       { @required String endpoint,
         @required Method method,
         String body,
+        Map<String, String> queryParameters,
         @required bool sendWithAuthHeader,
       }) async {
+
     var methodToString = {
       Method.POST: "POST",
       Method.GET: "GET",
-      Method.PUT: "PUT",
-      Method.PATCH: "PATCH",
-      Method.DELETE: "DELETE",
     };
 
     Map<String,String> headers = {
@@ -87,7 +89,12 @@ class ServerApi
       'Accept': 'application/json',
     };
 
-    var uri = Uri.http(_serverAdress, endpoint);
+    Uri uri;
+    if(queryParameters == null)
+      uri = Uri.http(_serverAdress, endpoint);
+    else
+      uri = Uri.http(_serverAdress, endpoint, queryParameters);
+
     http.Request request = http.Request(methodToString[method], uri);
 
     if(sendWithAuthHeader)
@@ -149,7 +156,6 @@ class ServerApi
 
   Future<List<OrderRequest>> getOrderRequestsForCurrentUser() async{
     try{
-
       http.Response response = await _sendJsonRequest(
         endpoint: '/orderRequestForSingleUser',
         method: Method.GET,
@@ -171,11 +177,6 @@ class ServerApi
     }
   }
 
-  ServerApi._privateCtor();
-  static final ServerApi _singleton = ServerApi._privateCtor();
-  factory ServerApi() => _singleton;
-
-
   Future<bool> checkSavedCredentials() async {
     bool hasLoadedSuccessfully = await _loadSavedCredentials();
     if(hasLoadedSuccessfully == false)
@@ -183,43 +184,28 @@ class ServerApi
     return logIn(_email, _hashedPassword, isPasswordHashed: true, rememberCredentials: false);
   }
 
-  Future<List<BasketEntry>> getPlacedOrder(int placedOrderId) async {
+  Future<List<BasketEntry>> getPlacedOrder(int id) async {
     try{
-      const String endpoint = "/order";
-      // ==============================
-
-      Map<String,String> headers = {
-        'Content-type' : 'application/json',
-        'Accept': 'application/json',
-      };
-
-      var params = {"placed_order_id": placedOrderId.toString()};
-      var uri = Uri.http(_serverAdress, endpoint, params);
-      http.Request request = http.Request("GET", uri);
-      request.headers.addAll(_getAuthHeader());
-      request.headers.addAll(headers);
-
-      http.StreamedResponse streamedResponse = await _client.send(request);
-      http.Response response = await http.Response.fromStream(streamedResponse);
+      http.Response response = await _sendJsonRequest(
+        endpoint: '/order',
+        method: Method.GET,
+        queryParameters: {
+          "placed_order_id": id.toString()
+        },
+        sendWithAuthHeader: true,
+      );
 
       if(response.statusCode != 200) //TODO extract statusCode processing to seperate method
         throw Exception("error");
 
       var order = List<BasketEntry>();
       List listOfJsonObj = jsonDecode(response.body);
-      for(Map jsonObj in listOfJsonObj) {
-        order.add(
-            BasketEntry(
-                jsonObj["food_name"],
-                jsonObj["price"],
-                jsonObj["quantity"],
-                jsonObj["comment"])
-        );
-      }
+      for(Map jsonObj in listOfJsonObj)
+        order.add(BasketEntry.fromJsonMap(jsonObj));
+
       return order;
     }
-    catch(e)
-    {
+    catch(e){
       print(e); //TODO add try catch to all async because it gets swallowed otherwise
     }
   }

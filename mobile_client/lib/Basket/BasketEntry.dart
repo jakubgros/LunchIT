@@ -1,6 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
 
-class BasketEntry extends ChangeNotifier {
+import 'package:flutter/cupertino.dart';
+import 'package:lunch_it/Utilities/Utils.dart';
+
+class BasketEntry extends ChangeNotifier { //TODO make all datamodels extend common interface that has toJson, fromJsonString, fromJsonMap
   String _foodName;
   double _price;
   int _quantity;
@@ -40,4 +43,14 @@ class BasketEntry extends ChangeNotifier {
       "quantity": _quantity,
       "comment": _comment,
     };
+
+  BasketEntry.fromJsonString(String json): this.fromJsonMap(jsonDecode(json));
+
+  BasketEntry.fromJsonMap(Map<String, dynamic> parsedJson) {
+    _foodName = getOrThrow(parsedJson, "food_name");
+    _price = getOrThrow(parsedJson, "price");
+    _quantity = getOrThrow(parsedJson, "quantity");
+    _comment = getOrThrow(parsedJson, "comment");
+  }
+
 }

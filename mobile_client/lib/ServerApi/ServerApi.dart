@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:lunch_it/Basket/BasketData.dart';
 import 'package:lunch_it/Basket/BasketEntry.dart';
 import 'package:lunch_it/Basket/Order.dart';
 import 'package:lunch_it/OrderRequest/OrderRequest.dart';
@@ -11,6 +10,13 @@ import 'dart:convert';
 import 'package:password/password.dart';
 import 'package:path_provider/path_provider.dart';
 
+enum Method {
+  POST,
+  GET,
+  PUT,
+  PATCH,
+  DELETE,
+}
 class ServerApi
 {
   static String _serverAdress = "10.0.2.2:5002";
@@ -60,25 +66,38 @@ class ServerApi
     return result;
   }
 
-
-  Future<bool> placeOrder(Order order) async { //TODO make it work on seperate isolate
-    const String endpoint = "/order";
-    // ==============================
-
+  Future<http.Response> _sendJsonRequest({@required String endpoint, @required Method method, String body}) async {
+    var methodToString = {
+      Method.POST: "POST",
+      Method.GET: "GET",
+      Method.PUT: "PUT",
+      Method.PATCH: "PATCH",
+      Method.DELETE: "DELETE",
+    };
 
     Map<String,String> headers = {
       'Content-type' : 'application/json',
       'Accept': 'application/json',
     };
 
-    var uri = Uri.http(_serverAdress, endpoint); //TODO make all of queries look like this method
-    http.Request request = http.Request("POST", uri);
+    var uri = Uri.http(_serverAdress, endpoint);
+    http.Request request = http.Request(methodToString[method], uri);
     request.headers.addAll(_getAuthHeader());
     request.headers.addAll(headers);
-    request.body = jsonEncode(order);
+    request.body = body;
 
     http.StreamedResponse streamedResponse = await _client.send(request);
     http.Response response = await http.Response.fromStream(streamedResponse);
+    return response;
+  }
+
+  Future<bool> placeOrder(Order order) async { //TODO make it work on seperate isolate
+
+    http.Response response = await _sendJsonRequest(
+        endpoint: '/order',
+        method: Method.POST,
+        body: jsonEncode(order)
+    );
 
     return response.statusCode == 200;
   }

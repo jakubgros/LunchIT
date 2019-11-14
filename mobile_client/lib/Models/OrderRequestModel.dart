@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+import 'package:lunch_it/Utilities/Utils.dart';
 
 class OrderRequest {
   double _priceLimit;
@@ -33,6 +36,19 @@ class OrderRequest {
     _menuUrl = menuUrl,
     _placedOrderId = placedOrderId,
     _message = message;
+
+  OrderRequest.fromJsonString(String json): this.fromJsonMap(jsonDecode(json));
+
+  OrderRequest.fromJsonMap(Map<String, dynamic> parsedJson){
+    _orderRequestId = getOrThrow(parsedJson, "order_request_id");
+    _placedOrderId =  getOrThrow(parsedJson, "placed_order_id");
+    _title = getOrThrow(parsedJson, "name");
+    _priceLimit = getOrThrow(parsedJson, "price_limit");
+    _deadline = DateTime.parse(getOrThrow(parsedJson, "deadline"));
+    _message = getOrThrow(parsedJson, "message");
+    _menuUrl = getOrThrow(parsedJson, "menu_url");
+  }
+
 
   void assign(OrderRequest other) {
     _priceLimit = other._priceLimit;

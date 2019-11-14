@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lunch_it/OrderRequest/OrderRequest.dart';
+import 'package:lunch_it/Models/OrderRequestModel.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
           title: Text("List of order requests"),
         ),
           body: FutureBuilder<List<OrderRequest>>(
-            future: ServerApi().getOrderRequests(),
+            future: ServerApi().getOrderRequestsForCurrentUser(),
             builder: (BuildContext context, AsyncSnapshot<List<OrderRequest>> snapshot) {
               return ListView.builder(
                 itemCount: snapshot.hasData ? snapshot.data.length : 0,

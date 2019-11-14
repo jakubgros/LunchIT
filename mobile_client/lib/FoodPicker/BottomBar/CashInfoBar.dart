@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lunch_it/Basket/BasketData.dart';
-import 'package:lunch_it/OrderRequest/OrderRequest.dart';
+import 'package:lunch_it/Models/OrderRequestModel.dart';
 import 'package:provider/provider.dart';
 
 class CashInfoBar extends StatelessWidget {

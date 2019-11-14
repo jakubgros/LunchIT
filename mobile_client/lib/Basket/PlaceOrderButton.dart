@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_it/Basket/BasketData.dart';
 import 'package:lunch_it/Basket/Order.dart';
-import 'package:lunch_it/OrderRequest/OrderRequest.dart';
+import 'package:lunch_it/Models/OrderRequestModel.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 import 'package:provider/provider.dart';
 

@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:lunch_it/Basket/BasketEntry.dart';
 import 'package:lunch_it/Basket/Order.dart';
-import 'package:lunch_it/OrderRequest/OrderRequest.dart';
+import 'package:lunch_it/Models/OrderRequestModel.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
@@ -19,11 +19,13 @@ enum Method {
 }
 class ServerApi
 {
+  String _email;
+  String _hashedPassword;
+
   static String _serverAdress = "10.0.2.2:5002";
   final http.Client _client = http.Client();
 
-  String _email;
-  String _hashedPassword;
+
 
   Future<String> get _rememberedCredentialsFilePath async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
@@ -92,7 +94,7 @@ class ServerApi
       request.headers.addAll(_getAuthHeader());
 
     request.headers.addAll(headers);
-    request.body = body;
+    if(body != null) request.body = body;
 
     http.StreamedResponse streamedResponse = await _client.send(request);
     http.Response response = await http.Response.fromStream(streamedResponse);
@@ -143,52 +145,28 @@ class ServerApi
     return hasLoggedIn;
   }
 
-  static String _hash(String password) {
-    final algorithm = PBKDF2();
-    String hash = Password.hash(password, algorithm);
-    return hash;
-  }
+  static String _hash(String password) => Password.hash(password, PBKDF2());
 
-  Future<List<OrderRequest>> getOrderRequests() async{
+  Future<List<OrderRequest>> getOrderRequestsForCurrentUser() async{
     try{
-      const String endpoint = "/orderRequestForSingleUser";
-      // ==============================
 
-      Map<String,String> headers = {
-        'Content-type' : 'application/json',
-        'Accept': 'application/json',
-      };
-
-      var uri = Uri.http(_serverAdress, endpoint); //TODO make all of queries look like this method
-      http.Request request = http.Request("GET", uri);
-      request.headers.addAll(_getAuthHeader());
-      request.headers.addAll(headers);
-
-      http.StreamedResponse streamedResponse = await _client.send(request);
-      http.Response response = await http.Response.fromStream(streamedResponse);
+      http.Response response = await _sendJsonRequest(
+        endpoint: '/orderRequestForSingleUser',
+        method: Method.GET,
+        sendWithAuthHeader: true,
+      );
 
       if(response.statusCode != 200) //TODO extract statusCode processing to seperate method
         throw Exception("error");
 
       var orderRequests = List<OrderRequest>();
-      List listOfJsonObj = jsonDecode(response.body);
-      for(Map jsonObj in listOfJsonObj) {
-        orderRequests.add(
-            OrderRequest(
-              orderRequestId: jsonObj["order_request_id"],
-              placedOrderId: jsonObj["placed_order_id"],
-              title: jsonObj["name"],
-              priceLimit: jsonObj["price_limit"],
-              deadline: DateTime.parse(jsonObj["deadline"]),
-              message: jsonObj["message"],
-              menuUrl: jsonObj["menu_url"]
-            )
-        );
-      }
+      var responseDecoded = jsonDecode(response.body);
+      for(Map parsedJsonObj in responseDecoded)
+        orderRequests.add(OrderRequest.fromJsonMap(parsedJsonObj));
+
       return orderRequests;
     }
-    catch(e)
-    {
+    catch(e) {
       print(e); //TODO add try catch to all async because it gets swallowed otherwise
     }
   }

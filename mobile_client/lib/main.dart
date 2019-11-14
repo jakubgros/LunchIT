@@ -4,7 +4,7 @@ import 'package:lunch_it/Basket/BasketData.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/AddMenuPositionPage.dart';
 import 'package:lunch_it/FoodPicker/FoodPickerPage.dart';
 import 'package:lunch_it/Login/LoginPage.dart';
-import 'package:lunch_it/OrderRequest/OrderRequest.dart';
+import 'package:lunch_it/Models/OrderRequestModel.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 import 'package:lunch_it/SuccessfulOrder.dart';
 import 'package:provider/provider.dart';

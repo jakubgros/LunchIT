@@ -3,7 +3,7 @@ import 'package:lunch_it/FoodPicker/AppBar/ShoppingCardAppbarButton.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/AcceptMarked.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/MarkerMode.dart';
 import 'package:lunch_it/FoodPicker/EventStreams/WebNavigation.dart';
-import 'package:lunch_it/OrderRequest/OrderRequest.dart';
+import 'package:lunch_it/Models/OrderRequestModel.dart';
 import 'package:provider/provider.dart';
 
 import 'BottomBar/BottomMenu.dart';

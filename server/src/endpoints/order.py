@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from src.data_models.placed_order import PlacedOrderDataModel
-from src.backend import backend
+from src.backend import Backend
 import json
 from src.endpoints import routes
 
@@ -10,7 +10,7 @@ from src.utils.utilities import getUserId
 
 @routes.route('/order', methods=['POST'])
 def orderPost():
-    with backend:
+    with Backend() as backend:
         try:
             isAuthorized = backend.authenticate_request(request)
 

@@ -1,3 +1,5 @@
+from singleton_decorator import singleton
+
 from src.database import Database
 
 try:
@@ -6,8 +8,8 @@ except ImportError:
     import Image
 import pytesseract
 
-
-class BackEnd:
+@singleton
+class Backend:
     def __init__(self):
         self.db = Database()
         pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
@@ -95,5 +97,3 @@ class BackEnd:
 
     def create_user(self, user_id, hashed_password):
         return self.db.create_user(user_id, hashed_password)
-
-backend = BackEnd() # will be used by other files

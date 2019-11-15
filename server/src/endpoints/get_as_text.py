@@ -1,13 +1,13 @@
 from werkzeug.utils import secure_filename
 from flask import request
 from src.endpoints import routes
-from src.backend import backend
+from src.backend import Backend
 from src.utils.validators.file_validators import is_image_file
 
 
 @routes.route('/getAsText', methods=['GET', 'POST'])  # TODO change to post get only
 def getAsText():
-    with backend:
+    with Backend() as backend:
         if request.method == 'POST':  # TODO not sure if needed
 
             if 'file' not in request.files:

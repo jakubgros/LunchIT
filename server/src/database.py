@@ -3,7 +3,9 @@ import psycopg2 as psycopg2
 from src.utils.config import get_config
 from datetime import datetime
 
+from singleton_decorator import singleton
 
+@singleton
 class Database:
     def __init__(self):
         config = get_config("config.ini", "postgresql")

@@ -1,11 +1,11 @@
 from flask import request, jsonify
-from src.backend import backend
+from src.backend import Backend
 from src.endpoints import routes
 
 
 @routes.route('/order_request', methods=['POST'])
 def order_request_post():
-    with backend:
+    with Backend() as backend:
         try:
             added_order_request_id = backend.add_order_request(request.json)
 
@@ -18,7 +18,7 @@ def order_request_post():
 
 @routes.route('/order_request', methods=['GET'])
 def order_request_get_all_orders():
-    with backend:
+    with Backend() as backend:
         try:
             orders = backend.get_placed_orders_merged(request.args['id'])
 

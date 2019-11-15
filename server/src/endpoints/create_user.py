@@ -1,11 +1,11 @@
 from flask import request, jsonify
-from src.backend import backend
+from src.backend import Backend
 from src.endpoints import routes
 
 
 @routes.route('/create_account', methods=['POST'])
 def create_account():
-    with backend:
+    with Backend() as backend:
         req_body = request.json
 
         if "user_id" not in req_body:

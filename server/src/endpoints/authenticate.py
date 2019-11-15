@@ -1,10 +1,10 @@
 from flask import request, jsonify
-from src.backend import backend
+from src.backend import Backend
 from src.endpoints import routes
 
 @routes.route('/authenticate', methods=['POST'])
 def authenticate():
-    with backend:
+    with Backend() as backend:
         reqBody = request.json
 
         if "user_id" not in reqBody:

@@ -28,7 +28,7 @@ class Backend:
         if self.db.has_order(user_id, order["orderRequestId"]):
             raise Exception("User already ordered meal for the orderRequest")
 
-        order_id = self.db.add_order(order, user_id)
+        order_id = self.db.place_order(order, user_id)
 
         return order_id
 

@@ -23,7 +23,16 @@ class Database:
 
     def has_order(self, user_id, order_request_id):
         with self.connection.cursor() as cursor:
-            statement = r"""SELECT COUNT(*) FROM lunch_it.placed_order WHERE user_id=%(user_id)s AND order_request_id=%(order_request_id)s;"""
+            statement = r"""
+                SELECT 
+                    COUNT(*)
+                FROM
+                    lunch_it.placed_order
+                WHERE
+                        user_id=%(user_id)s 
+                    AND 
+                        order_request_id=%(order_request_id)s;"""
+
             args = {
                 "user_id": user_id,
                 "order_request_id": order_request_id,
@@ -33,38 +42,49 @@ class Database:
             count = cursor.fetchone()[0]
 
             if count > 1:
-                raise Exception("user can't have more than one placed order for single order request")
+                raise Exception("User can't have more than one placed order for single order request")
 
             return count == 1
 
-    def add_order(self, placed_order, user_id):
-        placed_order_id = self._add_placed_order(user_id, placed_order["orderRequestId"])
+    def place_order(self, order, user_id):
+        order_id = self._add_order(user_id, order["orderRequestId"])
 
-        basket = placed_order["basketData"]
+        basket = order["basketData"]
         for meal in basket["meals"]:
-            self._add_order_entry(meal, placed_order_id)
+            self._add_order_entry(meal, order_id)
 
-        return placed_order_id
+        return order_id
 
-    def _add_placed_order(self, user_id, order_request_id):
+    def _add_order(self, user_id, order_request_id):
         with self.connection.cursor() as cursor:
-            statement = r"""INSERT INTO lunch_it.placed_order(user_id, order_request_id) VALUES(%(user_id)s, %(order_request_id)s) RETURNING id;"""
+            statement = r"""
+                INSERT INTO
+                    lunch_it.placed_order(user_id, order_request_id)
+                VALUES
+                    (%(user_id)s, %(order_request_id)s)
+                RETURNING 
+                    id;"""
+
             args = {
                 "user_id": user_id,
                 "order_request_id": order_request_id,
             }
 
             cursor.execute(statement, args)
-            placed_order_id = cursor.fetchone()[0]
+            order_id = cursor.fetchone()[0]
 
-            return placed_order_id
+            return order_id
 
-    def _add_order_entry(self, entry, placed_order_id):
+    def _add_order_entry(self, entry, order_id):
         with self.connection.cursor() as cursor:
-            statement = r"""INSERT INTO lunch_it.order_entry(placed_order_id, meal_name, price, quantity, comment)
-                VALUES(%(placed_order_id)s, %(meal_name)s, %(price)s, %(quantity)s, %(comment)s);"""
+            statement = r"""
+                INSERT INTO 
+                    lunch_it.order_entry(placed_order_id, meal_name, price, quantity, comment)
+                VALUES
+                    (%(placed_order_id)s, %(meal_name)s, %(price)s, %(quantity)s, %(comment)s);"""
+
             args = {
-                "placed_order_id": placed_order_id,
+                "placed_order_id": order_id,
                 "meal_name": entry["foodName"],
                 "price": entry["price"],
                 "quantity": entry["quantity"],
@@ -75,50 +95,57 @@ class Database:
 
     def are_credentials_correct(self, user_id, hashed_password):
         with self.connection.cursor() as cursor:
-            statement = r"""SELECT COUNT(*) FROM lunch_it.user WHERE email=%(email)s AND password=%(password)s;"""
+            statement = r"""
+                SELECT 
+                    COUNT(*) 
+                FROM 
+                    lunch_it.user 
+                WHERE 
+                        email=%(email)s 
+                    AND 
+                        password=%(password)s;"""
+
             args = {
                 "email": user_id,
                 "password": hashed_password,
             }
 
             cursor.execute(statement, args)
-            count = cursor.fetchone()
-            count = count[0]
+            count = cursor.fetchone()[0]
 
             return count == 1
 
     def get_order_requests_for_user(self, user_id):
         with self.connection.cursor() as cursor:
             statement = r"""
-            SELECT
-                placed_order.id as placed_order_id,
-                name,
-                price_limit,
-                deadline,
-                message,
-                order_request.id as order_request_id,
-                menu_url
-                
-            FROM
-                lunch_it.order_request
-            LEFT OUTER JOIN
-                lunch_it.placed_order
-            ON
-                (order_request.id = placed_order.order_request_id)
-                             
-            WHERE
-                deadline > NOW() AND placed_order.id IS NULL /* not expired and not ordered*/
-                    OR 
-                ( 
-                    placed_order.id IS NOT NULL 
-                        AND 
-                    placed_order.user_id=%(user_id)s
-                ) /* ordered */
-    
-            ORDER BY
-                placed_order.id IS NOT NULL,
-                deadline ASC;
-                            """
+                SELECT
+                    placed_order.id as placed_order_id,
+                    name,
+                    price_limit,
+                    deadline,
+                    message,
+                    order_request.id as order_request_id,
+                    menu_url
+                    
+                FROM
+                    lunch_it.order_request
+                LEFT OUTER JOIN
+                    lunch_it.placed_order
+                ON
+                    (order_request.id = placed_order.order_request_id)
+                                 
+                WHERE
+                    deadline > NOW() AND placed_order.id IS NULL /* not expired and not ordered*/
+                        OR 
+                    ( 
+                        placed_order.id IS NOT NULL 
+                            AND 
+                        placed_order.user_id=%(user_id)s
+                    ) /* ordered */
+        
+                ORDER BY
+                    placed_order.id IS NOT NULL,
+                    deadline ASC;"""
 
             args = {
                 "user_id": user_id,
@@ -152,8 +179,7 @@ class Database:
                 FROM 
                     lunch_it.order_entry
                 WHERE
-                    placed_order_id = %(placed_order_id)s;
-            """
+                    placed_order_id = %(placed_order_id)s;"""
 
             args = {
                 "placed_order_id": placed_order_id,
@@ -176,20 +202,19 @@ class Database:
     def get_all_order_requests(self):
         with self.connection.cursor() as cursor:
             statement = r"""
-                    SELECT
-                        id,
-                        price_limit,
-                        name,
-                        deadline,
-                        message,
-                        menu_url
+                SELECT
+                    id,
+                    price_limit,
+                    name,
+                    deadline,
+                    message,
+                    menu_url
     
-                    FROM
-                        lunch_it.order_request
+                FROM
+                    lunch_it.order_request
     
-                    ORDER BY
-                        deadline DESC;
-                                    """
+                ORDER BY
+                    deadline DESC;"""
 
             cursor.execute(statement)
             all_data = cursor.fetchall()
@@ -203,24 +228,23 @@ class Database:
                     "deadline": row[3],
                     "message": row[4],
                     "menu_url": row[5],
-                })
+                }) #TODO extract to _process_row(row)
 
             return result
 
     def add_order_request(self, order_request):
         with self.connection.cursor() as cursor:
             statement = r"""
-            INSERT INTO 
-                lunch_it.order_request(price_limit, name, deadline, message, menu_url)
-                
-            VALUES(%(price_limit)s, %(name)s, %(deadline)s, %(message)s, %(menu_url)s)
-            
-            RETURNING id;"""
+                INSERT INTO 
+                    lunch_it.order_request(price_limit, name, deadline, message, menu_url)
+                VALUES
+                    (%(price_limit)s, %(name)s, %(deadline)s, %(message)s, %(menu_url)s)
+                RETURNING id;"""
 
             args = {
                 "price_limit": float(order_request["price_limit"]),
                 "name": order_request["title"],
-                "deadline": datetime.strptime(order_request["deadline"], "%Y-%m-%dT%H:%M"),
+                "deadline": datetime.strptime(order_request["deadline"], "%Y-%m-%dT%H:%M"), #TODO move such processing to highest layer
                 "message": order_request["message"],
                 "menu_url": order_request["menu_url"],
             }
@@ -248,8 +272,7 @@ class Database:
                 ON
                     (placed_order.id = order_entry.placed_order_id)
                 WHERE
-                    order_request.id = %(order_request_id)s;
-            """
+                    order_request.id = %(order_request_id)s;"""
 
             args = {
                 "order_request_id": int(order_request_id),
@@ -270,7 +293,14 @@ class Database:
 
     def does_user_exist(self, user_id):
         with self.connection.cursor() as cursor:
-            statement = r"""SELECT COUNT(*) FROM lunch_it.user WHERE email=%(email)s;"""
+            statement = r"""
+                SELECT 
+                    COUNT(*) 
+                FROM 
+                    lunch_it.user 
+                WHERE 
+                    email=%(email)s;"""
+
             args = {
                 "email": user_id,
             }
@@ -285,7 +315,12 @@ class Database:
             if self.does_user_exist(user_id):
                 return False
 
-            statement = r"""INSERT INTO lunch_it.user(email, password) VALUES(%(email)s, %(password)s);"""
+            statement = r"""
+                INSERT INTO 
+                    lunch_it.user(email, password) 
+                VALUES
+                    (%(email)s, %(password)s);"""
+
             args = {
                 "email": user_id,
                 "password": hashed_password,

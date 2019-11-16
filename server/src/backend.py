@@ -1,18 +1,19 @@
-from singleton_decorator import singleton
-
 from src.database import Database
 
-try:
-    from PIL import Image
-except ImportError:
-    import Image
+from singleton_decorator import singleton
+from PIL import Image
 import pytesseract
+
+from src.utils.config import get_config
+
 
 @singleton
 class Backend:
     def __init__(self):
         self.db = Database()
-        pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
+
+        config = get_config("config.ini", "tesseract")
+        pytesseract.pytesseract.tesseract_cmd = config["LOCATION_PATH"]
 
     def __enter__(self):
         return self

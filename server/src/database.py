@@ -5,6 +5,7 @@ from datetime import datetime
 
 from singleton_decorator import singleton
 
+
 @singleton
 class Database:
     def __init__(self):
@@ -86,7 +87,6 @@ class Database:
 
             return count == 1
 
-
     def get_order_requests_for_user(self, user_id):
         with self.connection.cursor() as cursor:
             statement = r"""
@@ -125,10 +125,10 @@ class Database:
             }
 
             cursor.execute(statement, args)
-            allData = cursor.fetchall()
+            all_data = cursor.fetchall()
 
             result = list()
-            for row in allData:
+            for row in all_data:
                 result.append({
                     "placed_order_id": row[0],
                     "name": row[1],
@@ -160,10 +160,10 @@ class Database:
             }
 
             cursor.execute(statement, args)
-            allData = cursor.fetchall()
+            all_data = cursor.fetchall()
 
             result = list()
-            for row in allData:
+            for row in all_data:
                 result.append({
                     "food_name": row[0],
                     "price": row[1],

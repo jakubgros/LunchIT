@@ -6,6 +6,7 @@ from src.utils.validators.file_validators import is_image_file
 from flask import request
 from flask_api import status
 
+
 @routes.route('/getAsText', methods=['GET', 'POST'])
 @exception_handler
 def get_as_text():

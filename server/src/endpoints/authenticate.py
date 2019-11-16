@@ -5,6 +5,7 @@ from src.endpoints import routes
 
 from flask_api import status
 
+
 @routes.route('/authenticate', methods=['POST'])
 @exception_handler
 def authenticate():

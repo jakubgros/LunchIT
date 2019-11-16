@@ -5,6 +5,7 @@ from src.endpoints import routes
 from flask import request, jsonify
 import flask_api
 
+
 @routes.route('/create_account', methods=['POST'])
 @exception_handler
 def create_account():

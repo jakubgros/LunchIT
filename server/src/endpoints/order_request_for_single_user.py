@@ -12,5 +12,5 @@ from flask_api import status
 @exception_handler
 def order_request_for_single_user():
     with Backend() as backend:
-        order_requests = backend.get_order_requests_for_user(current_user.user_id)
+        order_requests = backend.get_users_order_requests(current_user.user_id)
         return json.dumps(order_requests, default=str, indent=4, sort_keys=True), status.HTTP_200_OK

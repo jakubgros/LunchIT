@@ -28,7 +28,7 @@ def load_user_from_request(request):
 
     from src.user import User
     user = User(request)
-    if user.is_authorized:
+    if user.is_authenticated:
         return user
     else:
         return None

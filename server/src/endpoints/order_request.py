@@ -5,6 +5,7 @@ from src.endpoints import routes
 from flask import request, jsonify
 from flask_api import status
 
+
 @routes.route('/order_request', methods=['POST'])
 @exception_handler
 def add_new_order_request():

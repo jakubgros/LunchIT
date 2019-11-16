@@ -1,35 +1,30 @@
 from flask_login import UserMixin
 
 from src.backend import Backend
-from src.utils.utilities import getUserId
 
 
 class User(UserMixin):
     def __init__(self, request):
-        with Backend() as backend:
-            is_authorized = backend.authenticate_request(request)
+        if "HTTP_AUTHORIZATION" not in request.headers.environ:
+            return
 
-            self.is_authorized = is_authorized
-            self.user_id = getUserId(request)
+        auth_header = request.headers.environ["HTTP_AUTHORIZATION"]
+        if len(auth_header) == 0:
+            return
 
-
-    @property
-    def is_active(self):
-        return True
+        (self.user_id, self.hashed_password) = auth_header.split(':', 1)
 
     @property
     def is_authenticated(self):
-        return self.is_authorized
 
-    @property
-    def is_anonymous(self):
-        return False
+        if self.user_id is None or self.hashed_password is None \
+                or len(self.user_id) == 0 or len(self.hashed_password) == 0:
+            return None
+
+        with Backend() as backend:
+            user_id = backend.authenticate_user(self.user_id, self.hashed_password)
+
+        return user_id is not None
 
     def get_id(self):
         return self.user_id
-
-    def __eq__(self, other):
-        return super().__eq__(other)
-
-    def __ne__(self, other):
-        return super().__ne__(other)

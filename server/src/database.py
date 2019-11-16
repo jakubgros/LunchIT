@@ -21,6 +21,21 @@ class Database:
     def commit(self):
         self.connection.commit()
 
+    @staticmethod
+    def _results_to_map(self, row, ordered_arguments):
+        results_as_map = dict()
+        for (index, arg) in enumerate(ordered_arguments):
+            results_as_map[arg] = row[index]
+
+        return results_as_map
+
+    @staticmethod
+    def _process_multi_row_result(self, all_data, result_labels_ordered=None):
+        result = list()
+        for row in all_data:
+            result.append(self._results_to_map(row, result_labels_ordered))
+        return result
+
     def has_order(self, user_id, order_request_id):
         with self.connection.cursor() as cursor:
             statement = r"""
@@ -154,17 +169,10 @@ class Database:
             cursor.execute(statement, args)
             all_data = cursor.fetchall()
 
-            result = list()
-            for row in all_data:
-                result.append({
-                    "placed_order_id": row[0],
-                    "name": row[1],
-                    "price_limit": row[2],
-                    "deadline": row[3],
-                    "message": row[4],
-                    "order_request_id": row[5],
-                    "menu_url": row[6],
-                })
+            result = self._process_multi_row_result(all_data,
+                                                    result_labels_ordered=["placed_order_id", "name", "price_limit",
+                                                                          "deadline", "message",
+                                                                          "order_request_id", "menu_url"])
 
             return result
 
@@ -188,14 +196,8 @@ class Database:
             cursor.execute(statement, args)
             all_data = cursor.fetchall()
 
-            result = list()
-            for row in all_data:
-                result.append({
-                    "food_name": row[0],
-                    "price": row[1],
-                    "quantity": row[2],
-                    "comment": row[3],
-                })
+            result = self._process_multi_row_result(all_data,
+                                                    result_labels_ordered=["food_name", "price", "quantity", "comment"])
 
             return result
 
@@ -209,26 +211,17 @@ class Database:
                     deadline,
                     message,
                     menu_url
-    
                 FROM
                     lunch_it.order_request
-    
                 ORDER BY
                     deadline DESC;"""
 
             cursor.execute(statement)
             all_data = cursor.fetchall()
 
-            result = list()
-            for row in all_data:
-                result.append({
-                    "id": row[0],
-                    "price_limit": row[1],
-                    "name": row[2],
-                    "deadline": row[3],
-                    "message": row[4],
-                    "menu_url": row[5],
-                }) #TODO extract to _process_row(row)
+            result = self._process_multi_row_result(all_data,
+                                                    result_labels_ordered=["id", "price_limit", "name", "deadline",
+                                                                          "message", "menu_url"])
 
             return result
 
@@ -244,7 +237,8 @@ class Database:
             args = {
                 "price_limit": float(order_request["price_limit"]),
                 "name": order_request["title"],
-                "deadline": datetime.strptime(order_request["deadline"], "%Y-%m-%dT%H:%M"), #TODO move such processing to highest layer
+                "deadline": datetime.strptime(order_request["deadline"], "%Y-%m-%dT%H:%M"),
+                # TODO move such processing to highest layer
                 "message": order_request["message"],
                 "menu_url": order_request["menu_url"],
             }
@@ -281,13 +275,7 @@ class Database:
             cursor.execute(statement, args)
             all_data = cursor.fetchall()
 
-            result = list()
-            for row in all_data:
-                result.append({
-                    "meal_name": row[0],
-                    "quantity": row[1],
-                    "comment": row[2],
-                })
+            result = self._process_multi_row_result(all_data, result_labels_ordered=["meal_name", "quantity", "comment"])
 
             return result
 

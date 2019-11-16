@@ -1,4 +1,4 @@
-from src.backend import Backend
+from src.backend.backend import Backend
 from src.decorators.exception_handler import exception_handler
 from src.endpoints import routes
 

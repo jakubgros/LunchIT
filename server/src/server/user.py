@@ -1,6 +1,6 @@
 from flask_login import UserMixin
 
-from src.backend import Backend
+from src.backend.backend import Backend
 
 
 class User(UserMixin):

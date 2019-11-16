@@ -3,7 +3,7 @@ from flask_api import status
 
 from src.decorators.exception_handler import exception_handler
 from src.endpoints import routes
-from src.backend import Backend
+from src.backend.backend import Backend
 
 
 @routes.route('/allOrderRequests', methods=['GET'])

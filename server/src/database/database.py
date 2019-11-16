@@ -9,7 +9,7 @@ from singleton_decorator import singleton
 @singleton
 class Database:
     def __init__(self):
-        config = get_config("config.ini", "postgresql")
+        config = get_config("postgresql")
         self.connection = psycopg2.connect(**config)
 
     def __del__(self):

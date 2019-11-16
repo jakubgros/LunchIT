@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from src.backend import Backend
+from src.backend.backend import Backend
 from src.decorators.exception_handler import exception_handler
 from src.endpoints import routes
 
@@ -8,7 +8,7 @@ from flask_api import status
 
 @routes.route('/authenticate', methods=['POST'])
 @exception_handler
-def authenticate():
+def authenticate(): # TODO change to pass credentials as authenticate header
     with Backend() as backend:
         req_body = request.json
 

@@ -1,4 +1,4 @@
-from src.database import Database
+from src.database.database import Database
 
 from singleton_decorator import singleton
 from PIL import Image
@@ -12,7 +12,7 @@ class Backend:
     def __init__(self):
         self.db = Database()
 
-        config = get_config("config.ini", "tesseract")
+        config = get_config("tesseract")
         pytesseract.pytesseract.tesseract_cmd = config["LOCATION_PATH"]
 
     def __enter__(self):

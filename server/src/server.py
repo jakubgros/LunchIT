@@ -1,12 +1,9 @@
 from flask import Flask
 from flask_login import LoginManager
+from flask_cors import CORS
 
 from src.endpoints import *
 from src.utils.config import get_config
-
-app = Flask(__name__)
-
-from flask_cors import CORS
 
 app = Flask(__name__)
 
@@ -23,17 +20,17 @@ cors = CORS(app)  # TODO adjust on production server
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+
 @login_manager.request_loader
-def load_user_from_request(request):
+def load_user_from_request(req):
 
     from src.user import User
-    user = User(request)
+    user = User(req)
     if user.is_authenticated:
         return user
     else:
         return None
 
+
 if __name__ == '__main__':
     app.run(debug=True, port='5002')
-
-

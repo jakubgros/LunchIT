@@ -32,8 +32,8 @@ class Backend:
 
         return order_id
 
-    def get_placed_order(self, id):
-        return self.db.get_placed_order(id)
+    def get_placed_order(self, order_id):
+        return self.db.get_placed_order(order_id)
 
     def get_placed_orders_merged(self, order_request_id):
         placed_orders = self.db.get_placed_orders(order_request_id)
@@ -74,6 +74,5 @@ class Backend:
         else:
             return user_id
 
-    @staticmethod
-    def image_to_text(image):
+    def image_to_text(self, image):
         return pytesseract.image_to_string(Image.open(image), lang='pol')

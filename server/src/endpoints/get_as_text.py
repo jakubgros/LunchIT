@@ -19,6 +19,6 @@ def get_as_text():
             return "No file name", status.HTTP_400_BAD_REQUEST
 
         if file and is_image_file(file.filename):
-            asText = backend.image_to_text(file)
-            formatted = " ".join(asText.split())
+            as_text = backend.image_to_text(file)
+            formatted = " ".join(as_text.split())
             return formatted, status.HTTP_200_OK

@@ -21,7 +21,6 @@ class Database:
     def commit(self):
         self.connection.commit()
 
-    @staticmethod
     def _results_to_map(self, row, ordered_arguments):
         results_as_map = dict()
         for (index, arg) in enumerate(ordered_arguments):
@@ -29,7 +28,6 @@ class Database:
 
         return results_as_map
 
-    @staticmethod
     def _process_multi_row_result(self, all_data, result_labels_ordered=None):
         result = list()
         for row in all_data:
@@ -171,8 +169,8 @@ class Database:
 
             result = self._process_multi_row_result(all_data,
                                                     result_labels_ordered=["placed_order_id", "name", "price_limit",
-                                                                          "deadline", "message",
-                                                                          "order_request_id", "menu_url"])
+                                                                           "deadline", "message",
+                                                                           "order_request_id", "menu_url"])
 
             return result
 
@@ -197,7 +195,8 @@ class Database:
             all_data = cursor.fetchall()
 
             result = self._process_multi_row_result(all_data,
-                                                    result_labels_ordered=["food_name", "price", "quantity", "comment"])
+                                                    result_labels_ordered=["food_name", "price", "quantity",
+                                                                           "comment"])
 
             return result
 
@@ -221,7 +220,7 @@ class Database:
 
             result = self._process_multi_row_result(all_data,
                                                     result_labels_ordered=["id", "price_limit", "name", "deadline",
-                                                                          "message", "menu_url"])
+                                                                           "message", "menu_url"])
 
             return result
 
@@ -275,7 +274,8 @@ class Database:
             cursor.execute(statement, args)
             all_data = cursor.fetchall()
 
-            result = self._process_multi_row_result(all_data, result_labels_ordered=["meal_name", "quantity", "comment"])
+            result = self._process_multi_row_result(all_data,
+                                                    result_labels_ordered=["meal_name", "quantity", "comment"])
 
             return result
 

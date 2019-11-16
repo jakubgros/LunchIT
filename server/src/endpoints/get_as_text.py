@@ -1,10 +1,13 @@
 from flask import request
+
+from src.decorators.exception_handler import exception_handler
 from src.endpoints import routes
 from src.backend import Backend
 from src.utils.validators.file_validators import is_image_file
 from flask_api import status
 
 @routes.route('/getAsText', methods=['GET', 'POST'])
+@exception_handler
 def get_as_text():
     with Backend() as backend:
         if 'file' not in request.files:

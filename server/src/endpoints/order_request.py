@@ -4,7 +4,7 @@ from src.endpoints import routes
 
 
 @routes.route('/order_request', methods=['POST'])
-def order_request_post():
+def add_neworder_request():
     with Backend() as backend:
         try:
             added_order_request_id = backend.add_order_request(request.json)

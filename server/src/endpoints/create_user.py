@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from src.backend import Backend
 from src.endpoints import routes
-
+import flask_api
 
 @routes.route('/create_account', methods=['POST'])
 def create_account():
@@ -9,10 +9,10 @@ def create_account():
         req_body = request.json
 
         if "user_id" not in req_body:
-            return jsonify(error="user_id not available in request"), 400
+            return jsonify(error="user_id not available in request"), flask_api.status.HTTP_400_BAD_REQUEST
 
         if "hashed_password" not in req_body:
-            return jsonify(error="hashed_password not available in request"), 400
+            return jsonify(error="hashed_password not available in request"), flask_api.status.HTTP_400_BAD_REQUEST
 
         user_id = req_body["user_id"]
         hashed_password = req_body["hashed_password"]
@@ -20,4 +20,4 @@ def create_account():
         has_created = backend.create_user(user_id, hashed_password)
 
         status = "created" if has_created else "not created"
-        return jsonify(status=status), 200
+        return jsonify(status=status), flask_api.status.HTTP_200_OK

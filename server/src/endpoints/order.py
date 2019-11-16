@@ -4,7 +4,7 @@ from src.data_models.placed_order import PlacedOrderDataModel
 from src.backend import Backend
 import json
 from src.endpoints import routes
-
+from flask_api import status
 @routes.route('/order', methods=['POST'])
 @login_required
 def order_post():
@@ -15,11 +15,11 @@ def order_post():
 
         except Exception as e:
             print(e)
-            return jsonify(error=str(e)), 500  # error server failure
+            return jsonify(error=str(e)), status.HTTP_500_INTERNAL_SERVER_ERROR
 
         print(
             "[order] user {user_id} placed order: \n".format(user_id=current_user.user_id) + str(json.dumps(request.json, indent=2)))
-        return jsonify(id=order_id), 200  # success
+        return jsonify(id=order_id), status.HTTP_200_OK  # success
 
 
 @routes.route('/order', methods=['GET'])
@@ -32,8 +32,7 @@ def order_get():
 
         except Exception as e:  # TODO add sth like this everywhere
             print(e)
-            return jsonify(error=str(e)), 500  # error server failure
+            return jsonify(error=str(e)), status.HTTP_500_INTERNAL_SERVER_ERROR
 
-        return jsonify(order), 200  # success
-
+        return jsonify(order), status.HTTP_200_OK
 

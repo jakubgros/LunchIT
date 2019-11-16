@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from src.backend import Backend
 from src.endpoints import routes
-
+from flask_api import status
 
 @routes.route('/order_request', methods=['POST'])
 def add_new_order_request():
@@ -9,11 +9,11 @@ def add_new_order_request():
         try:
             added_order_request_id = backend.add_order_request(request.json)
 
-            return jsonify(order_request_id=added_order_request_id), 200
+            return jsonify(order_request_id=added_order_request_id), status.HTTP_200_OK
 
         except Exception as e:
             print(e)
-            return jsonify(error=str(e)), 500  # error server failure
+            return jsonify(error=str(e)), status.HTTP_500_INTERNAL_SERVER_ERROR
 
 
 @routes.route('/order_request', methods=['GET'])
@@ -24,8 +24,8 @@ def order_request_get_all_orders():
 
         except Exception as e:  # TODO add sth like this everywhere
             print(e)
-            return jsonify(error=str(e)), 500  # error server failure
-        return jsonify(orders), 200  # success
+            return jsonify(error=str(e)), status.HTTP_500_INTERNAL_SERVER_ERROR
+        return jsonify(orders), status.HTTP_200_OK
 
 
 

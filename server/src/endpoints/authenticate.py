@@ -1,26 +1,27 @@
 from flask import request, jsonify
 from src.backend import Backend
 from src.endpoints import routes
+from flask_api import status
 
 @routes.route('/authenticate', methods=['POST'])
 def authenticate():
     with Backend() as backend:
-        reqBody = request.json
+        req_body = request.json
 
-        if "user_id" not in reqBody:
-            return jsonify(error="user_id not available in request"), 400
+        if "user_id" not in req_body:
+            return jsonify(error="user_id not available in request"), status.HTTP_400_BAD_REQUEST
 
-        if "hashed_password" not in reqBody:
-            return jsonify(error="hashed_password not available in request"), 400
+        if "hashed_password" not in req_body:
+            return jsonify(error="hashed_password not available in request"), status.HTTP_400_BAD_REQUEST
 
-        user_id = reqBody["user_id"]
-        hashed_password = reqBody["hashed_password"]
+        user_id = req_body["user_id"]
+        hashed_password = req_body["hashed_password"]
 
         authenticated_user_id = backend.authenticate_user(user_id, hashed_password)
 
         if authenticated_user_id is not None:
             print("[authenticate] {user_id} access granted".format(user_id=user_id))
-            return jsonify(authenticated=True), 200
+            return jsonify(authenticated=True), status.HTTP_200_OK
         else:
             print("[authenticate] {user_id} access denied".format(user_id=user_id))
-            return jsonify(authenticated=False), 200
+            return jsonify(authenticated=False), status.HTTP_200_OK

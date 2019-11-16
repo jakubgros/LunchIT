@@ -1,10 +1,9 @@
-from flask import request, jsonify
 from src.backend import Backend
 from src.decorators.exception_handler import exception_handler
-
 from src.endpoints import routes
-from flask_api import status
 
+from flask import request, jsonify
+from flask_api import status
 
 @routes.route('/order_request', methods=['POST'])
 @exception_handler

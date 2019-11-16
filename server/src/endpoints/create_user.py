@@ -1,7 +1,8 @@
-from flask import request, jsonify
 from src.backend import Backend
 from src.decorators.exception_handler import exception_handler
 from src.endpoints import routes
+
+from flask import request, jsonify
 import flask_api
 
 @routes.route('/create_account', methods=['POST'])

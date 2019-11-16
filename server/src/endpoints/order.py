@@ -25,7 +25,7 @@ def order_post():
 @routes.route('/order', methods=['GET'])
 @login_required
 def order_get():
-    with Backend as backend:
+    with Backend() as backend:
         try:
             placed_order_id = request.args["placed_order_id"]
             order = backend.get_placed_order(placed_order_id)

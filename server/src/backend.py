@@ -89,7 +89,7 @@ class Backend:
                 else order["comment"]
 
             if comment not in merged[meal_name]:
-                merged[meal_name][comment] = 1
+                merged[meal_name][comment] = order["quantity"]
             else:
                 merged[meal_name][comment] += order["quantity"]
 

@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lunch_it/Basket/Model/Basket.dart';
 import 'package:lunch_it/Basket/Model/OrderResponse.dart';
 import 'package:lunch_it/Models/OrderRequestModel.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
+import 'package:lunch_it/Utilities/Utils.dart';
 import 'package:provider/provider.dart';
 
 class PlaceOrderButton extends StatelessWidget {
@@ -30,11 +33,28 @@ class PlaceOrderButton extends StatelessWidget {
     int orderRequestId = Provider.of<OrderRequest>(context).orderRequestId;
     var order = OrderResponse(basketData, orderRequestId);
     Future<bool> success = ServerApi().placeOrder(order);
-    if(await success == false)
-      return; //TODO display message that request to server failed
 
-    basketData.clear();
 
-    Navigator.of(context).pushNamed('/succesfulOrder');
+    if(await success == false) {
+      displayInfoDialog(
+          context: context,
+          title: "Order failed!",
+          message: "Uncrecognized error",
+          onPressOkCallback: (){},
+      );
+    }
+    else {
+      displayInfoDialog(
+          context: context,
+          title: "Success!",
+          message: "Your order has been successfuly placed!",
+          onPressOkCallback: () {
+            basketData.clear();
+            Navigator.of(context).pushNamed('/home');
+          }
+      );
+    }
   }
 }
+
+

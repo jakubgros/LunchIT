@@ -40,7 +40,7 @@ class ServerApi
     var response = await request.send();
     //TODO implement status code checking from response.statusCode
 
-    String result = await response.stream.transform(utf8.decoder).elementAt(0);
+    String result = await response.stream.transform(utf8.decoder).elementAt(0); //TODO make consistent
 
     return result;
   }

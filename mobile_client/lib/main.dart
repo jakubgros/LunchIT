@@ -6,7 +6,6 @@ import 'package:lunch_it/FoodPicker/FoodPickerPage.dart';
 import 'package:lunch_it/Login/LoginPage.dart';
 import 'package:lunch_it/Models/OrderRequestModel.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
-import 'package:lunch_it/SuccessfulOrder.dart';
 import 'package:provider/provider.dart';
 
 import 'FoodPicker/Marker/MarkerData.dart';
@@ -41,7 +40,6 @@ class MyApp extends StatelessWidget {
               '/foodPicker': (BuildContext context) => FoodPickerPage(settings.arguments),
               '/foodPicker/addMenuPositionPage': (BuildContext context) => AddMenuPositionPage(),
               '/basketPage': (BuildContext context) => BasketPage(),
-              '/succesfulOrder': (BuildContext context) => SuccessfulOrder(),
               '/login': (BuildContext context) => LoginPage(onSuccessPath: '/home'),
               '/register': (BuildContext context) => RegistrationPage(),
               '/home': (BuildContext context) => HomePage(),

@@ -32,11 +32,15 @@ class Backend:
 
         return order_id
 
+    def has_ordered(self, user_id, order_request_id):
+        return self.db.has_order(user_id, order_request_id)
+
     def get_placed_order(self, order_id):
         return self.db.get_placed_order(order_id)
 
+
     def get_placed_orders_merged(self, order_request_id):
-        placed_orders = self.db.get_placed_orders(order_request_id)
+        placed_orders = self.db.get_all_placed_orders(order_request_id)
 
         merged = dict()
         for order in placed_orders:
@@ -55,7 +59,14 @@ class Backend:
         return merged
 
     def get_users_order_requests(self, user_id):
-        return self.db.get_order_requests_for_user(user_id)
+
+        all_order_requests = self.get_all_order_requests()
+
+        order_requests_for_user = list()
+        for order_request in all_order_requests:
+            order_request['placed_order_id'] = self.db.get_placed_order_id(user_id, order_request['id'])
+
+        return all_order_requests
 
     def get_all_order_requests(self):
         return self.db.get_all_order_requests()

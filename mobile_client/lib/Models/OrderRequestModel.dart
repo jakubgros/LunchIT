@@ -40,7 +40,7 @@ class OrderRequest {
   OrderRequest.fromJsonString(String json): this.fromJsonMap(jsonDecode(json));
 
   OrderRequest.fromJsonMap(Map<String, dynamic> parsedJson){
-    _orderRequestId = getOrThrow(parsedJson, "order_request_id");
+    _orderRequestId = getOrThrow(parsedJson, "id");
     _placedOrderId =  getOrThrow(parsedJson, "placed_order_id");
     _title = getOrThrow(parsedJson, "name");
     _priceLimit = getOrThrow(parsedJson, "price_limit");
@@ -93,9 +93,4 @@ class OrderRequest {
   bool canOrder() => !hasExpired() && placedOrderId==null;
   bool get isOrdered => placedOrderId!=null;
   Duration get timeLeft => deadline.difference(DateTime.now());
-
-
-
-
-
 }

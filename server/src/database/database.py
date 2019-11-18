@@ -128,52 +128,6 @@ class Database:
 
             return count == 1
 
-    def get_order_requests_for_user(self, user_id):
-        with self.connection.cursor() as cursor:
-            statement = r"""
-                SELECT
-                    placed_order.id as placed_order_id,
-                    name,
-                    price_limit,
-                    deadline,
-                    message,
-                    order_request.id as order_request_id,
-                    menu_url
-                    
-                FROM
-                    lunch_it.order_request
-                LEFT OUTER JOIN
-                    lunch_it.placed_order
-                ON
-                    (order_request.id = placed_order.order_request_id)
-                                 
-                WHERE
-                    deadline > NOW() AND placed_order.id IS NULL /* not expired and not ordered*/
-                        OR 
-                    ( 
-                        placed_order.id IS NOT NULL 
-                            AND 
-                        placed_order.user_id=%(user_id)s
-                    ) /* ordered */
-        
-                ORDER BY
-                    placed_order.id IS NOT NULL,
-                    deadline ASC;"""
-
-            args = {
-                "user_id": user_id,
-            }
-
-            cursor.execute(statement, args)
-            all_data = cursor.fetchall()
-
-            result = self._process_multi_row_result(all_data,
-                                                    result_labels_ordered=["placed_order_id", "name", "price_limit",
-                                                                           "deadline", "message",
-                                                                           "order_request_id", "menu_url"])
-
-            return result
-
     def get_placed_order(self, placed_order_id):
         with self.connection.cursor() as cursor:
             statement = r"""
@@ -247,7 +201,7 @@ class Database:
 
             return order_request_id
 
-    def get_placed_orders(self, order_request_id):
+    def get_all_placed_orders(self, order_request_id):
         with self.connection.cursor() as cursor:
             statement = r"""
                 SELECT
@@ -316,3 +270,29 @@ class Database:
 
             cursor.execute(statement, args)
             return True
+
+    def get_placed_order_id(self, user_id, order_request_id):
+        with self.connection.cursor() as cursor:
+            statement = r"""
+                SELECT
+                    id
+                FROM
+                    lunch_it.placed_order
+                WHERE
+                        user_id = %(user_id)s
+                    AND
+                        order_request_id = %(order_request_id)s
+            """
+
+            args = {
+                "user_id": user_id,
+                "order_request_id": order_request_id,
+            }
+
+            cursor.execute(statement, args)
+
+            ret_val = cursor.fetchone()
+            if ret_val is None:
+                return None
+            else:
+                return ret_val[0]

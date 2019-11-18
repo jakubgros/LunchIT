@@ -243,4 +243,18 @@ class ServerApi
   }
 
   void _removeSavedCredentials() => _rememberCredentials("","");
+
+  Future<bool> hasOrdered(int orderRequestId) async {
+    http.Response response = await _sendJsonRequest(
+        endpoint: '/has_ordered',
+        method: Method.GET,
+        sendWithAuthHeader: true,
+        queryParameters: {"order_request_id": orderRequestId.toString()},
+    );
+
+    final responseJson = json.decode(response.body);
+    bool hasOrdered = responseJson['has_ordered'] == "true";
+
+    return hasOrdered;
+  }
 }

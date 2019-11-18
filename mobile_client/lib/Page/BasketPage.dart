@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/Basket/BasketData.dart';
-import 'package:lunch_it/Basket/BasketEntry.dart';
-import 'package:lunch_it/Basket/BasketEntryCard.dart';
-import 'package:lunch_it/Basket/PlaceOrderButton.dart';
+import 'package:lunch_it/Basket/Model/Basket.dart';
+import 'package:lunch_it/Basket/Model/Meal.dart';
+import 'package:lunch_it/Basket/View/BasketEntryCard.dart';
+import 'package:lunch_it/Basket/View/PlaceOrderButton.dart';
 import 'package:lunch_it/FoodPicker/BottomBar/CashInfoBar.dart';
 import 'package:provider/provider.dart';
 
 class BasketPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
-    Consumer<BasketData>(builder: (context, basketData, child) {
+    Consumer<Basket>(builder: (context, basketData, child) {
       return Scaffold(
         appBar: AppBar(),
         body: ListView.builder(
@@ -31,9 +31,9 @@ class BasketPage extends StatelessWidget {
     });
 }
 
-Widget basketEntryBuilder(BasketData basketData, int index) {
-  BasketEntry entry = basketData.getEntry(index);
+Widget basketEntryBuilder(Basket basketData, int index) {
+  Meal entry = basketData.getEntry(index);
 
-  return BasketEntryCard.modifiable(entry, index, basketData);
+  return MealCard.modifiable(entry, index, basketData);
 }
 

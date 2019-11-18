@@ -1,18 +1,15 @@
 import 'package:flutter/widgets.dart';
+import 'Meal.dart';
 
-import 'BasketEntry.dart';
+class Basket extends ChangeNotifier{
+  final meals = List<Meal>();
 
-class BasketData extends ChangeNotifier{
-  final meals = List<BasketEntry>();
-
-  int get length => meals.length;
-
-  BasketEntry getEntry(int index) {
+  Meal getEntry(int index) {
     return meals[index];
   }
 
-  void addEntry(BasketEntry newEntry) {
-    newEntry.addListener(() => this.notifyListeners()); //entry changed = notify listeners of whole basket
+  void addEntry(Meal newEntry) {
+    newEntry.addListener(() => this.notifyListeners()); //entry changed - notify listeners of whole basket
     meals.add(newEntry);
     notifyListeners(); //basket changed
   }
@@ -29,8 +26,9 @@ class BasketData extends ChangeNotifier{
 
   double getSummaryCost() => meals.fold(0, (previousVal, elem) => previousVal+elem.quantity*elem.price);
 
-  Map toJson() =>
-    {
+  int get length => meals.length;
+
+  Map toJson() => {
       "meals": meals,
     };
 }

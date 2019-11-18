@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/Basket/BasketData.dart';
+import 'package:lunch_it/Basket/Model/Basket.dart';
 import 'package:lunch_it/Models/OrderRequestModel.dart';
 import 'package:provider/provider.dart';
 
 class CashInfoBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<BasketData>(
+    return Consumer<Basket>(
       builder:  (context, basketData, child) {
         final double priceLimit = Provider.of<OrderRequest>(context, listen:false).priceLimit;
         final double moneySpent = basketData.getSummaryCost();

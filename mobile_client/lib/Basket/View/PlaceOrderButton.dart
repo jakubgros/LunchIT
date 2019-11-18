@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_it/Basket/BasketData.dart';
-import 'package:lunch_it/Basket/Order.dart';
+import 'package:lunch_it/Basket/Model/Basket.dart';
+import 'package:lunch_it/Basket/Model/OrderResponse.dart';
 import 'package:lunch_it/Models/OrderRequestModel.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 import 'package:provider/provider.dart';
@@ -25,18 +25,13 @@ class PlaceOrderButton extends StatelessWidget {
   }
 
   void _placeOrder(BuildContext context) async {
-    final basketData = Provider.of<BasketData>(context, listen: false);
-
-    //TODO
-/*    final orderInfo = Provider.of<OrderInfo>(context, listen: false);
-    if(basketData.getSummaryCost() > orderInfo.limit)
-      return; //TODO display message*/
+    final basketData = Provider.of<Basket>(context, listen: false);
 
     int orderRequestId = Provider.of<OrderRequest>(context).orderRequestId;
-    var order = Order(basketData, orderRequestId);
+    var order = OrderResponse(basketData, orderRequestId);
     Future<bool> success = ServerApi().placeOrder(order);
     if(await success == false)
-      return; //display message that request to server failed
+      return; //TODO display message that request to server failed
 
     basketData.clear();
 

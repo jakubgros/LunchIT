@@ -3,19 +3,24 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:lunch_it/Utilities/Utils.dart';
 
-class BasketEntry extends ChangeNotifier { //TODO make all datamodels extend common interface that has toJson, fromJsonString, fromJsonMap
-  String _foodName;
+class Meal extends ChangeNotifier {
+  Meal(this._name, this._price, this._quantity, this._comment);
+
+  String _name;
   double _price;
   int _quantity;
   String _comment;
 
-  String get foodName => _foodName;
+  String get name => _name;
+
   double get price => _price;
+
   int get quantity => _quantity;
+
   String get comment => _comment;
 
-  set foodName(String newVal) {
-    _foodName = newVal;
+  set name(String newVal) {
+    _name = newVal;
     notifyListeners();
   }
 
@@ -34,23 +39,19 @@ class BasketEntry extends ChangeNotifier { //TODO make all datamodels extend com
     notifyListeners();
   }
 
-  BasketEntry(this._foodName, this._price, this._quantity, this._comment);
+  Map toJson() => {
+        "foodName": _name,
+        "price": _price,
+        "quantity": _quantity,
+        "comment": _comment,
+      };
 
-  Map toJson() =>
-    {
-      "foodName": _foodName,
-      "price": _price,
-      "quantity": _quantity,
-      "comment": _comment,
-    };
+  Meal.fromJsonString(String json) : this.fromJsonMap(jsonDecode(json));
 
-  BasketEntry.fromJsonString(String json): this.fromJsonMap(jsonDecode(json));
-
-  BasketEntry.fromJsonMap(Map<String, dynamic> parsedJson) {
-    _foodName = getOrThrow(parsedJson, "food_name");
+  Meal.fromJsonMap(Map<String, dynamic> parsedJson) {
+    _name = getOrThrow(parsedJson, "food_name"); //TODO change name
     _price = getOrThrow(parsedJson, "price");
     _quantity = getOrThrow(parsedJson, "quantity");
     _comment = getOrThrow(parsedJson, "comment");
   }
-
 }

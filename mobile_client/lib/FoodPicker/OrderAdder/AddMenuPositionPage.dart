@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lunch_it/Basket/Model/Basket.dart';
+import 'package:lunch_it/Basket/Model/Meal.dart';
 import 'package:lunch_it/FoodPicker/AppBar/ShoppingCardAppbarButton.dart';
-import 'package:lunch_it/Basket/BasketData.dart';
-import 'package:lunch_it/Basket/BasketEntry.dart';
 import 'package:lunch_it/FoodPicker/Marker/MarkerData.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/OcrPresenterAndCorrecter.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/OrderPositionComment.dart';
@@ -85,9 +85,9 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
     if(_comment.trim() == "")
       _comment = null;
 
-    var newEntry = BasketEntry(_foodAsText, price, _quantity, _comment);
+    var newEntry = Meal(_foodAsText, price, _quantity, _comment);
 
-    Provider.of<BasketData>(context, listen: false).addEntry(newEntry);
+    Provider.of<Basket>(context, listen: false).addEntry(newEntry);
 
     Navigator.of(context).pop(
         true); //true means that element has been successfully added to the basket

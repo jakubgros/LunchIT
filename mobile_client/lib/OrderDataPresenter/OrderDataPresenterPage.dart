@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/Basket/BasketEntry.dart';
-import 'package:lunch_it/Basket/BasketEntryCard.dart';
+import 'package:lunch_it/Basket/Model/Meal.dart';
+import 'package:lunch_it/Basket/View/BasketEntryCard.dart';
 import 'package:lunch_it/Models/OrderRequestModel.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 
 class OrderDataPresenterPage extends StatelessWidget {
   final OrderRequest orderRequest;
-  Future<List<BasketEntry>> _orderEntries;
+  Future<List<Meal>> _orderEntries;
 
   OrderDataPresenterPage(this.orderRequest) {
     _orderEntries = ServerApi().getPlacedOrder(orderRequest.placedOrderId);
@@ -15,12 +15,12 @@ class OrderDataPresenterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<BasketEntry>>(
-        initialData: List<BasketEntry>(),
+    return FutureBuilder<List<Meal>>(
+        initialData: List<Meal>(),
         future: _orderEntries,
         builder: (context, snapshot) {
           double totalCost = snapshot.data
-              .fold(0, (prev, BasketEntry elem) => prev + elem.price);
+              .fold(0, (prev, Meal elem) => prev + elem.price);
           return Scaffold(
             appBar: AppBar(
               title: Text(
@@ -29,7 +29,7 @@ class OrderDataPresenterPage extends StatelessWidget {
             body: ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) =>
-                  BasketEntryCard.presenter(snapshot.data[index]),
+                  MealCard.presenter(snapshot.data[index]),
             ),
             bottomSheet: Row(
               children: <Widget>[

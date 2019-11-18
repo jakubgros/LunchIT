@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_it/Basket/BasketPage.dart';
-import 'package:lunch_it/Basket/BasketData.dart';
+import 'package:lunch_it/Page/BasketPage.dart';
+import 'package:lunch_it/Basket/Model/Basket.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/AddMenuPositionPage.dart';
 import 'package:lunch_it/FoodPicker/FoodPickerPage.dart';
 import 'package:lunch_it/Login/LoginPage.dart';
@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<MarkerData>(
             builder: (context) => MarkerData()
         ),
-        ChangeNotifierProvider<BasketData>(
-          builder: (context) => BasketData(),
+        ChangeNotifierProvider<Basket>(
+          builder: (context) => Basket(),
         ),
         Provider<OrderRequest>(
           builder: (context) => OrderRequest(),

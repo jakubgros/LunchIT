@@ -1,22 +1,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lunch_it/Basket/Model/Basket.dart';
+import 'package:lunch_it/Basket/Model/Meal.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/QuantityManager.dart';
 import 'package:lunch_it/HomePage/HomePage.dart';
 
-import 'BasketData.dart';
-import 'BasketEntry.dart';
 
-class BasketEntryCard extends StatelessWidget {
-  final BasketEntry entry;
-  BasketData basketData;
+class MealCard extends StatelessWidget {
+  final Meal meal;
+  Basket basket;
   final bool _isModifiable;
   int index;
 
-  BasketEntryCard.modifiable(this.entry, this.index, this.basketData):
+  MealCard.modifiable(this.meal, this.index, this.basket):
       _isModifiable = true;
 
-  BasketEntryCard.presenter(this.entry):
+  MealCard.presenter(this.meal): //TODO do sth about impl
       _isModifiable = false;
 
   @override
@@ -32,26 +32,26 @@ class BasketEntryCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  BoldText(entry.foodName),
-                  Text("${entry.price} x ${entry.quantity} = ${entry.price *
-                      entry.quantity}")
+                  BoldText(meal.name),
+                  Text("${meal.price} x ${meal.quantity} = ${meal.price *
+                      meal.quantity}")
                 ],
               ),
-              if(entry.comment != null) Text("(${entry.comment})"),
+              if(meal.comment != null) Text("(${meal.comment})"),
               if (_isModifiable == true) Column(
                 children: <Widget>[
                   Divider(color: Colors.black),
                   Row(
                     children: <Widget>[
                       QuantityManager(
-                        initVal: entry.quantity,
-                        onChanged: (int quantity) => entry.quantity = quantity,
+                        initVal: meal.quantity,
+                        onChanged: (int quantity) => meal.quantity = quantity,
                       ),
                       Spacer(),
                       FlatButton(
                         child: Icon(Icons.remove),
                         color: Colors.red[300],
-                        onPressed: () => basketData.removeEntry(index),
+                        onPressed: () => basket.removeEntry(index),
                       )
                     ],
                   ),

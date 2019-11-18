@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:lunch_it/Basket/BasketEntry.dart';
-import 'package:lunch_it/Basket/Order.dart';
+import 'package:lunch_it/Basket/Model/Meal.dart';
+import 'package:lunch_it/Basket/Model/OrderResponse.dart';
 import 'package:lunch_it/Models/OrderRequestModel.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
@@ -45,7 +45,7 @@ class ServerApi
     return result;
   }
 
-  Future<bool> placeOrder(Order order) async {
+  Future<bool> placeOrder(OrderResponse order) async {
     http.Response response = await _sendJsonRequest(
       endpoint: '/order',
       method: Method.POST,
@@ -112,7 +112,7 @@ class ServerApi
     return logIn(_email, _hashedPassword, isPasswordHashed: true, rememberCredentials: false);
   }
 
-  Future<List<BasketEntry>> getPlacedOrder(int id) async {
+  Future<List<Meal>> getPlacedOrder(int id) async {
     http.Response response = await _sendJsonRequest(
       endpoint: '/order',
       method: Method.GET,
@@ -125,10 +125,10 @@ class ServerApi
     if(response.statusCode != 200) //TODO extract statusCode processing to seperate method
       throw Exception("error");
 
-    var order = List<BasketEntry>();
+    var order = List<Meal>();
     List listOfJsonObj = jsonDecode(response.body);
     for(Map jsonObj in listOfJsonObj)
-      order.add(BasketEntry.fromJsonMap(jsonObj));
+      order.add(Meal.fromJsonMap(jsonObj));
 
     return order;
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lunch_it/Models/OrderRequestModel.dart';
+import 'package:lunch_it/Routes.dart';
 import 'package:lunch_it/Utilities/Widgets/DescriptionAndValue.dart';
 import 'package:provider/provider.dart';
 
@@ -9,19 +10,26 @@ class OrderRequestCard extends StatelessWidget {
 
   const OrderRequestCard(this.orderRequest);
 
+  void _onTap(context) {
+    if(orderRequest.isOrdered) {
+      var providedOrderRequest = Provider.of<OrderRequest>(context);
+      providedOrderRequest.assign(orderRequest);
+      Navigator.of(context).pushNamed(Routes.orderDataPresenter, arguments: orderRequest);
+    }
+    else if(!orderRequest.hasExpired()){
+      var providedOrderRequest = Provider.of<OrderRequest>(context);
+      providedOrderRequest.assign(orderRequest);
+      Navigator.of(context).pushNamed(Routes.foodPicker, arguments: orderRequest);
+    }
+    else {
+      ; //Do nothing, card is just for presenting order request
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          if(orderRequest.isOrdered) {
-            Provider.of<OrderRequest>(context).assign(orderRequest);
-            Navigator.of(context).pushNamed('/orderDataPresenter', arguments: orderRequest);
-          }
-          else if(!orderRequest.hasExpired()){
-            Provider.of<OrderRequest>(context).assign(orderRequest);
-            Navigator.of(context).pushNamed('/foodPicker', arguments: orderRequest);
-          }
-        },
+        onTap: () => _onTap(context),
         child: Card(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.elliptical(15, 15))),
@@ -59,7 +67,6 @@ class OrderRequestCard extends StatelessWidget {
                     )
                   ],
                 ),
-
               ],
             ),
           ),

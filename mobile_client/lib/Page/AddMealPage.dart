@@ -4,9 +4,9 @@ import 'package:lunch_it/Basket/Model/Basket.dart';
 import 'package:lunch_it/Basket/Model/Meal.dart';
 import 'package:lunch_it/Appbar/ShoppingCardButton.dart';
 import 'package:lunch_it/Marker/MarkerData.dart';
-import 'package:lunch_it/OrderAdder/OcrPresenterAndCorrecter.dart';
-import 'package:lunch_it/OrderAdder/OrderPositionComment.dart';
-import 'package:lunch_it/OrderAdder/QuantityManager.dart';
+import 'package:lunch_it/MealAdder/OcrPresenterAndCorrecter.dart';
+import 'package:lunch_it/MealAdder/OrderPositionComment.dart';
+import 'package:lunch_it/MealAdder/QuantityManager.dart';
 import 'package:lunch_it/Utilities/Validator.dart';
 import 'package:provider/provider.dart';
 

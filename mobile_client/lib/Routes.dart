@@ -1,4 +1,10 @@
 class Routes {
-  static final foodPicker = '/foodPicker';
-  static final orderDataPresenter = '/orderDataPresenter'; //TODO make sure no raw routes are used
+  static const foodPicker = '/foodPicker';
+  static const addMenuPositionPage = '/foodPicker/addMenuPositionPage';
+  static const basketPage = '/basketPage';
+  static const login = '/login';
+  static const register = '/register';
+  static const home = '/home';
+  static const orderDataPresenter = '/orderDataPresenter';
+  static const initialRoute = '/';
 }

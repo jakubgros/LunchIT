@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lunch_it/Routes.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 
 class LoginPage extends StatefulWidget {
@@ -68,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                         style: TextStyle(
                           color: Colors.blue[700]
                         ),),
-                        onTap: () => Navigator.of(context).pushNamed('/register'),
+                        onTap: () => Navigator.of(context).pushNamed(Routes.register),
                       )
                     ],
                   ),

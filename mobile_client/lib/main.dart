@@ -5,6 +5,7 @@ import 'package:lunch_it/FoodPicker/OrderAdder/AddMenuPositionPage.dart';
 import 'package:lunch_it/FoodPicker/FoodPickerPage.dart';
 import 'package:lunch_it/Login/LoginPage.dart';
 import 'package:lunch_it/Models/OrderRequestModel.dart';
+import 'package:lunch_it/Routes.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 import 'package:provider/provider.dart';
 
@@ -37,14 +38,14 @@ class MyApp extends StatelessWidget {
             String currentRoute = settings.name;
 
             var routes = <String, WidgetBuilder> {
-              '/foodPicker': (BuildContext context) => FoodPickerPage(settings.arguments),
-              '/foodPicker/addMenuPositionPage': (BuildContext context) => AddMenuPositionPage(),
-              '/basketPage': (BuildContext context) => BasketPage(),
-              '/login': (BuildContext context) => LoginPage(onSuccessPath: '/home'),
-              '/register': (BuildContext context) => RegistrationPage(),
-              '/home': (BuildContext context) => HomePage(),
-              '/orderDataPresenter': (BuildContext context) => OrderDataPresenterPage(settings.arguments),
-              '/': (BuildContext context) => SavedCredentialsChecker(),
+              Routes.foodPicker: (BuildContext context) => FoodPickerPage(settings.arguments),
+              Routes.addMenuPositionPage: (BuildContext context) => AddMenuPositionPage(),
+              Routes.basketPage: (BuildContext context) => BasketPage(),
+              Routes.login: (BuildContext context) => LoginPage(onSuccessPath: Routes.home),
+              Routes.register: (BuildContext context) => RegistrationPage(),
+              Routes.home: (BuildContext context) => HomePage(),
+              Routes.orderDataPresenter: (BuildContext context) => OrderDataPresenterPage(settings.arguments),
+              Routes.initialRoute: (BuildContext context) => SavedCredentialsChecker(),
 
             };
             WidgetBuilder builder = routes[currentRoute];
@@ -63,9 +64,9 @@ class SavedCredentialsChecker extends StatelessWidget {
 
       bool hasGrantedAccess = await ServerApi().checkSavedCredentials();
       if(hasGrantedAccess)
-        navigator.pushNamed('/home');
+        navigator.pushNamed(Routes.home);
       else
-        navigator.pushNamed('/login');
+        navigator.pushNamed(Routes.login);
   }
 
   @override

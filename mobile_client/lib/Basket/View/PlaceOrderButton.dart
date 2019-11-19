@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lunch_it/Basket/Model/Basket.dart';
 import 'package:lunch_it/Basket/Model/OrderResponse.dart';
 import 'package:lunch_it/Models/OrderRequestModel.dart';
+import 'package:lunch_it/Routes.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 import 'package:lunch_it/Utilities/Utils.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +51,7 @@ class PlaceOrderButton extends StatelessWidget {
           message: "Your order has been successfuly placed!",
           onPressOkCallback: () {
             basketData.clear();
-            Navigator.of(context).pushNamed('/home');
+            Navigator.of(context).pushNamed(Routes.home);
           }
       );
     }

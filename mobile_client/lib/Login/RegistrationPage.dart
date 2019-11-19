@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lunch_it/Routes.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -62,7 +63,7 @@ class _RegistrationPage extends State<RegistrationPage> {
     bool isUserCreated = await ServerApi().registerUser(_email, _password);
 
     if(isUserCreated)
-      Navigator.of(context).pushNamed('/login');
+      Navigator.of(context).pushNamed(Routes.login);
     else
       setState(() => _incorrectCredentials = true);
   }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lunch_it/Routes.dart';
 
 class ShoppingCardAppbarButton extends StatelessWidget {
   void _shoppingCartOnPressedCallback(context) =>
-    Navigator.of(context).pushNamed('/basketPage');
+    Navigator.of(context).pushNamed(Routes.basketPage);
 
   @override
   Widget build(BuildContext context) {

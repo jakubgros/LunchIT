@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lunch_it/Appbar/LogoutButton.dart';
 import 'package:lunch_it/Models/OrderRequestModel.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
+import 'package:lunch_it/Utilities/Widgets/BoldText.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -100,20 +101,7 @@ class OrderRequestPresenter extends StatelessWidget {
 }
 
 
-class BoldText extends StatelessWidget {
-  final String text;
-  final Color color;
-  BoldText(this.text, {this.color});
 
-  @override
-  Widget build(BuildContext context) {
-    return Text(text,
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        color: color,
-      ));
-  }
-}
 
 class DescriptionAndValue extends StatelessWidget {
   final String description;

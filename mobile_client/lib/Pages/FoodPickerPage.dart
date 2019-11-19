@@ -4,7 +4,7 @@ import 'package:lunch_it/Bar/CashInfoBar.dart';
 import 'package:lunch_it/EventStreams/AcceptMarked.dart';
 import 'package:lunch_it/EventStreams/MarkerMode.dart';
 import 'package:lunch_it/EventStreams/WebNavigation.dart';
-import 'package:lunch_it/Button/OrderingTools.dart';
+import 'package:lunch_it/Button/OnePushedButtonCombiner.dart';
 import 'package:lunch_it/MenuViewer/Menu.dart';
 import 'package:lunch_it/MenuViewer/WebMenu/NavigationBar.dart';
 import 'package:lunch_it/MenuViewer/WebMenu/WebMenuContentViewer.dart';

@@ -5,8 +5,8 @@ import 'package:lunch_it/Basket/Model/Meal.dart';
 import 'package:lunch_it/Appbar/ShoppingCardButton.dart';
 import 'package:lunch_it/Marker/MarkerData.dart';
 import 'package:lunch_it/MealAdder/OcrPresenterAndCorrecter.dart';
-import 'package:lunch_it/MealAdder/OrderPositionComment.dart';
-import 'package:lunch_it/MealAdder/QuantityManager.dart';
+import 'package:lunch_it/MealAdder/MealComment.dart';
+import 'package:lunch_it/Utilities/Widgets/QuantityManager.dart';
 import 'package:lunch_it/Utilities/Validator.dart';
 import 'package:provider/provider.dart';
 

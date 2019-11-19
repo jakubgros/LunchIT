@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_it/Marker/MarkerData.dart';
-import 'package:lunch_it/Page/AddMealPage.dart';
-import 'package:lunch_it/Page/BasketPage.dart';
+import 'package:lunch_it/Pages/AddMealPage.dart';
+import 'package:lunch_it/Pages/BasketPage.dart';
 import 'package:lunch_it/Basket/Model/Basket.dart';
-import 'package:lunch_it/Page/FoodPickerPage.dart';
-import 'package:lunch_it/Page/LoginPage.dart';
+import 'package:lunch_it/Pages/FoodPickerPage.dart';
+import 'package:lunch_it/Pages/LoginPage.dart';
 import 'package:lunch_it/OrderRequest/OrderRequestModel.dart';
+import 'package:lunch_it/Pages/OrderResponsePage.dart';
 import 'package:lunch_it/Routes.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 import 'package:provider/provider.dart';
 
-import 'Page/HomePage.dart';
-import 'Page/RegistrationPage.dart';
-import 'OrderDataPresenter/OrderDataPresenterPage.dart';
+import 'Pages/HomePage.dart';
+import 'Pages/RegistrationPage.dart';
 
 void main() => runApp(MyApp());
 

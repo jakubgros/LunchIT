@@ -4,6 +4,7 @@ import 'package:lunch_it/Appbar/LogoutButton.dart';
 import 'package:lunch_it/Models/OrderRequestModel.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 import 'package:lunch_it/Utilities/Widgets/BoldText.dart';
+import 'package:lunch_it/Utilities/Widgets/DescriptionAndValue.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -103,20 +104,4 @@ class OrderRequestPresenter extends StatelessWidget {
 
 
 
-class DescriptionAndValue extends StatelessWidget {
-  final String description;
-  final String value;
-  final Color valueColor;
-  DescriptionAndValue(this.description, this.value, {this.valueColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Text(description),
-        BoldText(value, color: valueColor),
-      ],
-    );
-  }
-}
 

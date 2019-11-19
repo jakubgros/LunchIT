@@ -16,7 +16,7 @@ class MealCard extends StatelessWidget {
   MealCard.modifiable(this.meal, this.index, this.basket):
       _isModifiable = true;
 
-  MealCard.presenter(this.meal): //TODO do sth about impl
+  MealCard.presenter(this.meal):
       _isModifiable = false;
 
   @override

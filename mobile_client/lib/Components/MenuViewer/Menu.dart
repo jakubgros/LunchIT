@@ -4,8 +4,8 @@ import 'package:lunch_it/Components/Marker/MarkingManager.dart';
 import 'WebMenu/WebMenuContentViewer.dart';
 
 class Menu extends StatelessWidget {
-  final WebMenuContentViewer _menuContentViewer; //TODO extract to abstract
-  final Widget _menuContentViewerNavBar; //TODO extract to abstract
+  final WebMenuContentViewer _menuContentViewer;
+  final Widget _menuContentViewerNavBar;
 
   Menu({@required WebMenuContentViewer contentViewer, Widget navbar})
       : _menuContentViewer = contentViewer,

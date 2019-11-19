@@ -85,7 +85,7 @@ class ContentMarkerState extends State<ContentMarker> {
                 FittedBox(
                   fit: BoxFit.cover,
                   child: Container(
-                      decoration: BoxDecoration( //TODO do sth about it
+                      decoration: BoxDecoration(
                         border: Border.all(color: widget._markingColor),
                       ),
                       child: FutureBuilder(

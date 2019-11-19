@@ -1,6 +1,6 @@
 import 'dart:async';
 
-class WebNavigationEventStream { //TODo extract repetition
+class WebNavigationEventStream {
   StreamController _controller = StreamController<WebNavigationEvent>();
   get stream => _controller.stream;
   get sink => _controller.sink;
@@ -19,7 +19,7 @@ class WebNavigationEvent {
   factory WebNavigationEvent.goForward() => WebNavigationEvent._().._type = _EventType.goForward;
 }
 
-enum _EventType { //TODO check if is private to the file
+enum _EventType {
   goBack,
   goForward
 }

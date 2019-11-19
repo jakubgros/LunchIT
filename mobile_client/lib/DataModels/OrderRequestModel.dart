@@ -49,7 +49,6 @@ class OrderRequest {
     _menuUrl = getOrThrow(parsedJson, "menu_url");
   }
 
-
   void assign(OrderRequest other) {
     _priceLimit = other._priceLimit;
     _title = other._title;

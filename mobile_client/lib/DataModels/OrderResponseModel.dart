@@ -8,7 +8,7 @@ class OrderResponse {
   OrderResponse(this.basket, this.orderRequestId);
 
   Map toJson() => {
-        "orderRequestId": orderRequestId, //TODO change name
-        "basketData": basket, //TODO change name
+        "orderRequestId": orderRequestId,
+        "basketData": basket,
       };
 }

@@ -120,6 +120,4 @@ class _OrderingToolsState extends State<OrderingTools> {
     _acceptMarkedEventStream = Provider.of<AcceptMarkedEventStream>(context, listen: false);
     _markerModeEventStream = Provider.of<MarkerModeEventStream>(context, listen: false);
   }
-
-
 }

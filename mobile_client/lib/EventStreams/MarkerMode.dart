@@ -1,6 +1,6 @@
 import 'dart:async';
 
-class MarkerModeEventStream { //TODo extract repetition
+class MarkerModeEventStream {
   StreamController _controller = StreamController<MarkerModeEvent>();
   get stream => _controller.stream;
   get sink => _controller.sink;
@@ -21,7 +21,7 @@ class MarkerModeEvent {
   factory MarkerModeEvent.navigate() => MarkerModeEvent._().._type = _EventType.navigate;
 }
 
-enum _EventType { //TODO check if is private to the file
+enum _EventType {
   markFood,
   markPrice,
   navigate

@@ -49,7 +49,7 @@ class Meal extends ChangeNotifier {
   Meal.fromJsonString(String json) : this.fromJsonMap(jsonDecode(json));
 
   Meal.fromJsonMap(Map<String, dynamic> parsedJson) {
-    _name = getOrThrow(parsedJson, "food_name"); //TODO change name
+    _name = getOrThrow(parsedJson, "food_name");
     _price = getOrThrow(parsedJson, "price");
     _quantity = getOrThrow(parsedJson, "quantity");
     _comment = getOrThrow(parsedJson, "comment");

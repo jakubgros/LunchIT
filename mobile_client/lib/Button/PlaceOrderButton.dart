@@ -57,5 +57,3 @@ class PlaceOrderButton extends StatelessWidget {
     }
   }
 }
-
-

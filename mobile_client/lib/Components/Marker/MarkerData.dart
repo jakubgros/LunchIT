@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
@@ -38,7 +37,7 @@ class MarkerData extends ChangeNotifier{
     resetPrice();
   }
   void resetPrice() {
-    _markedPrice?.delete(); //TODO remove files when app is closed
+    _markedPrice?.delete();
 
     _markedPrice = null;
     _markedPriceImg = null;
@@ -46,7 +45,7 @@ class MarkerData extends ChangeNotifier{
   }
 
   void resetFood() {
-    _markedFood?.delete(); //TODO remove files when app is closed
+    _markedFood?.delete();
 
     _markedFood = null;
     _markedFoodImg = null;

@@ -7,7 +7,6 @@ import 'package:flutter_inappbrowser/flutter_inappbrowser.dart';
 import 'package:lunch_it/EventStreams/WebNavigation.dart';
 import 'package:provider/provider.dart';
 
-
 class WebMenuContentViewer extends StatefulWidget {
   final String _webUrl;
   Completer<InAppWebViewController> _controller;

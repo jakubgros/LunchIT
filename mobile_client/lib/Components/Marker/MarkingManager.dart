@@ -17,7 +17,7 @@ import 'ContentMarker.dart';
 import 'MarkerData.dart';
 
 class MarkingManager extends StatefulWidget {
-  final WebMenuContentViewer _content; //TODO extract abstraction
+  final WebMenuContentViewer _content;
 
   MarkingManager(this._content);
 

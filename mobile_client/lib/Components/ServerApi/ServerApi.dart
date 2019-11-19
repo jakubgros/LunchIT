@@ -38,9 +38,8 @@ class ServerApi
     request.files.add(multipartFile);
 
     var response = await request.send();
-    //TODO implement status code checking from response.statusCode
 
-    String result = await response.stream.transform(utf8.decoder).elementAt(0); //TODO make consistent
+    String result = await response.stream.transform(utf8.decoder).elementAt(0);
 
     return result;
   }
@@ -94,7 +93,7 @@ class ServerApi
       sendWithAuthHeader: true,
     );
 
-    if(response.statusCode != 200) //TODO extract statusCode processing to seperate method
+    if(response.statusCode != 200)
       throw Exception("error");
 
     var orderRequests = List<OrderRequest>();
@@ -122,7 +121,7 @@ class ServerApi
       sendWithAuthHeader: true,
     );
 
-    if(response.statusCode != 200) //TODO extract statusCode processing to seperate method
+    if(response.statusCode != 200)
       throw Exception("error");
 
     var order = List<Meal>();
@@ -156,7 +155,7 @@ class ServerApi
     return hasCreatedUser;
   }
 
-  void closeConnection() { //TODO call it somewhere
+  void closeConnection() {
     _client.close();
   }
 

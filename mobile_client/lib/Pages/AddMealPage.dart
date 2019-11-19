@@ -4,7 +4,7 @@ import 'package:lunch_it/Appbar/ShoppingCardButton.dart';
 import 'package:lunch_it/DataModels/BasketModel.dart';
 import 'package:lunch_it/DataModels/MealModel.dart';
 import 'package:lunch_it/Marker/MarkerData.dart';
-import 'package:lunch_it/Presenters/OcrResult/MealAdder/MealComment.dart';
+import 'package:lunch_it/Utilities/Widgets/LabeledTextForm.dart';
 import 'package:lunch_it/Presenters/OcrResult/MealAdder/OcrPresenterAndCorrecter.dart';
 import 'package:lunch_it/Utilities/Widgets/QuantityManager.dart';
 import 'package:lunch_it/Utilities/Validator.dart';
@@ -53,7 +53,10 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
                       onSaved: (String value) => _priceAsText = value,
                       validator: _priceValidator,
                     ),
-                    OrderComment(onSaved: (String value) => _comment = value),
+                    LabeledTextForm(
+                        onSaved: (String value) => _comment = value,
+                        label: "Put your comments about the order below: ",
+                    ),
                     QuantityManager(onSaved: (String value) => _quantity = int.parse(value)),
                     RaisedButton(
                       child: Text("Add to basket"),

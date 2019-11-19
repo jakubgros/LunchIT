@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class OrderComment extends StatelessWidget {
+class LabeledTextForm extends StatelessWidget {
   final void Function(String) onSaved;
-
-  OrderComment({@required this.onSaved});
+  final String label;
+  LabeledTextForm({@required this.onSaved, @required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class OrderComment extends StatelessWidget {
       padding: EdgeInsets.all(10),
       child: Column(
         children: <Widget>[
-          Text("Put your comments about the order below: "),
+          Text(label),
           TextFormField(
             onSaved: onSaved,
             decoration: InputDecoration(border: OutlineInputBorder()),

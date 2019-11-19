@@ -1,5 +1,5 @@
 
-import 'Basket.dart';
+import 'BasketModel.dart';
 
 class OrderResponse {
   final Basket basket;

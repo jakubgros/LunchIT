@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:lunch_it/DataModels/Meal.dart';
-import 'package:lunch_it/DataModels/OrderResponse.dart';
-import 'package:lunch_it/OrderRequest/OrderRequestModel.dart';
+import 'package:lunch_it/DataModels/MealModel.dart';
+import 'package:lunch_it/DataModels/OrderResponseModel.dart';
+import 'package:lunch_it/DataModels/OrderRequestModel.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;

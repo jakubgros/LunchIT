@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/DataModels/Basket.dart';
-import 'package:lunch_it/DataModels/Meal.dart';
+import 'package:lunch_it/DataModels/BasketModel.dart';
+import 'package:lunch_it/DataModels/MealModel.dart';
 import 'package:lunch_it/Utilities/Widgets/QuantityManager.dart';
 import 'package:lunch_it/Utilities/Widgets/BoldText.dart';
 

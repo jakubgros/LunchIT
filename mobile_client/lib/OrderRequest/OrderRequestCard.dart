@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/OrderRequest/OrderRequestModel.dart';
+import 'package:lunch_it/DataModels/OrderRequestModel.dart';
 import 'package:lunch_it/Routes.dart';
 import 'package:lunch_it/Utilities/Widgets/DescriptionAndValue.dart';
 import 'package:provider/provider.dart';

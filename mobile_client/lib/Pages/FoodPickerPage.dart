@@ -8,7 +8,7 @@ import 'package:lunch_it/Button/OnePushedButtonCombiner.dart';
 import 'package:lunch_it/MenuViewer/Menu.dart';
 import 'package:lunch_it/MenuViewer/WebMenu/NavigationBar.dart';
 import 'package:lunch_it/MenuViewer/WebMenu/WebMenuContentViewer.dart';
-import 'package:lunch_it/OrderRequest/OrderRequestModel.dart';
+import 'package:lunch_it/DataModels/OrderRequestModel.dart';
 import 'package:provider/provider.dart';
 
 

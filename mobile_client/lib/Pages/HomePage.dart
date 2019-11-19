@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lunch_it/Appbar/LogoutButton.dart';
 import 'package:lunch_it/OrderRequest/OrderRequestCard.dart';
-import 'package:lunch_it/OrderRequest/OrderRequestModel.dart';
+import 'package:lunch_it/DataModels/OrderRequestModel.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 
 class HomePage extends StatefulWidget {

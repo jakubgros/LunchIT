@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'Meal.dart';
+import 'MealModel.dart';
 
 class Basket extends ChangeNotifier{
   final meals = List<Meal>();

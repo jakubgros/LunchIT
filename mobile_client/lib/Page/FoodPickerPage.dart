@@ -4,13 +4,13 @@ import 'package:lunch_it/Bar/CashInfoBar.dart';
 import 'package:lunch_it/EventStreams/AcceptMarked.dart';
 import 'package:lunch_it/EventStreams/MarkerMode.dart';
 import 'package:lunch_it/EventStreams/WebNavigation.dart';
-import 'package:lunch_it/FoodPicker/BottomBar/OrderingTools.dart';
+import 'package:lunch_it/Button/OrderingTools.dart';
+import 'package:lunch_it/MenuViewer/Menu.dart';
+import 'package:lunch_it/MenuViewer/WebMenu/NavigationBar.dart';
+import 'package:lunch_it/MenuViewer/WebMenu/WebMenuContentViewer.dart';
 import 'package:lunch_it/OrderRequest/OrderRequestModel.dart';
 import 'package:provider/provider.dart';
 
-import '../FoodPicker/MenuViewer/Menu.dart';
-import '../FoodPicker/MenuViewer/WebMenu/NavigationBar.dart';
-import '../FoodPicker/MenuViewer/WebMenu/WebMenuContentViewer.dart';
 
 class FoodPickerPage extends StatefulWidget {
   final OrderRequest orderRequest;

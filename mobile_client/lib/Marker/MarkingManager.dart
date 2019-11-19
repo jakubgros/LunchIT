@@ -9,11 +9,12 @@ import 'package:flutter_inappbrowser/flutter_inappbrowser.dart';
 import 'package:image/image.dart' as ImgLib;
 import 'package:lunch_it/EventStreams/AcceptMarked.dart';
 import 'package:lunch_it/EventStreams/MarkerMode.dart';
-import 'package:lunch_it/FoodPicker/Marker/ContentMarker.dart';
-import 'package:lunch_it/FoodPicker/Marker/MarkerData.dart';
-import 'package:lunch_it/FoodPicker/MenuViewer/WebMenu/WebMenuContentViewer.dart';
+import 'package:lunch_it/Marker/ContentMarker.dart';
+import 'package:lunch_it/MenuViewer/WebMenu/WebMenuContentViewer.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+
+import 'MarkerData.dart';
 
 class MarkingManager extends StatefulWidget {
   final WebMenuContentViewer _content; //TODO extract abstraction

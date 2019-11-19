@@ -1,4 +1,5 @@
-import 'package:lunch_it/Basket/Model/Basket.dart';
+
+import 'Basket.dart';
 
 class OrderResponse {
   final Basket basket;

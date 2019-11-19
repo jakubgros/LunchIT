@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lunch_it/Marker/MarkerData.dart';
 import 'package:lunch_it/Pages/AddMealPage.dart';
 import 'package:lunch_it/Pages/BasketPage.dart';
-import 'package:lunch_it/Basket/Model/Basket.dart';
 import 'package:lunch_it/Pages/FoodPickerPage.dart';
 import 'package:lunch_it/Pages/LoginPage.dart';
 import 'package:lunch_it/OrderRequest/OrderRequestModel.dart';
@@ -11,6 +10,7 @@ import 'package:lunch_it/Routes.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 import 'package:provider/provider.dart';
 
+import 'DataModels/Basket.dart';
 import 'Pages/HomePage.dart';
 import 'Pages/RegistrationPage.dart';
 

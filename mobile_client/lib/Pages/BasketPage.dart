@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/Basket/Model/Basket.dart';
-import 'package:lunch_it/Basket/Model/Meal.dart';
-import 'package:lunch_it/Basket/View/BasketEntryCard.dart';
-import 'package:lunch_it/Basket/View/PlaceOrderButton.dart';
+import 'package:lunch_it/DataModels/Basket.dart';
+import 'package:lunch_it/DataModels/Meal.dart';
+import 'package:lunch_it/Presenters/BasketEntryCard.dart';
+import 'package:lunch_it/Button/PlaceOrderButton.dart';
 import 'package:lunch_it/Bar/CashInfoBar.dart';
 import 'package:provider/provider.dart';
 

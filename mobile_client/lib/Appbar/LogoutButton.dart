@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:lunch_it/Routes.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 
 class LogoutButton extends StatelessWidget {
@@ -13,7 +14,7 @@ class LogoutButton extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.exit_to_app),
                 onPressed: (){
-                  Navigator.of(context).pushNamed('/login');
+                  Navigator.of(context).pushNamed(Routes.login);
                   ServerApi().logout();
                 },
               ),

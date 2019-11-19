@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lunch_it/Basket/Model/Basket.dart';
-import 'package:lunch_it/Basket/Model/Meal.dart';
 import 'package:lunch_it/Appbar/ShoppingCardButton.dart';
+import 'package:lunch_it/DataModels/Basket.dart';
+import 'package:lunch_it/DataModels/Meal.dart';
 import 'package:lunch_it/Marker/MarkerData.dart';
 import 'package:lunch_it/MealAdder/OcrPresenterAndCorrecter.dart';
 import 'package:lunch_it/MealAdder/MealComment.dart';

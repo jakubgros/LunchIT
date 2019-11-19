@@ -2,7 +2,7 @@
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/ServerApi/ServerApi.dart';
+import 'package:lunch_it/Components/ServerApi/ServerApi.dart';
 
 class MarkerData extends ChangeNotifier{
   File _markedFood;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lunch_it/Components/Marker/MarkerData.dart';
 import 'package:lunch_it/EventStreams/AcceptMarked.dart';
 import 'package:lunch_it/EventStreams/MarkerMode.dart';
-import 'package:lunch_it/Marker/MarkerData.dart';
 import 'package:provider/provider.dart';
 
 import 'Button.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_it/Marker/MarkingManager.dart';
-import 'package:lunch_it/MenuViewer/WebMenu/WebMenuContentViewer.dart';
+import 'package:lunch_it/Components/Marker/MarkingManager.dart';
+
+import 'WebMenu/WebMenuContentViewer.dart';
 
 class Menu extends StatelessWidget {
   final WebMenuContentViewer _menuContentViewer; //TODO extract to abstract

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_it/Appbar/ShoppingCardButton.dart';
 import 'package:lunch_it/Bar/CashInfoBar.dart';
+import 'package:lunch_it/Components/MenuViewer/Menu.dart';
+import 'package:lunch_it/Components/MenuViewer/WebMenu/NavigationBar.dart';
+import 'package:lunch_it/Components/MenuViewer/WebMenu/WebMenuContentViewer.dart';
 import 'package:lunch_it/EventStreams/AcceptMarked.dart';
 import 'package:lunch_it/EventStreams/MarkerMode.dart';
 import 'package:lunch_it/EventStreams/WebNavigation.dart';
 import 'package:lunch_it/Button/OnePushedButtonCombiner.dart';
-import 'package:lunch_it/MenuViewer/Menu.dart';
-import 'package:lunch_it/MenuViewer/WebMenu/NavigationBar.dart';
-import 'package:lunch_it/MenuViewer/WebMenu/WebMenuContentViewer.dart';
 import 'package:lunch_it/DataModels/OrderRequestModel.dart';
 import 'package:provider/provider.dart';
 

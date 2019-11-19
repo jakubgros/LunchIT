@@ -10,7 +10,7 @@ import 'package:lunch_it/ServerApi/ServerApi.dart';
 import 'package:provider/provider.dart';
 
 import 'FoodPicker/Marker/MarkerData.dart';
-import 'HomePage/HomePage.dart';
+import 'Page/HomePage.dart';
 import 'Login/RegistrationPage.dart';
 import 'OrderDataPresenter/OrderDataPresenterPage.dart';
 

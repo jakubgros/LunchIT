@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:lunch_it/Basket/Model/Basket.dart';
 import 'package:lunch_it/Basket/Model/Meal.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/QuantityManager.dart';
-import 'package:lunch_it/HomePage/HomePage.dart';
+import 'package:lunch_it/Page/HomePage.dart';
 import 'package:lunch_it/Utilities/Widgets/BoldText.dart';
 
 

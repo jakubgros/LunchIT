@@ -10,14 +10,14 @@ import 'package:lunch_it/Utilities/Widgets/QuantityManager.dart';
 import 'package:lunch_it/Utilities/Validator.dart';
 import 'package:provider/provider.dart';
 
-class AddMenuPositionPage extends StatefulWidget {
-  AddMenuPositionPage();
+class AddMealPage extends StatefulWidget {
+  AddMealPage();
 
   @override
-  _AddMenuPositionPageState createState() => _AddMenuPositionPageState();
+  _AddMealPageState createState() => _AddMealPageState();
 }
 
-class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
+class _AddMealPageState extends State<AddMealPage> {
   final _formState = GlobalKey<FormState>();
 
   String _foodAsText;
@@ -88,9 +88,9 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
     if(_comment.trim() == "")
       _comment = null;
 
-    var newEntry = Meal(_foodAsText, price, _quantity, _comment);
+    var newEntry = MealModel(_foodAsText, price, _quantity, _comment);
 
-    Provider.of<Basket>(context, listen: false).addEntry(newEntry);
+    Provider.of<BasketModel>(context, listen: false).addEntry(newEntry);
 
     Navigator.of(context).pop(
         true); //true means that element has been successfully added to the basket

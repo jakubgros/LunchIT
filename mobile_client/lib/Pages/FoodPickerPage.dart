@@ -4,16 +4,16 @@ import 'package:lunch_it/Bar/CashInfoBar.dart';
 import 'package:lunch_it/Components/MenuViewer/Menu.dart';
 import 'package:lunch_it/Components/MenuViewer/WebMenu/NavigationBar.dart';
 import 'package:lunch_it/Components/MenuViewer/WebMenu/WebMenuContentViewer.dart';
-import 'package:lunch_it/EventStreams/AcceptMarked.dart';
-import 'package:lunch_it/EventStreams/MarkerMode.dart';
-import 'package:lunch_it/EventStreams/WebNavigation.dart';
+import 'package:lunch_it/EventStreams/AcceptMarkedEventStream.dart';
+import 'package:lunch_it/EventStreams/MarkerModeEventStream.dart';
+import 'package:lunch_it/EventStreams/WebNavigationEventStream.dart';
 import 'package:lunch_it/Bar/OrderingToolsBar.dart';
 import 'package:lunch_it/DataModels/OrderRequestModel.dart';
 import 'package:provider/provider.dart';
 
 
 class FoodPickerPage extends StatefulWidget {
-  final OrderRequest orderRequest;
+  final OrderRequestModel orderRequest;
 
   FoodPickerPage(this.orderRequest);
 
@@ -68,7 +68,7 @@ class _FoodPickerPageState extends State<FoodPickerPage> {
                       children: <Widget>[
                         Expanded(
                           flex: 1,
-                          child: OrderingTools(),
+                          child: OrderingToolsBar(),
                         ),
                         Expanded(
                             flex: 1,

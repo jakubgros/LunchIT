@@ -1,14 +1,14 @@
 import 'package:flutter/widgets.dart';
 import 'MealModel.dart';
 
-class Basket extends ChangeNotifier{
-  final meals = List<Meal>();
+class BasketModel extends ChangeNotifier{
+  final meals = List<MealModel>();
 
-  Meal getEntry(int index) {
+  MealModel getEntry(int index) {
     return meals[index];
   }
 
-  void addEntry(Meal newEntry) {
+  void addEntry(MealModel newEntry) {
     newEntry.addListener(() => this.notifyListeners()); //entry changed - notify listeners of whole basket
     meals.add(newEntry);
     notifyListeners(); //basket changed

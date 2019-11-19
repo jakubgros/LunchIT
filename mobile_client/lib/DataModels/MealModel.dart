@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:lunch_it/Utilities/Utils.dart';
 
-class Meal extends ChangeNotifier {
-  Meal(this._name, this._price, this._quantity, this._comment);
+class MealModel extends ChangeNotifier {
+  MealModel(this._name, this._price, this._quantity, this._comment);
 
   String _name;
   double _price;
@@ -46,9 +46,9 @@ class Meal extends ChangeNotifier {
         "comment": _comment,
       };
 
-  Meal.fromJsonString(String json) : this.fromJsonMap(jsonDecode(json));
+  MealModel.fromJsonString(String json) : this.fromJsonMap(jsonDecode(json));
 
-  Meal.fromJsonMap(Map<String, dynamic> parsedJson) {
+  MealModel.fromJsonMap(Map<String, dynamic> parsedJson) {
     _name = getOrThrow(parsedJson, "food_name");
     _price = getOrThrow(parsedJson, "price");
     _quantity = getOrThrow(parsedJson, "quantity");

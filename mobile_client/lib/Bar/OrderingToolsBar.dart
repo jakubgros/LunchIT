@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_it/Components/Marker/MarkerData.dart';
-import 'package:lunch_it/EventStreams/AcceptMarked.dart';
-import 'package:lunch_it/EventStreams/MarkerMode.dart';
+import 'package:lunch_it/EventStreams/AcceptMarkedEventStream.dart';
+import 'package:lunch_it/EventStreams/MarkerModeEventStream.dart';
 import 'package:lunch_it/Routes.dart';
 import 'package:lunch_it/Utilities/Utils.dart';
 import 'package:provider/provider.dart';
 
 import '../Button/Button.dart';
 
-class OrderingTools extends StatefulWidget { //TODO make more abstract (call it something onePushedButtonsCombiner?
+class OrderingToolsBar extends StatefulWidget {
   @override
-  _OrderingToolsState createState() => _OrderingToolsState();
+  _OrderingToolsBarState createState() => _OrderingToolsBarState();
 }
 
-class _OrderingToolsState extends State<OrderingTools> {
+class _OrderingToolsBarState extends State<OrderingToolsBar> {
   AcceptMarkedEventStream _acceptMarkedEventStream;
   MarkerModeEventStream _markerModeEventStream;
 

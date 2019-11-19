@@ -1,11 +1,10 @@
-
 import 'BasketModel.dart';
 
-class OrderResponse {
-  final Basket basket;
+class OrderResponseModel {
+  final BasketModel basket;
   final int orderRequestId;
 
-  OrderResponse(this.basket, this.orderRequestId);
+  OrderResponseModel(this.basket, this.orderRequestId);
 
   Map toJson() => {
         "orderRequestId": orderRequestId,

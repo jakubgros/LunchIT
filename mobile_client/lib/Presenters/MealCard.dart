@@ -8,8 +8,8 @@ import 'package:lunch_it/Utilities/Widgets/BoldText.dart';
 
 
 class MealCard extends StatelessWidget {
-  final Meal meal;
-  Basket basket;
+  final MealModel meal;
+  BasketModel basket;
   final bool _isModifiable;
   int index;
 

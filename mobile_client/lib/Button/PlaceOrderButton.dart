@@ -29,10 +29,10 @@ class PlaceOrderButton extends StatelessWidget {
   }
 
   void _placeOrder(BuildContext context) async {
-    final basketData = Provider.of<Basket>(context, listen: false);
+    final basketData = Provider.of<BasketModel>(context, listen: false);
 
-    int orderRequestId = Provider.of<OrderRequest>(context).orderRequestId;
-    var order = OrderResponse(basketData, orderRequestId);
+    int orderRequestId = Provider.of<OrderRequestModel>(context).orderRequestId;
+    var order = OrderResponseModel(basketData, orderRequestId);
     Future<bool> success = ServerApi().placeOrder(order);
 
 

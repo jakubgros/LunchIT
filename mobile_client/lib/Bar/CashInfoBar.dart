@@ -7,9 +7,9 @@ import 'package:provider/provider.dart';
 class CashInfoBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<Basket>(
+    return Consumer<BasketModel>(
       builder:  (context, basketData, child) {
-        final double priceLimit = Provider.of<OrderRequest>(context, listen:false).priceLimit;
+        final double priceLimit = Provider.of<OrderRequestModel>(context, listen:false).priceLimit;
         final double moneySpent = basketData.getSummaryCost();
         final double moneyLeft = priceLimit - moneySpent;
 

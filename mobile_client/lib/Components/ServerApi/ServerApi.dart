@@ -44,7 +44,7 @@ class ServerApi
     return result;
   }
 
-  Future<bool> placeOrder(OrderResponse order) async {
+  Future<bool> placeOrder(OrderResponseModel order) async {
     http.Response response = await _sendJsonRequest(
       endpoint: '/order',
       method: Method.POST,
@@ -86,7 +86,7 @@ class ServerApi
     return hasLoggedIn;
   }
 
-  Future<List<OrderRequest>> getOrderRequestsForCurrentUser() async{
+  Future<List<OrderRequestModel>> getOrderRequestsForCurrentUser() async{
     http.Response response = await _sendJsonRequest(
       endpoint: '/orderRequestForSingleUser',
       method: Method.GET,
@@ -96,10 +96,10 @@ class ServerApi
     if(response.statusCode != 200)
       throw Exception("error");
 
-    var orderRequests = List<OrderRequest>();
+    var orderRequests = List<OrderRequestModel>();
     var responseDecoded = jsonDecode(response.body);
     for(Map parsedJsonObj in responseDecoded)
-      orderRequests.add(OrderRequest.fromJsonMap(parsedJsonObj));
+      orderRequests.add(OrderRequestModel.fromJsonMap(parsedJsonObj));
 
     return orderRequests;
   }
@@ -111,7 +111,7 @@ class ServerApi
     return logIn(_email, _hashedPassword, isPasswordHashed: true, rememberCredentials: false);
   }
 
-  Future<List<Meal>> getPlacedOrder(int id) async {
+  Future<List<MealModel>> getPlacedOrder(int id) async {
     http.Response response = await _sendJsonRequest(
       endpoint: '/order',
       method: Method.GET,
@@ -124,10 +124,10 @@ class ServerApi
     if(response.statusCode != 200)
       throw Exception("error");
 
-    var order = List<Meal>();
+    var order = List<MealModel>();
     List listOfJsonObj = jsonDecode(response.body);
     for(Map jsonObj in listOfJsonObj)
-      order.add(Meal.fromJsonMap(jsonObj));
+      order.add(MealModel.fromJsonMap(jsonObj));
 
     return order;
   }

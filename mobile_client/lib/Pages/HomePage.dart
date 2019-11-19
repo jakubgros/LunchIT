@@ -22,9 +22,9 @@ class _HomePageState extends State<HomePage> {
           ],
           title: Text("List of order requests"),
         ),
-          body: FutureBuilder<List<OrderRequest>>(
+          body: FutureBuilder<List<OrderRequestModel>>(
             future: ServerApi().getOrderRequestsForCurrentUser(),
-            builder: (BuildContext context, AsyncSnapshot<List<OrderRequest>> snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<List<OrderRequestModel>> snapshot) {
               return ListView.builder(
                 itemCount: snapshot.hasData ? snapshot.data.length : 0,
                 itemBuilder: (BuildContext context, int index) => OrderRequestCard(snapshot.data[index]),

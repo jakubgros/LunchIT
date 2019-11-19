@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappbrowser/flutter_inappbrowser.dart';
-import 'package:lunch_it/EventStreams/WebNavigation.dart';
+import 'package:lunch_it/EventStreams/WebNavigationEventStream.dart';
 import 'package:provider/provider.dart';
 
 class WebMenuContentViewer extends StatefulWidget {

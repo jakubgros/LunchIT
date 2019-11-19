@@ -8,8 +8,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_inappbrowser/flutter_inappbrowser.dart';
 import 'package:image/image.dart' as ImgLib;
 import 'package:lunch_it/Components/MenuViewer/WebMenu/WebMenuContentViewer.dart';
-import 'package:lunch_it/EventStreams/AcceptMarked.dart';
-import 'package:lunch_it/EventStreams/MarkerMode.dart';
+import 'package:lunch_it/EventStreams/AcceptMarkedEventStream.dart';
+import 'package:lunch_it/EventStreams/MarkerModeEventStream.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 

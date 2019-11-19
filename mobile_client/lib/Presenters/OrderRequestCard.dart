@@ -6,18 +6,18 @@ import 'package:lunch_it/Utilities/Widgets/DescriptionAndValue.dart';
 import 'package:provider/provider.dart';
 
 class OrderRequestCard extends StatelessWidget {
-  final OrderRequest orderRequest;
+  final OrderRequestModel orderRequest;
 
   const OrderRequestCard(this.orderRequest);
 
   void _onTap(context) {
     if(orderRequest.isOrdered) {
-      var providedOrderRequest = Provider.of<OrderRequest>(context);
+      var providedOrderRequest = Provider.of<OrderRequestModel>(context);
       providedOrderRequest.assign(orderRequest);
       Navigator.of(context).pushNamed(Routes.orderDataPresenter, arguments: orderRequest);
     }
     else if(!orderRequest.hasExpired()){
-      var providedOrderRequest = Provider.of<OrderRequest>(context);
+      var providedOrderRequest = Provider.of<OrderRequestModel>(context);
       providedOrderRequest.assign(orderRequest);
       Navigator.of(context).pushNamed(Routes.foodPicker, arguments: orderRequest);
     }

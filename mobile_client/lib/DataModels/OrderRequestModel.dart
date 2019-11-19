@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:lunch_it/Utilities/Utils.dart';
 
-class OrderRequest {
+class OrderRequestModel {
   double _priceLimit;
   String _title;
   DateTime _deadline;
@@ -20,7 +20,7 @@ class OrderRequest {
   int get orderRequestId => _orderRequestId;
   String get menuUrl => _menuUrl;
 
-  OrderRequest({
+  OrderRequestModel({
     @required orderRequestId,
     @required priceLimit,
     @required title,
@@ -37,9 +37,9 @@ class OrderRequest {
     _placedOrderId = placedOrderId,
     _message = message;
 
-  OrderRequest.fromJsonString(String json): this.fromJsonMap(jsonDecode(json));
+  OrderRequestModel.fromJsonString(String json): this.fromJsonMap(jsonDecode(json));
 
-  OrderRequest.fromJsonMap(Map<String, dynamic> parsedJson){
+  OrderRequestModel.fromJsonMap(Map<String, dynamic> parsedJson){
     _orderRequestId = getOrThrow(parsedJson, "id");
     _placedOrderId =  getOrThrow(parsedJson, "placed_order_id");
     _title = getOrThrow(parsedJson, "name");
@@ -49,7 +49,7 @@ class OrderRequest {
     _menuUrl = getOrThrow(parsedJson, "menu_url");
   }
 
-  void assign(OrderRequest other) {
+  void assign(OrderRequestModel other) {
     _priceLimit = other._priceLimit;
     _title = other._title;
     _deadline = other._deadline;

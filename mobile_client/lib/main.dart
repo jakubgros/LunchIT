@@ -26,11 +26,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<MarkerData>(
             builder: (context) => MarkerData()
         ),
-        ChangeNotifierProvider<Basket>(
-          builder: (context) => Basket(),
+        ChangeNotifierProvider<BasketModel>(
+          builder: (context) => BasketModel(),
         ),
-        Provider<OrderRequest>(
-          builder: (context) => OrderRequest(),
+        Provider<OrderRequestModel>(
+          builder: (context) => OrderRequestModel(),
         )
       ],
       child: MaterialApp(
@@ -39,12 +39,12 @@ class MyApp extends StatelessWidget {
 
             var routes = <String, WidgetBuilder> {
               Routes.foodPicker: (BuildContext context) => FoodPickerPage(settings.arguments),
-              Routes.addMenuPositionPage: (BuildContext context) => AddMenuPositionPage(),
+              Routes.addMenuPositionPage: (BuildContext context) => AddMealPage(),
               Routes.basketPage: (BuildContext context) => BasketPage(),
               Routes.login: (BuildContext context) => LoginPage(onSuccessPath: Routes.home),
               Routes.register: (BuildContext context) => RegistrationPage(),
               Routes.home: (BuildContext context) => HomePage(),
-              Routes.orderDataPresenter: (BuildContext context) => OrderDataPresenterPage(settings.arguments),
+              Routes.orderDataPresenter: (BuildContext context) => OrderResponsePage(settings.arguments),
               Routes.initialRoute: (BuildContext context) => SavedCredentialsChecker(),
 
             };

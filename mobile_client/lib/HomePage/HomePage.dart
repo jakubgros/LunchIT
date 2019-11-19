@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lunch_it/Appbar/LogoutButton.dart';
 import 'package:lunch_it/Models/OrderRequestModel.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 import 'package:provider/provider.dart';
@@ -10,12 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -23,7 +18,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           leading: Container(),
           actions: <Widget>[
-            Logout(),
+            LogoutButton(),
           ],
           title: Text("List of order requests"),
         ),
@@ -36,31 +31,6 @@ class _HomePageState extends State<HomePage> {
               );
             }
           )),
-    );
-  }
-}
-
-class Logout extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Column(
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.exit_to_app),
-                onPressed: (){
-                  Navigator.of(context).pushNamed('/login');
-                  ServerApi().logout();
-                },
-              ),
-              Text("Logout"),
-            ],
-          ),
-        )
     );
   }
 }

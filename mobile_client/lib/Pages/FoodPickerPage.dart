@@ -7,7 +7,7 @@ import 'package:lunch_it/Components/MenuViewer/WebMenu/WebMenuContentViewer.dart
 import 'package:lunch_it/EventStreams/AcceptMarked.dart';
 import 'package:lunch_it/EventStreams/MarkerMode.dart';
 import 'package:lunch_it/EventStreams/WebNavigation.dart';
-import 'package:lunch_it/Button/OnePushedButtonCombiner.dart';
+import 'package:lunch_it/Bar/OrderingToolsBar.dart';
 import 'package:lunch_it/DataModels/OrderRequestModel.dart';
 import 'package:provider/provider.dart';
 

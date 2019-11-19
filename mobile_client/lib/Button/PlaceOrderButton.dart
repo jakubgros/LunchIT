@@ -41,7 +41,7 @@ class PlaceOrderButton extends StatelessWidget {
           context: context,
           title: "Order failed!",
           message: "Uncrecognized error",
-          onPressOkCallback: (){},
+          onPressOkCallback: () => Navigator.of(context).pop(),
       );
     }
     else {

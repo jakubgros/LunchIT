@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:lunch_it/Components/Marker/MarkerData.dart';
 import 'package:lunch_it/EventStreams/AcceptMarked.dart';
 import 'package:lunch_it/EventStreams/MarkerMode.dart';
+import 'package:lunch_it/Routes.dart';
+import 'package:lunch_it/Utilities/Utils.dart';
 import 'package:provider/provider.dart';
 
-import 'Button.dart';
+import '../Button/Button.dart';
 
 class OrderingTools extends StatefulWidget { //TODO make more abstract (call it something onePushedButtonsCombiner?
   @override
@@ -48,14 +50,20 @@ class _OrderingToolsState extends State<OrderingTools> {
     });
   }
 
-  void _onPressAddCallback() {
+  void _onPressAddCallback(BuildContext context) {
     MarkerData markerData = Provider.of<MarkerData>(context, listen: false);
 
-    if (!markerData.hasFoodData || !markerData.hasPriceData)
-      return; //TODO display notification
-
+    if (!markerData.hasFoodData || !markerData.hasPriceData) {
+      displayInfoDialog(
+          message: !markerData.hasFoodData ? "Food has not been marked" : "Price has not been marked",
+          title: "Info",
+          context: context,
+          onPressOkCallback: () => Navigator.of(context).pop()
+      );
+      return;
+    }
     Future hasAddedToBasket = Navigator.of(context)
-        .pushNamed('/foodPicker/addMenuPositionPage');
+        .pushNamed(Routes.addMenuPositionPage);
 
     hasAddedToBasket.then((hasAdded) {
       if(hasAdded == true)
@@ -65,7 +73,6 @@ class _OrderingToolsState extends State<OrderingTools> {
 
   @override
   Widget build(BuildContext context) {
-    //TODO lock buttons until the page is loaded
     return Row(
       children: <Widget>[
         Expanded(
@@ -93,7 +100,7 @@ class _OrderingToolsState extends State<OrderingTools> {
                 icon: Icons.add_shopping_cart,
                 defaultColor: Colors.green[300],
                 isPressed: false,
-                onPressed: _onPressAddCallback)),
+                onPressed: () => _onPressAddCallback(context))),
       ],
     );
   }

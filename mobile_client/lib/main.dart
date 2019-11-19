@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:lunch_it/Page/BasketPage.dart';
 import 'package:lunch_it/Basket/Model/Basket.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/AddMenuPositionPage.dart';
-import 'package:lunch_it/FoodPicker/FoodPickerPage.dart';
-import 'package:lunch_it/Login/LoginPage.dart';
-import 'package:lunch_it/Models/OrderRequestModel.dart';
+import 'package:lunch_it/Page/FoodPickerPage.dart';
+import 'package:lunch_it/Page/LoginPage.dart';
+import 'package:lunch_it/OrderRequest/OrderRequestModel.dart';
 import 'package:lunch_it/Routes.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 import 'package:provider/provider.dart';
 
 import 'FoodPicker/Marker/MarkerData.dart';
 import 'Page/HomePage.dart';
-import 'Login/RegistrationPage.dart';
+import 'Page/RegistrationPage.dart';
 import 'OrderDataPresenter/OrderDataPresenterPage.dart';
 
 void main() => runApp(MyApp());

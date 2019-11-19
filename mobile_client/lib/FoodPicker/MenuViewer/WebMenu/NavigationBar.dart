@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/FoodPicker/EventStreams/WebNavigation.dart';
+import 'package:lunch_it/EventStreams/WebNavigation.dart';
 import 'package:provider/provider.dart';
 
 class NavigationBar extends StatelessWidget {

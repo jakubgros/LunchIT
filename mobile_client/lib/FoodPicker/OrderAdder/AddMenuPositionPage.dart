@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lunch_it/Basket/Model/Basket.dart';
 import 'package:lunch_it/Basket/Model/Meal.dart';
-import 'package:lunch_it/FoodPicker/AppBar/ShoppingCardAppbarButton.dart';
+import 'package:lunch_it/Appbar/ShoppingCardButton.dart';
 import 'package:lunch_it/FoodPicker/Marker/MarkerData.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/OcrPresenterAndCorrecter.dart';
 import 'package:lunch_it/FoodPicker/OrderAdder/OrderPositionComment.dart';
@@ -30,7 +30,7 @@ class _AddMenuPositionPageState extends State<AddMenuPositionPage> {
     return Scaffold(
         appBar: AppBar(
           actions: <Widget>[
-            ShoppingCardAppbarButton(),
+            ShoppingCardButton(),
           ],
         ),
         body: ListView(

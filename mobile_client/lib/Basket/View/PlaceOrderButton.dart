@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lunch_it/Basket/Model/Basket.dart';
 import 'package:lunch_it/Basket/Model/OrderResponse.dart';
-import 'package:lunch_it/Models/OrderRequestModel.dart';
+import 'package:lunch_it/OrderRequest/OrderRequestModel.dart';
 import 'package:lunch_it/Routes.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 import 'package:lunch_it/Utilities/Utils.dart';

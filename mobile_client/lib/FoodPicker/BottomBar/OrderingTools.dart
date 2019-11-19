@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_it/FoodPicker/EventStreams/AcceptMarked.dart';
-import 'package:lunch_it/FoodPicker/EventStreams/MarkerMode.dart';
+import 'package:lunch_it/EventStreams/AcceptMarked.dart';
+import 'package:lunch_it/EventStreams/MarkerMode.dart';
 import 'package:lunch_it/FoodPicker/Marker/MarkerData.dart';
 import 'package:provider/provider.dart';
 
-import 'Button.dart';
+import '../../Utilities/Widgets/Button.dart';
 
-class OrderingTools extends StatefulWidget {
+class OrderingTools extends StatefulWidget { //TODO make more abstract
   @override
   _OrderingToolsState createState() => _OrderingToolsState();
 }

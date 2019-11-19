@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lunch_it/Basket/Model/Meal.dart';
 import 'package:lunch_it/Basket/View/BasketEntryCard.dart';
-import 'package:lunch_it/Models/OrderRequestModel.dart';
+import 'package:lunch_it/OrderRequest/OrderRequestModel.dart';
 import 'package:lunch_it/ServerApi/ServerApi.dart';
 
 class OrderDataPresenterPage extends StatelessWidget {

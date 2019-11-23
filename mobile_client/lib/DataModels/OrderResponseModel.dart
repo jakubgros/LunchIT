@@ -1,7 +1,7 @@
-import 'BasketModel.dart';
+import 'MealModel.dart';
 
 class OrderResponseModel {
-  final BasketModel basket;
+  final List<MealModel> basket;
   final int orderRequestId;
 
   OrderResponseModel(this.basket, this.orderRequestId);

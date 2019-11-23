@@ -63,7 +63,7 @@ class Database:
         order_id = self._add_order(user_id, order["orderRequestId"])
 
         basket = order["basketData"]
-        for meal in basket["meals"]:
+        for meal in basket:
             self._add_order_entry(meal, order_id)
 
         return order_id

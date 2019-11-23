@@ -16,6 +16,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var orderRequestBloc = Provider.of<OrderRequestBloc>(context);
+    orderRequestBloc.update(); // needed because without it it would show requests of previous user when account changed
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

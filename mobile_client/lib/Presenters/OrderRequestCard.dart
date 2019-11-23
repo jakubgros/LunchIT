@@ -22,7 +22,7 @@ class OrderRequestCard extends StatelessWidget {
       Navigator.of(context).pushNamed(Routes.foodPicker, arguments: orderRequest);
     }
     else {
-      ; //Do nothing, card is just for presenting order request
+      //Do nothing, card is just for presenting order request
     }
   }
 

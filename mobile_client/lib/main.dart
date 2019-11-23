@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lunch_it/Bloc/BasketBloc.dart';
 import 'package:lunch_it/Bloc/OrderRequestBloc.dart';
 import 'package:lunch_it/Pages/AddMealPage.dart';
 import 'package:lunch_it/Pages/BasketPage.dart';
@@ -11,7 +12,6 @@ import 'package:provider/provider.dart';
 
 import 'Components/Marker/MarkerData.dart';
 import 'Components/ServerApi/ServerApi.dart';
-import 'DataModels/BasketModel.dart';
 import 'Pages/HomePage.dart';
 import 'Pages/RegistrationPage.dart';
 
@@ -19,7 +19,12 @@ void main() => runApp(MyApp());
 
 bool isLoggedIn = false;
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -27,14 +32,16 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<MarkerData>(
             builder: (context) => MarkerData()
         ),
-        ChangeNotifierProvider<BasketModel>(
-          builder: (context) => BasketModel(),
+        Provider<BasketBloc>(
+          builder: (context) => BasketBloc(),
+          dispose: (context, bloc) => bloc.dispose(),
         ),
         Provider<OrderRequestModel>(
           builder: (context) => OrderRequestModel(),
         ),
         Provider<OrderRequestBloc> (
           builder: (context) => OrderRequestBloc(),
+          dispose: (context, bloc) => bloc.dispose(),
         )
       ],
       child: MaterialApp(

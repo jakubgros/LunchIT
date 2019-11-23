@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/DataModels/BasketModel.dart';
+import 'package:lunch_it/Bloc/BasketBloc.dart';
 import 'package:lunch_it/DataModels/MealModel.dart';
 import 'package:lunch_it/Utilities/Widgets/QuantityManager.dart';
 import 'package:lunch_it/Utilities/Widgets/BoldText.dart';
@@ -9,11 +9,11 @@ import 'package:lunch_it/Utilities/Widgets/BoldText.dart';
 
 class MealCard extends StatelessWidget {
   final MealModel meal;
-  BasketModel basket;
+  BasketBloc basketBloc;
   final bool _isModifiable;
   int index;
 
-  MealCard.modifiable(this.meal, this.index, this.basket):
+  MealCard.modifiable(this.meal, this.index, this.basketBloc):
       _isModifiable = true;
 
   MealCard.presenter(this.meal):
@@ -51,7 +51,7 @@ class MealCard extends StatelessWidget {
                       FlatButton(
                         child: Icon(Icons.remove),
                         color: Colors.red[300],
-                        onPressed: () => basket.removeEntry(index),
+                        onPressed: () => basketBloc.removeEntry(index),
                       )
                     ],
                   ),

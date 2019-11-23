@@ -1,15 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:lunch_it/Components/ServerApi/ServerApi.dart';
-import 'package:lunch_it/DataModels/BasketModel.dart';
-import 'package:lunch_it/DataModels/OrderResponseModel.dart';
+import 'package:lunch_it/Bloc/BasketBloc.dart';
 import 'package:lunch_it/DataModels/OrderRequestModel.dart';
 import 'package:lunch_it/Routes.dart';
 import 'package:lunch_it/Utilities/Utils.dart';
 import 'package:provider/provider.dart';
 
-class PlaceOrderButton extends StatelessWidget {
+class PlaceOrderButton extends StatefulWidget {
+  @override
+  _PlaceOrderButtonState createState() => _PlaceOrderButtonState();
+}
+
+class _PlaceOrderButtonState extends State<PlaceOrderButton> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -21,27 +24,23 @@ class PlaceOrderButton extends StatelessWidget {
             icon: Icon(Icons.check),
             label: Text("Place order!"),
             color: Colors.green[300],
-            onPressed: () => _placeOrder(context),
+            onPressed: () => _placeOrder(Navigator.of(context), Provider.of<BasketBloc>(context, listen: false)),
           ),
         ),
       ],
     );
   }
 
-  void _placeOrder(BuildContext context) async {
-    final basketData = Provider.of<BasketModel>(context, listen: false);
-
+  void _placeOrder(NavigatorState navigator, BasketBloc basketBloc) async {
     int orderRequestId = Provider.of<OrderRequestModel>(context).orderRequestId;
-    var order = OrderResponseModel(basketData, orderRequestId);
-    Future<bool> success = ServerApi().placeOrder(order);
-
+    Future<bool> success = basketBloc.placeOrder(orderRequestId);
 
     if(await success == false) {
       displayInfoDialog(
           context: context,
           title: "Order failed!",
           message: "Uncrecognized error",
-          onPressOkCallback: () => Navigator.of(context).pop(),
+          onPressOkCallback: () => navigator.pop(),
       );
     }
     else {
@@ -50,8 +49,7 @@ class PlaceOrderButton extends StatelessWidget {
           title: "Success!",
           message: "Your order has been successfuly placed!",
           onPressOkCallback: () {
-            basketData.clear();
-            Navigator.of(context).pushNamed(Routes.home);
+            navigator.pushNamed(Routes.home);
           }
       );
     }

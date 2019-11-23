@@ -40,7 +40,7 @@ class ServerApi
 
     var response = await request.send();
 
-    String result = await response.stream.transform(utf8.decoder).elementAt(0);
+    String result = await response.stream.transform(utf8.decoder).elementAt(0); //TODO change
 
     return result;
   }

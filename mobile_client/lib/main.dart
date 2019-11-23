@@ -36,8 +36,8 @@ class _MyAppState extends State<MyApp> {
           builder: (context) => BasketBloc(),
           dispose: (context, bloc) => bloc.dispose(),
         ),
-        Provider<OrderRequestModel>(
-          builder: (context) => OrderRequestModel(),
+        Provider<CurrentOrderRequestModel>( //TODO do sth about it
+          builder: (context) => CurrentOrderRequestModel(),
         ),
         Provider<OrderRequestBloc> (
           builder: (context) => OrderRequestBloc(),

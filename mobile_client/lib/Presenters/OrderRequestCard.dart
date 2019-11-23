@@ -12,13 +12,13 @@ class OrderRequestCard extends StatelessWidget {
 
   void _onTap(context) {
     if(orderRequest.isOrdered) {
-      var providedOrderRequest = Provider.of<OrderRequestModel>(context);
-      providedOrderRequest.assign(orderRequest);
+      var currentOrderRequest = Provider.of<CurrentOrderRequestModel>(context);
+      currentOrderRequest.assign(orderRequest);
       Navigator.of(context).pushNamed(Routes.orderDataPresenter, arguments: orderRequest);
     }
     else if(!orderRequest.hasExpired()){
-      var providedOrderRequest = Provider.of<OrderRequestModel>(context);
-      providedOrderRequest.assign(orderRequest);
+      var currentOrderRequest = Provider.of<CurrentOrderRequestModel>(context);
+      currentOrderRequest.assign(orderRequest);
       Navigator.of(context).pushNamed(Routes.foodPicker, arguments: orderRequest);
     }
     else {

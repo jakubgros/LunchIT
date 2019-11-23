@@ -9,7 +9,7 @@ class CashInfoBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<BasketBloc>(
       builder:  (context, basketBloc, child) {
-        final double priceLimit = Provider.of<OrderRequestModel>(context, listen:false).priceLimit;
+        final double priceLimit = Provider.of<CurrentOrderRequestModel>(context, listen:false).priceLimit;
         final double moneySpent = basketBloc.getSummaryCost();
         final double moneyLeft = priceLimit - moneySpent;
 

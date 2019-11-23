@@ -32,7 +32,7 @@ class _PlaceOrderButtonState extends State<PlaceOrderButton> {
   }
 
   void _placeOrder(NavigatorState navigator, BasketBloc basketBloc) async {
-    int orderRequestId = Provider.of<OrderRequestModel>(context).orderRequestId;
+    int orderRequestId = Provider.of<CurrentOrderRequestModel>(context).orderRequestId;
     Future<bool> success = basketBloc.placeOrder(orderRequestId);
 
     if(await success == false) {

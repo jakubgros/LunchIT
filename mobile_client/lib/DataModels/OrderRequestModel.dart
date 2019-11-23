@@ -93,3 +93,8 @@ class OrderRequestModel {
   bool get isOrdered => placedOrderId!=null;
   Duration get timeLeft => deadline.difference(DateTime.now());
 }
+
+
+class CurrentOrderRequestModel extends OrderRequestModel { // TODO get rid of this
+
+}

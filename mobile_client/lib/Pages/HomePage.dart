@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lunch_it/Appbar/LogoutButton.dart';
-import 'package:lunch_it/Components/ServerApi/ServerApi.dart';
+import 'package:lunch_it/Bloc/OrderRequestBloc.dart';
+import 'package:lunch_it/Button/RefreshButton.dart';
 import 'package:lunch_it/Presenters/OrderRequestCard.dart';
 import 'package:lunch_it/DataModels/OrderRequestModel.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,17 +15,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    var orderRequestBloc = Provider.of<OrderRequestBloc>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: Container(),
+          leading: RefreshButton(onTap: orderRequestBloc.update),
           actions: <Widget>[
             LogoutButton(),
           ],
           title: Text("List of order requests"),
         ),
-          body: FutureBuilder<List<OrderRequestModel>>(
-            future: ServerApi().getOrderRequestsForCurrentUser(),
+          body: StreamBuilder<List<OrderRequestModel>>(
+            stream: orderRequestBloc.orderRequests,
             builder: (BuildContext context, AsyncSnapshot<List<OrderRequestModel>> snapshot) {
               return ListView.builder(
                 itemCount: snapshot.hasData ? snapshot.data.length : 0,

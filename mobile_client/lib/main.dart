@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lunch_it/Bloc/OrderRequestBloc.dart';
 import 'package:lunch_it/Pages/AddMealPage.dart';
 import 'package:lunch_it/Pages/BasketPage.dart';
 import 'package:lunch_it/Pages/FoodPickerPage.dart';
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider<OrderRequestModel>(
           builder: (context) => OrderRequestModel(),
+        ),
+        Provider<OrderRequestBloc> (
+          builder: (context) => OrderRequestBloc(),
         )
       ],
       child: MaterialApp(

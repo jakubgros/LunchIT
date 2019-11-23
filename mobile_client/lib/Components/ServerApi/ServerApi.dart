@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:lunch_it/DataModels/MealModel.dart';
@@ -58,6 +59,7 @@ class ServerApi
   Future<bool> logIn(String email, String password, { bool isPasswordHashed=false,
     bool rememberCredentials }) async {
 
+
     if(isPasswordHashed == false)
       password = _hash(password);
 
@@ -76,6 +78,7 @@ class ServerApi
     bool hasLoggedIn = responseJson['authenticated'] == true;
 
     if(hasLoggedIn) { // save for future calls
+      _loginCompleter.complete();
       _email = email;
       _hashedPassword = password;
     }
@@ -132,7 +135,9 @@ class ServerApi
     return order;
   }
 
+
   void logout() {
+    _loginCompleter = Completer<void>();
     _email = "";
     _hashedPassword = "";
     _removeSavedCredentials();
@@ -256,4 +261,8 @@ class ServerApi
 
     return hasOrdered;
   }
+
+
+  Completer<void> _loginCompleter = Completer<void>();
+  Future<void> get loggedInFuture => _loginCompleter.future;
 }

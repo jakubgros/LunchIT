@@ -30,6 +30,25 @@ class OrderRequestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    String statusMsg;
+    Color statusMsgColor;
+    if(orderRequest.isOrdered){
+      statusMsg = "Ordered";
+      statusMsgColor = Colors.green[500];
+    }
+    else {
+      if(orderRequest.hasExpired()){
+        statusMsg = "Deadline passed";
+        statusMsgColor = Colors.grey[600];
+      }
+      else {
+        statusMsg = "Not ordered";
+        statusMsgColor = Colors.orange[500];
+      }
+    }
+
+
     return GestureDetector(
         onTap: () => _onTap(context),
         child: Card(
@@ -56,15 +75,15 @@ class OrderRequestCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         DescriptionAndValue("Price limit: ", "${orderRequest.priceLimit.toStringAsFixed(2)}"),
-                        DescriptionAndValue("Status: ", "${orderRequest.isOrdered ? "Ordered" : "Not ordered"}",
-                            valueColor: orderRequest.canOrder() ? Colors.red[500] : Colors.green[500]),
+                        DescriptionAndValue("Status: ", statusMsg,
+                            valueColor: statusMsgColor),
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         DescriptionAndValue("Deadline: ", "${orderRequest.deadlineAsFormattedStr}"),
-                        if(!orderRequest.isOrdered) DescriptionAndValue("Time left: ", "${orderRequest.timeLeftAsFormattedString}")
+                        if(!orderRequest.isOrdered && !orderRequest.hasExpired()) DescriptionAndValue("Time left: ", "${orderRequest.timeLeftAsFormattedString}")
                       ],
                     )
                   ],

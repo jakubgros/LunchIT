@@ -12,7 +12,7 @@ import 'package:lunch_it/EventStreams/AcceptMarkedEventStream.dart';
 import 'package:lunch_it/EventStreams/MarkerModeEventStream.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:uuid/uuid.dart';
 import 'ContentMarker.dart';
 import 'MarkerData.dart';
 
@@ -79,7 +79,7 @@ class _MarkingManagerState extends State<MarkingManager> {
 
   void saveMarked(Future<ImgLib.Image> markedAsImage, AcceptMarkedEvent markingMode) async {
       Directory cacheDir = await getTemporaryDirectory();
-      String fileName = uuidGenerator.v1() + ".png";
+      String fileName = Uuid().v1() + ".png";
       File file = File("${cacheDir.path}/$fileName");
       file.writeAsBytesSync(ImgLib.encodePng(await markedAsImage));
 

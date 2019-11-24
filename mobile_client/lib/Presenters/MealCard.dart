@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/Bloc/OrderBloc.dart';
+import 'package:lunch_it/Bloc/OrderResponseBloc.dart';
 import 'package:lunch_it/DataModels/MealModel.dart';
 import 'package:lunch_it/Utilities/Widgets/QuantityManager.dart';
 import 'package:lunch_it/Utilities/Widgets/BoldText.dart';
@@ -45,7 +45,7 @@ class MealCard extends StatelessWidget {
                     children: <Widget>[
                       QuantityManager(
                         initVal: meal.quantity,
-                        onChanged: (int quantity) => meal.quantity = quantity,
+                        onChanged: (int newQuantity) => basketBloc.setNewQuantity(meal, newQuantity),
                       ),
                       Spacer(),
                       FlatButton(

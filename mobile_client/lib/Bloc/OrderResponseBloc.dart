@@ -6,6 +6,10 @@ import 'package:rxdart/rxdart.dart';
 
 class OrderResponseBloc {
 
+  OrderResponseBloc() {
+    _update();
+  }
+
   final _basketSubject = BehaviorSubject<List<MealModel>>();
 
   Stream<List<MealModel>> get basket => _basketSubject.stream;
@@ -68,5 +72,23 @@ class OrderResponseBloc {
 
   double get priceLimit => _currentOrderRequest.priceLimit;
 
-  double get moneyLeft => _currentOrderRequest.priceLimit - getSummaryCost();
+  Stream<OrderResponseInfo> get orderInfo => basket.map((_) => OrderResponseInfo(
+    priceLimit: _currentOrderRequest.priceLimit,
+    moneyLeft: _currentOrderRequest.priceLimit - getSummaryCost(),
+    summaryCost: getSummaryCost(),
+  ));
+
+  void setNewQuantity(MealModel meal, int newQuantity) {
+    meal.quantity = newQuantity;
+    _update();
+  }
+}
+
+class OrderResponseInfo {
+  final double priceLimit;
+  final double moneyLeft;
+  final double summaryCost;
+
+  OrderResponseInfo({this.priceLimit, this.moneyLeft, this.summaryCost});
+
 }

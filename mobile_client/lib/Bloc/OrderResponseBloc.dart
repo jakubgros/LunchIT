@@ -1,28 +1,28 @@
 import 'package:lunch_it/Components/ServerApi/ServerApi.dart';
 import 'package:lunch_it/DataModels/MealModel.dart';
 import 'package:lunch_it/DataModels/OrderRequestModel.dart';
+import 'package:lunch_it/DataModels/OrderResponseInfoModel.dart';
 import 'package:lunch_it/DataModels/OrderResponseModel.dart';
 import 'package:rxdart/rxdart.dart';
 
 class OrderResponseBloc {
+  final _orderResponseInfoSubject = BehaviorSubject<OrderResponseInfoModel>();
+  final _basketSubject = BehaviorSubject<List<MealModel>>();
+  final _currentOrderRequestSubject = BehaviorSubject<OrderRequestModel>();
+  final _meals = List<MealModel>();
+  OrderRequestModel _currentOrderRequest;
+
+  Stream<List<MealModel>> get basket => _basketSubject.stream;
+  Stream<OrderRequestModel> get currentOrderRequest => _currentOrderRequestSubject.stream;
+  Stream<OrderResponseInfoModel> get orderInfo => _orderResponseInfoSubject.stream;
 
   OrderResponseBloc() {
     _basketSubject.listen((_) {
       if(_currentOrderRequest != null)
-        updateResponseInfo();
+        _updateResponseInfo();
     });
 
     _updateMeals();
-  }
-
-  final _basketSubject = BehaviorSubject<List<MealModel>>();
-
-  Stream<List<MealModel>> get basket => _basketSubject.stream;
-
-  final _meals = List<MealModel>();
-
-  void _updateMeals() {
-    _basketSubject.sink.add(_meals);
   }
 
   void addEntry(MealModel newEntry) {
@@ -42,12 +42,20 @@ class OrderResponseBloc {
 
   double getSummaryCost() => _meals.fold(0, (previousVal, elem) => previousVal+elem.quantity*elem.price);
 
-  int get length => _meals.length;
-
   Map toJson() => {
     "meals": _meals,
   };
 
+  void setCurrentOrderRequest(OrderRequestModel newOrderRequest) {
+    _currentOrderRequest = newOrderRequest;
+    _currentOrderRequestSubject.sink.add(newOrderRequest);
+    _updateResponseInfo();
+  }
+
+  void setNewQuantity(MealModel meal, int newQuantity) {
+    meal.quantity = newQuantity;
+    _updateMeals();
+  }
 
   Future<bool> placeOrder() async {
     var order = OrderResponseModel(_meals, _currentOrderRequest.orderRequestId);
@@ -58,55 +66,24 @@ class OrderResponseBloc {
     return success;
   }
 
-  // ==================================================================
-
-
-  final _currentOrderRequestSubject = BehaviorSubject<OrderRequestModel>();
-
-  Stream<OrderRequestModel> get currentOrderRequest => _currentOrderRequestSubject.stream;
-
-  OrderRequestModel _currentOrderRequest;
-
-  void setCurrentOrderRequest(OrderRequestModel newOrderRequest) {
-    _currentOrderRequest = newOrderRequest;
-    _currentOrderRequestSubject.sink.add(newOrderRequest);
-    updateResponseInfo();
-  }
-
-  void updateResponseInfo() {
-    _orderResponseInfoSubject.sink.add(_calculateResponseInfo());
-  }
-
-  double get priceLimit => _currentOrderRequest.priceLimit;
-
-  final _orderResponseInfoSubject = BehaviorSubject<OrderResponseInfo>();
-
-  Stream<OrderResponseInfo> get orderInfo => _orderResponseInfoSubject.stream;
-
-  void setNewQuantity(MealModel meal, int newQuantity) {
-    meal.quantity = newQuantity;
-    _updateMeals();
-  }
-
-  OrderResponseInfo _calculateResponseInfo() =>
-      OrderResponseInfo(
-    moneyLeft: _currentOrderRequest.priceLimit - getSummaryCost(),
-    summaryCost: getSummaryCost(),
-  );
-
   void dispose() {
     _basketSubject.close();
     _orderResponseInfoSubject.close();
     _currentOrderRequestSubject.close();
   }
 
+  void _updateResponseInfo() {
+    _orderResponseInfoSubject.sink.add(_calculateResponseInfo());
+  }
 
-}
+  void _updateMeals() {
+    _basketSubject.sink.add(_meals);
+  }
 
-class OrderResponseInfo {
-  final double moneyLeft;
-  final double summaryCost;
-
-  OrderResponseInfo({this.moneyLeft, this.summaryCost});
-
+  OrderResponseInfoModel _calculateResponseInfo(){
+    return OrderResponseInfoModel(
+      moneyLeft: _currentOrderRequest.priceLimit - getSummaryCost(),
+      summaryCost: getSummaryCost(),
+    );
+  }
 }

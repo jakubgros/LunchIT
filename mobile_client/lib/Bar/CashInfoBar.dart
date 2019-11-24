@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lunch_it/Bloc/OrderResponseBloc.dart';
+import 'package:lunch_it/DataModels/OrderResponseInfoModel.dart';
 import 'package:provider/provider.dart';
 
 class CashInfoBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<OrderResponseInfo>(
+    return StreamBuilder<OrderResponseInfoModel>(
       stream: Provider.of<OrderResponseBloc>(context).orderInfo,
       builder:  (context, orderInfo) {
         return Container(

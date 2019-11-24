@@ -7,7 +7,12 @@ import 'package:rxdart/rxdart.dart';
 class OrderResponseBloc {
 
   OrderResponseBloc() {
-    _update();
+    _basketSubject.listen((_) {
+      if(_currentOrderRequest != null)
+        updateResponseInfo();
+    });
+
+    _updateMeals();
   }
 
   final _basketSubject = BehaviorSubject<List<MealModel>>();
@@ -16,23 +21,23 @@ class OrderResponseBloc {
 
   final _meals = List<MealModel>();
 
-  void _update() {
+  void _updateMeals() {
     _basketSubject.sink.add(_meals);
   }
 
   void addEntry(MealModel newEntry) {
     _meals.add(newEntry);
-    _update();
+    _updateMeals();
   }
 
   void removeEntry(int index) {
     _meals.removeAt(index);
-    _update();
+    _updateMeals();
   }
 
   void clear() {
     _meals.clear();
-    _update();
+    _updateMeals();
   }
 
   double getSummaryCost() => _meals.fold(0, (previousVal, elem) => previousVal+elem.quantity*elem.price);
@@ -43,9 +48,6 @@ class OrderResponseBloc {
     "meals": _meals,
   };
 
-  void dispose() {
-    _basketSubject.close();
-  }
 
   Future<bool> placeOrder() async {
     var order = OrderResponseModel(_meals, _currentOrderRequest.orderRequestId);
@@ -68,27 +70,43 @@ class OrderResponseBloc {
   void setCurrentOrderRequest(OrderRequestModel newOrderRequest) {
     _currentOrderRequest = newOrderRequest;
     _currentOrderRequestSubject.sink.add(newOrderRequest);
+    updateResponseInfo();
+  }
+
+  void updateResponseInfo() {
+    _orderResponseInfoSubject.sink.add(_calculateResponseInfo());
   }
 
   double get priceLimit => _currentOrderRequest.priceLimit;
 
-  Stream<OrderResponseInfo> get orderInfo => basket.map((_) => OrderResponseInfo(
-    priceLimit: _currentOrderRequest.priceLimit,
-    moneyLeft: _currentOrderRequest.priceLimit - getSummaryCost(),
-    summaryCost: getSummaryCost(),
-  ));
+  final _orderResponseInfoSubject = BehaviorSubject<OrderResponseInfo>();
+
+  Stream<OrderResponseInfo> get orderInfo => _orderResponseInfoSubject.stream;
 
   void setNewQuantity(MealModel meal, int newQuantity) {
     meal.quantity = newQuantity;
-    _update();
+    _updateMeals();
   }
+
+  OrderResponseInfo _calculateResponseInfo() =>
+      OrderResponseInfo(
+    moneyLeft: _currentOrderRequest.priceLimit - getSummaryCost(),
+    summaryCost: getSummaryCost(),
+  );
+
+  void dispose() {
+    _basketSubject.close();
+    _orderResponseInfoSubject.close();
+    _currentOrderRequestSubject.close();
+  }
+
+
 }
 
 class OrderResponseInfo {
-  final double priceLimit;
   final double moneyLeft;
   final double summaryCost;
 
-  OrderResponseInfo({this.priceLimit, this.moneyLeft, this.summaryCost});
+  OrderResponseInfo({this.moneyLeft, this.summaryCost});
 
 }

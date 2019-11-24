@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lunch_it/Bloc/BasketBloc.dart';
+import 'package:lunch_it/Bloc/OrderBloc.dart';
 import 'package:lunch_it/DataModels/MealModel.dart';
 import 'package:lunch_it/Presenters/MealCard.dart';
 import 'package:lunch_it/Button/PlaceOrderButton.dart';
@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class BasketPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
-    Consumer<BasketBloc>(builder: (context, basketBloc, child) {
+    Consumer<OrderResponseBloc>(builder: (context, basketBloc, child) {
       return StreamBuilder<List<MealModel>> (
         initialData: <MealModel>[],
         stream: basketBloc.basket,

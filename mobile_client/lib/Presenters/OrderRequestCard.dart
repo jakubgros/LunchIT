@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lunch_it/Bloc/OrderBloc.dart';
+import 'package:lunch_it/Bloc/OrderRequestBloc.dart';
 import 'package:lunch_it/DataModels/OrderRequestModel.dart';
 import 'package:lunch_it/Routes.dart';
 import 'package:lunch_it/Utilities/Widgets/DescriptionAndValue.dart';
@@ -12,13 +14,11 @@ class OrderRequestCard extends StatelessWidget {
 
   void _onTap(context) {
     if(orderRequest.isOrdered) {
-      var currentOrderRequest = Provider.of<CurrentOrderRequestModel>(context);
-      currentOrderRequest.assign(orderRequest);
+      Provider.of<OrderResponseBloc>(context).setCurrentOrderRequest(orderRequest);
       Navigator.of(context).pushNamed(Routes.orderDataPresenter, arguments: orderRequest);
     }
     else if(!orderRequest.hasExpired()){
-      var currentOrderRequest = Provider.of<CurrentOrderRequestModel>(context);
-      currentOrderRequest.assign(orderRequest);
+      Provider.of<OrderResponseBloc>(context).setCurrentOrderRequest(orderRequest);
       Navigator.of(context).pushNamed(Routes.foodPicker, arguments: orderRequest);
     }
     else {

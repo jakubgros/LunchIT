@@ -49,7 +49,7 @@ class OrderRequestModel {
     _menuUrl = getOrThrow(parsedJson, "menu_url");
   }
 
-  void assign(OrderRequestModel other) {
+  void assign(OrderRequestModel other) { //TODO remove
     _priceLimit = other._priceLimit;
     _title = other._title;
     _deadline = other._deadline;
@@ -92,9 +92,4 @@ class OrderRequestModel {
   bool canOrder() => !hasExpired() && placedOrderId==null;
   bool get isOrdered => placedOrderId!=null;
   Duration get timeLeft => deadline.difference(DateTime.now());
-}
-
-
-class CurrentOrderRequestModel extends OrderRequestModel { // TODO get rid of this
-
 }

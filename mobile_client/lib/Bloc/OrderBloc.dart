@@ -1,9 +1,10 @@
 import 'package:lunch_it/Components/ServerApi/ServerApi.dart';
 import 'package:lunch_it/DataModels/MealModel.dart';
+import 'package:lunch_it/DataModels/OrderRequestModel.dart';
 import 'package:lunch_it/DataModels/OrderResponseModel.dart';
 import 'package:rxdart/rxdart.dart';
 
-class BasketBloc {
+class OrderResponseBloc {
 
   final _basketSubject = BehaviorSubject<List<MealModel>>();
 
@@ -42,12 +43,30 @@ class BasketBloc {
     _basketSubject.close();
   }
 
-  Future<bool> placeOrder(int orderRequestId) async {
-    var order = OrderResponseModel(_meals, orderRequestId);
+  Future<bool> placeOrder() async {
+    var order = OrderResponseModel(_meals, _currentOrderRequest.orderRequestId);
     Future<bool> success = ServerApi().placeOrder(order);
     if(await success) {
       clear();
     }
     return success;
   }
+
+  // ==================================================================
+
+
+  final _currentOrderRequestSubject = BehaviorSubject<OrderRequestModel>();
+
+  Stream<OrderRequestModel> get currentOrderRequest => _currentOrderRequestSubject.stream;
+
+  OrderRequestModel _currentOrderRequest;
+
+  void setCurrentOrderRequest(OrderRequestModel newOrderRequest) {
+    _currentOrderRequest = newOrderRequest;
+    _currentOrderRequestSubject.sink.add(newOrderRequest);
+  }
+
+  double get priceLimit => _currentOrderRequest.priceLimit;
+
+  double get moneyLeft => _currentOrderRequest.priceLimit - getSummaryCost();
 }

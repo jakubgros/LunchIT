@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lunch_it/Appbar/ShoppingCardButton.dart';
-import 'package:lunch_it/Bloc/BasketBloc.dart';
+import 'package:lunch_it/Bloc/OrderBloc.dart';
 import 'package:lunch_it/Components/Marker/MarkerData.dart';
 import 'package:lunch_it/DataModels/MealModel.dart';
 import 'package:lunch_it/Utilities/Widgets/LabeledTextForm.dart';
@@ -90,7 +90,7 @@ class _AddMealPageState extends State<AddMealPage> {
 
     var newEntry = MealModel(_foodAsText, price, _quantity, _comment);
 
-    Provider.of<BasketBloc>(context, listen: false).addEntry(newEntry);
+    Provider.of<OrderResponseBloc>(context, listen: false).addEntry(newEntry);
 
     Navigator.of(context).pop(
         true); //true means that element has been successfully added to the basket

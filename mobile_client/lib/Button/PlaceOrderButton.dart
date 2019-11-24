@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:lunch_it/Bloc/BasketBloc.dart';
+import 'package:lunch_it/Bloc/OrderBloc.dart';
 import 'package:lunch_it/DataModels/OrderRequestModel.dart';
 import 'package:lunch_it/Routes.dart';
 import 'package:lunch_it/Utilities/Utils.dart';
@@ -24,16 +24,15 @@ class _PlaceOrderButtonState extends State<PlaceOrderButton> {
             icon: Icon(Icons.check),
             label: Text("Place order!"),
             color: Colors.green[300],
-            onPressed: () => _placeOrder(Navigator.of(context), Provider.of<BasketBloc>(context, listen: false)),
+            onPressed: () => _placeOrder(Navigator.of(context), Provider.of<OrderResponseBloc>(context, listen: false)),
           ),
         ),
       ],
     );
   }
 
-  void _placeOrder(NavigatorState navigator, BasketBloc basketBloc) async {
-    int orderRequestId = Provider.of<CurrentOrderRequestModel>(context).orderRequestId;
-    Future<bool> success = basketBloc.placeOrder(orderRequestId);
+  void _placeOrder(NavigatorState navigator, OrderResponseBloc basketBloc) async {
+    Future<bool> success = basketBloc.placeOrder();
 
     if(await success == false) {
       displayInfoDialog(

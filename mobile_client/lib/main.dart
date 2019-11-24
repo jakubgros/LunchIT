@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_it/Bloc/BasketBloc.dart';
+import 'package:lunch_it/Bloc/OrderBloc.dart';
 import 'package:lunch_it/Bloc/OrderRequestBloc.dart';
 import 'package:lunch_it/Pages/AddMealPage.dart';
 import 'package:lunch_it/Pages/BasketPage.dart';
@@ -32,12 +32,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<MarkerData>(
             builder: (context) => MarkerData()
         ),
-        Provider<BasketBloc>(
-          builder: (context) => BasketBloc(),
+        Provider<OrderResponseBloc>(
+          builder: (context) => OrderResponseBloc(),
           dispose: (context, bloc) => bloc.dispose(),
-        ),
-        Provider<CurrentOrderRequestModel>( //TODO do sth about it
-          builder: (context) => CurrentOrderRequestModel(),
         ),
         Provider<OrderRequestBloc> (
           builder: (context) => OrderRequestBloc(),

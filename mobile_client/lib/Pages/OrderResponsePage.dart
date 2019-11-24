@@ -20,7 +20,7 @@ class OrderResponsePage extends StatelessWidget {
         future: _orderEntries,
         builder: (context, snapshot) {
           double totalCost = snapshot.data
-              .fold(0, (prev, MealModel elem) => prev + elem.price);
+              .fold(0, (prev, MealModel elem) => prev + elem.price*elem.quantity);
           return Scaffold(
             appBar: AppBar(
               title: Text(

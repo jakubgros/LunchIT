@@ -40,11 +40,9 @@ class ServerApi
 
     request.files.add(multipartFile);
 
-    var response = await request.send();
-
-    String result = await response.stream.transform(utf8.decoder).elementAt(0); //TODO change
-
-    return result;
+    http.StreamedResponse streamedResponse = await request.send();
+    http.Response response = await http.Response.fromStream(streamedResponse);
+    return response.body;
   }
 
   Future<bool> placeOrder(OrderResponseModel order) async {

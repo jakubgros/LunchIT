@@ -19,6 +19,8 @@ enum Method {
   DELETE,
 }
 
+String _hashIsolateHelper(String password) => Password.hash(password, PBKDF2());
+
 class ServerApi
 {
   Future<String> getAsText(File imageFile) => compute(_getAsText, imageFile);
@@ -61,7 +63,7 @@ class ServerApi
 
 
     if(isPasswordHashed == false)
-      password = _hash(password);
+      password = await _hash(password);
 
     http.Response response = await _sendJsonRequest(
       endpoint: '/authenticate',
@@ -87,6 +89,12 @@ class ServerApi
       _rememberCredentials(email, password);
 
     return hasLoggedIn;
+  }
+
+  void _rememberCredentials(String email, String password) async {
+    File credFile = await File(await _rememberedCredentialsFilePath).create();
+    String content = email + " " + _hashedPassword;
+    credFile.writeAsString(content);
   }
 
   Future<List<OrderRequestModel>> getOrderRequestsForCurrentUser() async{
@@ -224,13 +232,9 @@ class ServerApi
     return response;
   }
 
-  static String _hash(String password) => Password.hash(password, PBKDF2());
+  Future<String> _hash(String password) => compute(_hashIsolateHelper, password);
 
-  void _rememberCredentials(String email, String hashedPassword) async {
-    File credFile = await File(await _rememberedCredentialsFilePath).create();
-    String content = email + " " + hashedPassword;
-    credFile.writeAsString(content);
-  }
+
 
   Future<bool> _loadSavedCredentials() async {
     bool fileExists = FileSystemEntity.typeSync(await _rememberedCredentialsFilePath) != FileSystemEntityType.notFound;

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lunch_it/Components/ServerApi/ServerApi.dart';
@@ -21,10 +22,22 @@ class _LoginPageState extends State<LoginPage> {
   bool _rememberCredentials = false;
   final _loginFormKey = GlobalKey<FormState>();
 
+  bool _showLoadingIndicator = false;
+
   @override
   Widget build(BuildContext context) {
+    var _loadingIndicator = AlertDialog(
+      elevation: 20,
+      title:  Text("Checking credentials, \nplease wait..."),
+      content: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: CircularProgressIndicator(),
+      ),
+    );
+
     return Scaffold(
-        body: Form(
+      body: Stack(children: [
+        Form(
           key: _loginFormKey,
           child: Container(
             padding: EdgeInsets.all(20.0),
@@ -43,33 +56,34 @@ class _LoginPageState extends State<LoginPage> {
                     onSaved: (value) => _password = value,
                     obscureText: true,
                     decoration: InputDecoration(labelText: "Password")),
-
                 Row(
                   children: <Widget>[
                     Checkbox(
                       value: _rememberCredentials,
-                      onChanged: (value) => setState(()=> _rememberCredentials = value),
+                      onChanged: (value) =>
+                          setState(() => _rememberCredentials = value),
                     ),
                     Text("Remember me"),
                   ],
                 ),
-
                 RaisedButton(
-                    child: Text("LOGIN"),
-                    onPressed: () => _login(context)
-                ),
-                if(_incorrectCredentials) Text("Provided credentials are incorrect") else Container(),
+                    child: Text("LOGIN"), onPressed: () => _login(context)),
+                if (_incorrectCredentials)
+                  Text("Provided credentials are incorrect")
+                else
+                  Container(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: <Widget>[
                       Text("Don't have account? "),
                       InkWell(
-                        child: Text("Go to registration",
-                        style: TextStyle(
-                          color: Colors.blue[700]
-                        ),),
-                        onTap: () => Navigator.of(context).pushNamed(Routes.register),
+                        child: Text(
+                          "Go to registration",
+                          style: TextStyle(color: Colors.blue[700]),
+                        ),
+                        onTap: () =>
+                            Navigator.of(context).pushNamed(Routes.register),
                       )
                     ],
                   ),
@@ -78,24 +92,34 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ),
-        );
+        if(_showLoadingIndicator) _loadingIndicator,
+      ]),
+    );
   }
 
-  void _login(BuildContext context) async{
+  void _login(BuildContext context) async {
+    setState(() {
+      _showLoadingIndicator = true;
+    });
+
     final loginForm = _loginFormKey.currentState;
 
-    if(loginForm.validate() == false)
+    if (loginForm.validate() == false)
       return;
     else
       loginForm.save();
 
     bool isUserValid = await ServerApi().logIn(_email, _password, rememberCredentials: _rememberCredentials);
 
-    if(isUserValid)
+    if (isUserValid)
       Navigator.of(context).pushNamed(widget.onSuccessPath);
     else
       setState(() {
         _incorrectCredentials = true;
       });
+
+    setState(() {
+      _showLoadingIndicator = false;
+    });
   }
 }

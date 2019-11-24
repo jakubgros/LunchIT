@@ -4,60 +4,35 @@ import 'package:flutter/foundation.dart';
 import 'package:lunch_it/Utilities/Utils.dart';
 
 class OrderRequestModel {
-  double _priceLimit;
-  String _title;
-  DateTime _deadline;
-  String _message;
-  int _placedOrderId;
-  int _orderRequestId;
-  String _menuUrl;
-
-  double get priceLimit => _priceLimit;
-  String get title => _title;
-  DateTime get deadline => _deadline;
-  String get message => _message;
-  int get placedOrderId => _placedOrderId;
-  int get orderRequestId => _orderRequestId;
-  String get menuUrl => _menuUrl;
+  final double priceLimit;
+  final String title;
+  final DateTime deadline;
+  final String message;
+  final int placedOrderId;
+  final int orderRequestId;
+  final String menuUrl;
 
   OrderRequestModel({
-    @required orderRequestId,
-    @required priceLimit,
-    @required title,
-    @required deadline,
-    @required menuUrl,
-    placedOrderId,
-    message,
-  }):
-    _orderRequestId = orderRequestId,
-    _priceLimit = priceLimit,
-    _title = title,
-    _deadline = deadline,
-    _menuUrl = menuUrl,
-    _placedOrderId = placedOrderId,
-    _message = message;
+    @required this.orderRequestId,
+    @required this.priceLimit,
+    @required this.title,
+    @required this.deadline,
+    @required this.menuUrl,
+    this.placedOrderId,
+    this.message,
+  });
 
   OrderRequestModel.fromJsonString(String json): this.fromJsonMap(jsonDecode(json));
 
-  OrderRequestModel.fromJsonMap(Map<String, dynamic> parsedJson){
-    _orderRequestId = getOrThrow(parsedJson, "id");
-    _placedOrderId =  getOrThrow(parsedJson, "placed_order_id");
-    _title = getOrThrow(parsedJson, "name");
-    _priceLimit = getOrThrow(parsedJson, "price_limit");
-    _deadline = DateTime.parse(getOrThrow(parsedJson, "deadline"));
-    _message = getOrThrow(parsedJson, "message");
-    _menuUrl = getOrThrow(parsedJson, "menu_url");
-  }
+  OrderRequestModel.fromJsonMap(Map<String, dynamic> parsedJson) :
+    orderRequestId = getOrThrow(parsedJson, "id"),
+    placedOrderId =  getOrThrow(parsedJson, "placed_order_id"),
+    title = getOrThrow(parsedJson, "name"),
+    priceLimit = getOrThrow(parsedJson, "price_limit"),
+    deadline = DateTime.parse(getOrThrow(parsedJson, "deadline")),
+    message = getOrThrow(parsedJson, "message"),
+    menuUrl = getOrThrow(parsedJson, "menu_url");
 
-  void assign(OrderRequestModel other) { //TODO remove
-    _priceLimit = other._priceLimit;
-    _title = other._title;
-    _deadline = other._deadline;
-    _message = other._message;
-    _placedOrderId = other._placedOrderId;
-    _orderRequestId = other._orderRequestId;
-    _menuUrl = other._menuUrl;
-  }
 
   String _getWithFollowingZeroIfNeeded(int val) {
     if(val<10)

@@ -5,11 +5,11 @@ import 'package:lunch_it/Pages/AddMealPage.dart';
 import 'package:lunch_it/Pages/BasketPage.dart';
 import 'package:lunch_it/Pages/FoodPickerPage.dart';
 import 'package:lunch_it/Pages/LoginPage.dart';
-import 'package:lunch_it/DataModels/OrderRequestModel.dart';
-import 'package:lunch_it/Pages/OrderResponsePage.dart';
+import 'package:lunch_it/Pages/PlacedOrderPage.dart';
 import 'package:lunch_it/Routes.dart';
 import 'package:provider/provider.dart';
 
+import 'Bloc/PlacedOrderBloc.dart';
 import 'Components/Marker/MarkerData.dart';
 import 'Components/ServerApi/ServerApi.dart';
 import 'Pages/HomePage.dart';
@@ -39,6 +39,10 @@ class _MyAppState extends State<MyApp> {
         Provider<OrderRequestBloc> (
           builder: (context) => OrderRequestBloc(),
           dispose: (context, bloc) => bloc.dispose(),
+        ),
+        Provider<PlacedOrderBloc> (
+          builder: (context) => PlacedOrderBloc(),
+          dispose: (context, bloc) => bloc.dispose(),
         )
       ],
       child: MaterialApp(
@@ -52,7 +56,7 @@ class _MyAppState extends State<MyApp> {
               Routes.login: (BuildContext context) => LoginPage(onSuccessPath: Routes.home),
               Routes.register: (BuildContext context) => RegistrationPage(),
               Routes.home: (BuildContext context) => HomePage(),
-              Routes.orderDataPresenter: (BuildContext context) => OrderResponsePage(settings.arguments),
+              Routes.orderDataPresenter: (BuildContext context) => PlacedOrderPage(),
               Routes.initialRoute: (BuildContext context) => SavedCredentialsChecker(),
 
             };

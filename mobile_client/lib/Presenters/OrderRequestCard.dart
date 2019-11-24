@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lunch_it/Bloc/OrderResponseBloc.dart';
 import 'package:lunch_it/Bloc/OrderRequestBloc.dart';
+import 'package:lunch_it/Bloc/PlacedOrderBloc.dart';
 import 'package:lunch_it/DataModels/OrderRequestModel.dart';
 import 'package:lunch_it/Routes.dart';
 import 'package:lunch_it/Utilities/Widgets/DescriptionAndValue.dart';
@@ -14,8 +15,9 @@ class OrderRequestCard extends StatelessWidget {
 
   void _onTap(context) {
     if(orderRequest.isOrdered) {
-      Provider.of<OrderResponseBloc>(context).setCurrentOrderRequest(orderRequest);
-      Navigator.of(context).pushNamed(Routes.orderDataPresenter, arguments: orderRequest);
+      Provider.of<OrderResponseBloc>(context).setCurrentOrderRequest(orderRequest); //TODO I think it's not needed
+      Provider.of<PlacedOrderBloc>(context).init(orderRequest);
+      Navigator.of(context).pushNamed(Routes.orderDataPresenter);
     }
     else if(!orderRequest.hasExpired()){
       Provider.of<OrderResponseBloc>(context).setCurrentOrderRequest(orderRequest);

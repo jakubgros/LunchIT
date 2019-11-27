@@ -14,12 +14,19 @@ import json
 def order_post():
     with Backend() as backend:
         json_data = request.json
+
+        order_request_id = json_data["orderRequestId"]
+        has_ordered = backend.has_ordered(current_user.user_id, order_request_id)
+
+        if has_ordered:
+            return jsonify(status="Failure, order already placed!"), status.HTTP_200_OK
+
         order_id = backend.place_order(json_data, current_user.user_id)
 
         print("[order] user {user_id} placed order: \n"
               .format(user_id=current_user.user_id) + str(json.dumps(request.json, indent=2)))
 
-        return jsonify(id=order_id), status.HTTP_200_OK
+        return jsonify(status="Success, order has been placed.", id=order_id), status.HTTP_200_OK
 
 
 @routes.route('/order', methods=['GET'])

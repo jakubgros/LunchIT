@@ -48,15 +48,20 @@
 
               var table = $("#all_orders_table");
               for(var meal_name in data) {
-                row = $("<tr></tr>");
-                row.append($("<th></th>").text(meal_name));
+                meal = $("<tr></tr>");
+                meal.append($("<th></th>").text(meal_name));
 
+                comment_row = $("<div></div>");
+                quantity_row = $("<div></div>");
                 for(var comment in data[meal_name]) {
-                  row.append($("<th></th>").text(comment));
+                  comment_row.append($("<div></div>").text(comment).css("text-align", "right"));
                   var quantity = data[meal_name][comment];
-                  row.append($("<th></th>").text(quantity));
+                  quantity_row.append($("<div></div>").text("x " + quantity));
                 }
-                table.append(row);
+
+                meal.append($("<th></th>").append(comment_row));
+                meal.append($("<th></th>").append(quantity_row));
+                table.append(meal);
               }
             }
           });

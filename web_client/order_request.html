@@ -41,7 +41,7 @@
         }
         else {
           var id = searchParams.get('id');
-          $.ajax(`http://127.0.0.1:5002/order_request?id=${id}`, {
+          $.ajax(`http://127.0.0.1:5002/group_order?id=${id}`, {
             type : 'GET',
             error : () => alert("error"),
             success : (data, status, xhr) => {

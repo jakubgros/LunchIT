@@ -14,9 +14,3 @@ def add_new_order_request():
         return jsonify(order_request_id=added_order_request_id), status.HTTP_200_OK
 
 
-@routes.route('/order_request', methods=['GET'])
-@exception_handler
-def order_request_get_all_orders():
-    with Backend() as backend:
-        orders = backend.get_placed_orders_merged(request.args['id'])
-        return jsonify(orders), status.HTTP_200_OK

@@ -11,3 +11,4 @@ from src.endpoints.all_order_requests import *
 from src.endpoints.order_request import *
 from src.endpoints.create_user import *
 from src.endpoints.has_ordered import *
+from src.endpoints.group_order import *

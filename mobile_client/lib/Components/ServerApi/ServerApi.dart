@@ -103,7 +103,7 @@ class ServerApi
 
   Future<List<OrderRequestModel>> getOrderRequestsForCurrentUser() async{
     http.Response response = await _sendJsonRequest(
-      endpoint: '/orderRequestForSingleUser',
+      endpoint: '/user_order_requests',
       method: Method.GET,
       sendWithAuthHeader: true,
     );

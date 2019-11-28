@@ -25,7 +25,7 @@ class ServerApi
 {
   Future<String> getAsText(File imageFile) => compute(_getAsText, imageFile);
   static Future<String> _getAsText(File imageFile) async {
-    String endpoint = "/getAsText";
+    String endpoint = "/image_to_text";
     String method = "POST";
     // ==============================
 
@@ -42,7 +42,13 @@ class ServerApi
 
     http.StreamedResponse streamedResponse = await request.send();
     http.Response response = await http.Response.fromStream(streamedResponse);
-    return response.body;
+
+    final Map responseJson = json.decode(response.body);
+
+    if(responseJson.containsKey("error"))
+      throw Exception(responseJson["error"]);
+
+    return responseJson["text"];
   }
 
   Future<bool> placeOrder(OrderResponseModel order) async {

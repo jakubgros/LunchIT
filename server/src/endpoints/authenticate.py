@@ -6,7 +6,7 @@ from src.endpoints import routes
 from flask_api import status
 
 
-@routes.route('/authenticate', methods=['POST'])
+@routes.route('/api/authenticate', methods=['POST'])
 @exception_handler
 def authenticate(): # TODO change to pass credentials as authenticate header
     with Backend() as backend:

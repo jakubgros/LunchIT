@@ -6,7 +6,7 @@ from flask import request, jsonify
 from flask_api import status as status_code
 
 
-@routes.route('/create_account', methods=['POST'])
+@routes.route('/api/create_account', methods=['POST'])
 @exception_handler
 def create_account():
     with Backend() as backend:

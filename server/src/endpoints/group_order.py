@@ -5,7 +5,7 @@ from src.endpoints import routes
 from flask import request, jsonify
 from flask_api import status
 
-@routes.route('/group_order', methods=['GET'])
+@routes.route('/api/group_order', methods=['GET'])
 @exception_handler
 def order_request_get_all_orders():
     with Backend() as backend:

@@ -6,7 +6,7 @@ from src.utils.validators.file_validators import is_image_file
 from flask import request, jsonify
 from flask_api import status
 
-@routes.route('/image_to_text', methods=['POST'])
+@routes.route('/api/image_to_text', methods=['POST'])
 @exception_handler
 def get_as_text():
     with Backend() as backend:

@@ -2,13 +2,12 @@ from src.backend.backend import Backend
 from src.decorators.exception_handler import exception_handler
 from src.endpoints import routes
 
-import simplejson as json
 from flask_login import login_required, current_user
 from flask_api import status
 from flask import request, jsonify
 
 
-@routes.route('/has_ordered', methods=['GET'])
+@routes.route('/api/has_ordered', methods=['GET'])
 @login_required
 @exception_handler
 def has_ordered():

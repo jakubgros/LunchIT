@@ -7,7 +7,7 @@ from flask_api import status
 import simplejson as json
 
 
-@routes.route('/order_request', methods=['POST'])
+@routes.route('/api/order_request', methods=['POST'])
 @exception_handler
 def add_new_order_request():
     with Backend() as backend:
@@ -15,7 +15,7 @@ def add_new_order_request():
         return jsonify(order_request_id=added_order_request_id), status.HTTP_200_OK
 
 
-@routes.route('/order_request', methods=['GET'])
+@routes.route('/api/order_request', methods=['GET'])
 @exception_handler
 def get_all_order_requests():
     with Backend() as backend:

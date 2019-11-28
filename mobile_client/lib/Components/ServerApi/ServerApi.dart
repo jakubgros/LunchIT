@@ -25,7 +25,7 @@ class ServerApi
 {
   Future<String> getAsText(File imageFile) => compute(_getAsText, imageFile);
   static Future<String> _getAsText(File imageFile) async {
-    String endpoint = "/image_to_text";
+    String endpoint = "/api/image_to_text";
     String method = "POST";
     // ==============================
 
@@ -53,7 +53,7 @@ class ServerApi
 
   Future<bool> placeOrder(OrderResponseModel order) async {
     http.Response response = await _sendJsonRequest(
-      endpoint: '/order',
+      endpoint: '/api/order',
       method: Method.POST,
       body: jsonEncode(order),
       sendWithAuthHeader: true,
@@ -70,7 +70,7 @@ class ServerApi
       password = await _hash(password);
 
     http.Response response = await _sendJsonRequest(
-      endpoint: '/authenticate',
+      endpoint: '/api/authenticate',
       method: Method.POST,
       sendWithAuthHeader: false,
       body: jsonEncode({
@@ -103,7 +103,7 @@ class ServerApi
 
   Future<List<OrderRequestModel>> getOrderRequestsForCurrentUser() async{
     http.Response response = await _sendJsonRequest(
-      endpoint: '/user_order_requests',
+      endpoint: '/api/user_order_requests',
       method: Method.GET,
       sendWithAuthHeader: true,
     );
@@ -128,7 +128,7 @@ class ServerApi
 
   Future<List<MealModel>> getPlacedOrder(int id) async {
     http.Response response = await _sendJsonRequest(
-      endpoint: '/order',
+      endpoint: '/api/order',
       method: Method.GET,
       queryParameters: {
         "placed_order_id": id.toString()
@@ -157,7 +157,7 @@ class ServerApi
 
   Future<bool> registerUser(String email, String password) async {
     http.Response response = await _sendJsonRequest(
-        endpoint: '/create_account',
+        endpoint: '/api/create_account',
         method: Method.GET,
         sendWithAuthHeader: true,
         body: jsonEncode({
@@ -170,6 +170,20 @@ class ServerApi
     bool hasCreatedUser = responseJson['status'] == "created";
 
     return hasCreatedUser;
+  }
+
+  Future<bool> hasOrdered(int orderRequestId) async {
+    http.Response response = await _sendJsonRequest(
+      endpoint: '/api/has_ordered',
+      method: Method.GET,
+      sendWithAuthHeader: true,
+      queryParameters: {"order_request_id": orderRequestId.toString()},
+    );
+
+    final responseJson = json.decode(response.body);
+    bool hasOrdered = responseJson['has_ordered'] == "true";
+
+    return hasOrdered;
   }
 
   void closeConnection() {
@@ -238,8 +252,6 @@ class ServerApi
 
   Future<String> _hash(String password) => compute(_hashIsolateHelper, password);
 
-
-
   Future<bool> _loadSavedCredentials() async {
     bool fileExists = FileSystemEntity.typeSync(await _rememberedCredentialsFilePath) != FileSystemEntityType.notFound;
     
@@ -255,21 +267,6 @@ class ServerApi
   }
 
   void _removeSavedCredentials() => _rememberCredentials("","");
-
-  Future<bool> hasOrdered(int orderRequestId) async {
-    http.Response response = await _sendJsonRequest(
-        endpoint: '/has_ordered',
-        method: Method.GET,
-        sendWithAuthHeader: true,
-        queryParameters: {"order_request_id": orderRequestId.toString()},
-    );
-
-    final responseJson = json.decode(response.body);
-    bool hasOrdered = responseJson['has_ordered'] == "true";
-
-    return hasOrdered;
-  }
-
 
   Completer<void> _loginCompleter = Completer<void>();
   Future<void> get loggedInFuture => _loginCompleter.future;

@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -71,7 +63,7 @@
             "message": message,
           };
       
-          $.ajax('http://127.0.0.1:5002/order_request', {
+          $.ajax('http://127.0.0.1:5002/api/order_request', {
             data : JSON.stringify(data),
             contentType : 'application/json',
             type : 'POST',

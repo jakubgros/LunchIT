@@ -7,7 +7,7 @@ from flask_login import login_required, current_user
 from flask_api import status
 
 
-@routes.route('/user_order_requests', methods=['GET'])
+@routes.route('/api/user_order_requests', methods=['GET'])
 @login_required
 @exception_handler
 def order_request_for_single_user():

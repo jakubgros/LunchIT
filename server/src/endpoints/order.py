@@ -8,7 +8,7 @@ from flask_api import status
 import json
 
 
-@routes.route('/order', methods=['POST'])
+@routes.route('/api/order', methods=['POST'])
 @login_required
 @exception_handler
 def order_post():
@@ -29,7 +29,7 @@ def order_post():
         return jsonify(status="Success, order has been placed.", id=order_id), status.HTTP_200_OK
 
 
-@routes.route('/order', methods=['GET'])
+@routes.route('/api/order', methods=['GET'])
 @login_required
 @exception_handler
 def order_get():

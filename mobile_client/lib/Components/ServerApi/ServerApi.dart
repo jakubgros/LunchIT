@@ -113,7 +113,7 @@ class ServerApi
 
     var orderRequests = List<OrderRequestModel>();
     var responseDecoded = jsonDecode(response.body);
-    for(Map parsedJsonObj in responseDecoded)
+    for(Map parsedJsonObj in responseDecoded["order_requests"])
       orderRequests.add(OrderRequestModel.fromJsonMap(parsedJsonObj));
 
     return orderRequests;
@@ -140,7 +140,7 @@ class ServerApi
       throw Exception("error");
 
     var order = List<MealModel>();
-    List listOfJsonObj = jsonDecode(response.body);
+    List listOfJsonObj = jsonDecode(response.body)["order"];
     for(Map jsonObj in listOfJsonObj)
       order.add(MealModel.fromJsonMap(jsonObj));
 

@@ -46,25 +46,25 @@
 
           $.get("http://127.0.0.1:5002/api/order_request", (data, status) => {
               var jsonData = $.parseJSON(data);
-
+              var all_order_requests = jsonData["order_requests"];
               var table = $("#all_orders_table");
-              for(r = 0; r < jsonData.length; ++r) {
+              for(r = 0; r < all_order_requests.length; ++r) {
                   row = $("<tr></tr>");
-                  order_request_id = jsonData[r]["id"]
+                  order_request_id = all_order_requests[r]["id"]
                   row.append($("<th></th>").text(order_request_id));
-                  row.append($("<th></th>").text(jsonData[r]["name"]));
-                  row.append($("<th></th>").text(jsonData[r]["price_limit"]));
-                  row.append($("<th></th>").text(jsonData[r]["deadline"]));
+                  row.append($("<th></th>").text(all_order_requests[r]["name"]));
+                  row.append($("<th></th>").text(all_order_requests[r]["price_limit"]));
+                  row.append($("<th></th>").text(all_order_requests[r]["deadline"]));
 
-                  menuUrl = $("<a></a>").text("menu").attr("href", jsonData[r]["menu_url"]);
+                  menuUrl = $("<a></a>").text("menu").attr("href", all_order_requests[r]["menu_url"]);
                   row.append($("<th></th>").append(menuUrl));
 
-                  row.append($("<th></th>").append($("<pre></pre>").text(jsonData[r]["message"])));
+                  row.append($("<th></th>").append($("<pre></pre>").text(all_order_requests[r]["message"])));
               
                   orders = $("<a></a>").text("orders").attr("href", `/order_request.html?id=${order_request_id}`);
                   row.append($("<th></th>").append(orders));
                   
-                  var deadline = new Date(jsonData[r]["deadline"]);
+                  var deadline = new Date(all_order_requests[r]["deadline"]);
                   if(deadline < Date.now()) {
                     row.addClass("ready_to_order");
                   }

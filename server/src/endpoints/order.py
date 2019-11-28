@@ -36,4 +36,4 @@ def order_get():
     with Backend() as backend:
         placed_order_id = request.args["placed_order_id"]
         order = backend.get_placed_order(placed_order_id)
-        return jsonify(order), status.HTTP_200_OK
+        return jsonify(order=order), status.HTTP_200_OK

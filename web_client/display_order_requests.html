@@ -44,7 +44,7 @@
 
           $("#navbar").load("/navbar.html");
 
-          $.get("http://127.0.0.1:5002/allOrderRequests", (data, status) => {
+          $.get("http://127.0.0.1:5002/order_request", (data, status) => {
               var jsonData = $.parseJSON(data);
 
               var table = $("#all_orders_table");

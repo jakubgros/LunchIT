@@ -62,7 +62,6 @@ class Backend:
 
         all_order_requests = self.get_all_order_requests()
 
-        order_requests_for_user = list()
         for order_request in all_order_requests:
             order_request['placed_order_id'] = self.db.get_placed_order_id(user_id, order_request['id'])
 

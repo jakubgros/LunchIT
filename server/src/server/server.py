@@ -5,9 +5,7 @@ from flask_cors import CORS
 from src.endpoints import *
 
 app = Flask(__name__)
-
 app.register_blueprint(routes)
-
 cors = CORS(app)  # TODO adjust on production server
 
 login_manager = LoginManager()

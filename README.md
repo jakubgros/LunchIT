@@ -1,7 +1,7 @@
 LunchIT
 ========
 
-LunchIT is a mobile app which serves for group food ordering from restaurants, which are not supporting it and the orders are accepted only through phone call. It was created to enhance a process of ordering lunches in a company. The proces before was done manually through emails and was very inconvenient when the company grown.  
+LunchIT is a mobile app which serves for group food ordering from restaurants, which are not providing a web interface and the orders are accepted only through a phone call. It was created to half-automate a process of ordering lunches in a company. The proces before was done manually through emails and was very inconvenient when the company has grown.  
 
 How it works?
 =======
